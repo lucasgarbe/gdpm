@@ -1,5 +1,5 @@
 """
-ASGI config for GDPMdjango project.
+ASGI config for gdpmdjango project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'GDPMdjango.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', './settings')
 
 application = get_asgi_application()
