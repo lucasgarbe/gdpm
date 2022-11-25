@@ -1,0 +1,44 @@
+version: '1.0'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "8088:8088"
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  backend:
+    restart: always
+    build: ./backend
+    container_name: backend
+    command: python manage.py runserver 127.0.0.1:8081 --settings=backend.settings.development
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8081:8081"
+
+  #  web:
+  #
+
+
+# fliegen wahrscheinlich raus und backend wird doch monolith
+#  converter:
+#    build: ./converter
+#    container_name: converter
+#    ports:
+#      - "127.0.0.1:8089:8089"
+#
+
+#  storage:
+#    build: ./Storage
+#    container_name: storage
+#    ports:
+#      - "127.0.0.1:8088:8088"
+
+volumes:
+  data:
