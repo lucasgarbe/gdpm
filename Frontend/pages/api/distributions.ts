@@ -46,7 +46,7 @@ export default function handler(
     },
     {
         "distType": "discrete",
-        "name": "normal",
+        "name": "Normal",
         "output": {
             "name": "support",
             "type": "float",
