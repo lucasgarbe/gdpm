@@ -1,44 +1,36 @@
-version: '1.0'
+version: '1.2'
 
 services:
   db:
     image: postgres:latest
-    restart: always
-    ports:
-      - "8088:8088"
+    #restart: always
     volumes:
-      - data:/var/lib/postgresql/data
+      - ./data/db:/var/lib/postgresql/data
     environment:
+      - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
   backend:
-    restart: always
-    build: ./backend
+    build:
+      dockerfile: ./Backend/Dockerfile
     container_name: backend
-    command: python manage.py runserver 127.0.0.1:8081 --settings=backend.settings.development
-    volumes:
-      - ./backend:/code
+    command: python manage.py runserver 127.0.0.1:8081 --settings=settings.development
+    #restart: always
     ports:
       - "8081:8081"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
 
-  #  web:
-  #
-
-
-# fliegen wahrscheinlich raus und backend wird doch monolith
-#  converter:
-#    build: ./converter
-#    container_name: converter
-#    ports:
-#      - "127.0.0.1:8089:8089"
-#
-
-#  storage:
-#    build: ./Storage
-#    container_name: storage
-#    ports:
-#      - "127.0.0.1:8088:8088"
-
-volumes:
-  data:
+  frontend:
+    container_name: gdpm-frontend
+    ports:
+      - 8080:3000
+    build:
+      dockerfile: ./Frontend/Dockerfile
+      tags:
+        - "production"
