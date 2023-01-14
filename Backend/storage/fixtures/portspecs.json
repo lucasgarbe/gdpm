@@ -1,0 +1,34 @@
+[
+  {
+    "model": "storage.PortSpecification",
+    "pk": 1,
+    "fields": {
+      "name": "L1",
+      "type": "float",
+      "upper": "2",
+      "lower": "inf",
+      "upperbound": "True",
+      "lowerBound": "True",
+      "mu": "None",
+      "sigma": "None",
+      "tau": "None",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 2,
+    "fields": {
+      "name": "L2",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperbound": "True",
+      "lowerBound": "True",
+      "mu": "None",
+      "sigma": "None",
+      "tau": "None",
+      "optional": "False"
+    }
+  }
+]
