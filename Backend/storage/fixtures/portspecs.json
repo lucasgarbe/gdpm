@@ -3,15 +3,12 @@
     "model": "storage.PortSpecification",
     "pk": 1,
     "fields": {
-      "name": "L1",
-      "type": "float",
-      "upper": "2",
-      "lower": "inf",
-      "upperbound": "True",
-      "lowerBound": "True",
-      "mu": "None",
-      "sigma": "None",
-      "tau": "None",
+      "name": "n - Number of Bernoulli trials (n >= 0)",
+      "type": "Int",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
+      "lowerBound": "False",
       "optional": "False"
     }
   },
@@ -19,15 +16,155 @@
     "model": "storage.PortSpecification",
     "pk": 2,
     "fields": {
-      "name": "L2",
+      "name": "p - Probability of success (0 < p < 1)",
+      "type": "float",
+      "upper": "1",
+      "lower": "0",
+      "upperBound": "True",
+      "lowerBound": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 3,
+    "fields": {
+      "name": "logit_p - Alternative log odds for the probability of success",
+      "type": "float",
+      "upper": "inf",
+      "lower": "inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 4,
+    "fields": {
+      "name": "mu - Expected number of occurrences during the given interval (mu >= 0)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
+      "lowerBound": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 5,
+    "fields": {
+      "name": "lower",
+      "type": "int",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 6,
+    "fields": {
+      "name": "upper",
+      "type": "int",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 7,
+    "fields": {
+      "name": "lower",
       "type": "float",
       "upper": "inf",
       "lower": "-inf",
-      "upperbound": "True",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 8,
+    "fields": {
+      "name": "upper",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 9,
+    "fields": {
+      "name": "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
       "lowerBound": "True",
-      "mu": "None",
-      "sigma": "None",
-      "tau": "None",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 10,
+    "fields": {
+      "name": "tau - Precision (tau > 0) (only required if sigma is not specified)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
+      "lowerBound": "True",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 11,
+    "fields": {
+      "name": "lam - Rate or inverse scale (lam > 0)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
+      "lowerBound": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 11,
+    "fields": {
+      "name": "alpha",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": 12,
+    "fields": {
+      "name": "beta",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperBound": "False",
+      "lowerBound": "True",
       "optional": "False"
     }
   }
