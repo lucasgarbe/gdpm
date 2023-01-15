@@ -9,12 +9,15 @@ class PortSpecification(models.Model):
     type = models.CharField(max_length=29)
     upper = models.FloatField()  # Decimal('infinity') ist moeglich
     lower = models.FloatField()
-    upperbound = models.BooleanField()  # open / closed
+    upperBound = models.BooleanField()  # open / closed
     lowerBound = models.BooleanField()
     mu = models.CharField(max_length=30)
     sigma = models.CharField(max_length=30)
     tau = models.CharField(max_length=30)
     optional = models.BooleanField()
+
+    def __str__(self):
+        return self.name
 
 
 class Distribution(models.Model):
@@ -33,6 +36,9 @@ class Distribution(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return self.name
 
 
 class Constant(models.Model):

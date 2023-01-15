@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Continuous, Discrete, PortSpecification
 
-# Register your models here.
+admin.site.register(Continuous)
+admin.site.register(Discrete)
+admin.site.register(PortSpecification)
