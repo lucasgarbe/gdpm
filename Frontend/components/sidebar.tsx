@@ -10,9 +10,9 @@ interface SidebarProps {
 export default function Sidebar({ className }: SidebarProps) {
     const { data, isLoading } = useDistributions();
 
-    const onDragStart= (event: any, nodeType: string): void => {
+    const onDragStart= (event: any, nodeType: string, dist: Object): void => {
         if (event.dataTransfer === null) return;
-        event.dataTransfer.setData('application/reactflow', nodeType);
+        event.dataTransfer.setData('application/reactflow', JSON.stringify({type: nodeType, dist: dist}));
         event.dataTransfer.effectAllowed = 'move';
     };
 
@@ -30,8 +30,8 @@ export default function Sidebar({ className }: SidebarProps) {
                 {data?.map((dist, index) => (
                     <div
                         className="node cursor-pointer p-1 bg-white dark:bg-black border rounded border-black text-center"
-                        onDragStart={(event) => onDragStart(event, 'input')}
-                        draggable>
+                        onDragStart={(event) => onDragStart(event, 'distribution', dist)}
+                        draggable key={index}>
                         {dist.name}
                     </div>
                 ))}

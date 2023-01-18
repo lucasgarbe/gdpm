@@ -13,23 +13,21 @@ import ReactFlow, {
     EdgeChange,
     Connection,
 } from 'reactflow';
+import DistributionNode from '../components/distributionNode';
 import 'reactflow/dist/style.css';
 
 interface WorkspaceProps {
     className: string;
 }
 
-const initialNodes = [
-    {
-        id: '1',
-        type: 'input',
-        data: { label: 'input node' },
-        position: { x: 250, y: 5 },
-    },
-];
+const initialNodes = [];
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
+
+const nodeTypes = {
+    distribution: DistributionNode,
+}
 
 export default function Workspace({ className }: WorkspaceProps) {
     const reactFlowWrapper = useRef(null);
@@ -65,10 +63,11 @@ export default function Workspace({ className }: WorkspaceProps) {
             if (reactFlowWrapper.current === null) return;
             const wrapper = reactFlowWrapper.current as any;
             const reactFlowBounds = wrapper.getBoundingClientRect();
-            const type = event.dataTransfer.getData('application/reactflow');
+            const data = JSON.parse(event.dataTransfer.getData('application/reactflow'));
+            console.log(data);
             
             // check if the dropped element is valid
-            if (typeof type === 'undefined' || !type) {
+            if (typeof data.type === 'undefined' || !data.type) {
                 return;
             }
             
@@ -79,9 +78,9 @@ export default function Workspace({ className }: WorkspaceProps) {
             });
             const newNode = {
                 id: getId(),
-                type,
+                type: data.type,
                 position,
-                data: { label: `${type} node` },
+                data: { dist: data.dist },
             };
             
             setNodes((nds) => nds.concat(newNode));
@@ -95,6 +94,7 @@ export default function Workspace({ className }: WorkspaceProps) {
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
+                    nodeTypes={nodeTypes}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
