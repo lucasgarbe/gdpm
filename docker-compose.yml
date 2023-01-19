@@ -13,9 +13,8 @@ services:
 
   backend:
     build:
-      context: Backend
+      context: ./Backend
       dockerfile: ./Dockerfile
-    container_name: backend
     #command: python manage.py runserver 0.0.0.0:8000 --settings=settings.development
     #restart: always
     ports:
@@ -30,10 +29,9 @@ services:
       - ./Backend:/code
 
   frontend:
-    container_name: gdpm-frontend
     image: frontend:production
     ports:
       - 8080:3000
     build:
-      context: Frontend
+      context: ./Frontend
       dockerfile: ./Dockerfile
