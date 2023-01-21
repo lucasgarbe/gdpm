@@ -1,7 +1,20 @@
 [
   {
+    "model": "storage.Support",
+    "pk": "support",
+    "fields": {
+      "name": "support",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperBound": "False",
+      "lowerBound": "False",
+      "optional": "False"
+    }
+  },
+  {
     "model": "storage.PortSpecification",
-    "pk": 1,
+    "pk": "n",
     "fields": {
       "name": "n - Number of Bernoulli trials (n >= 0)",
       "type": "Int",
@@ -14,7 +27,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 2,
+    "pk": "p",
     "fields": {
       "name": "p - Probability of success (0 < p < 1)",
       "type": "float",
@@ -27,7 +40,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 3,
+    "pk": "logit_p",
     "fields": {
       "name": "logit_p - Alternative log odds for the probability of success",
       "type": "float",
@@ -40,7 +53,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 4,
+    "pk": "mu",
     "fields": {
       "name": "mu - Expected number of occurrences during the given interval (mu >= 0)",
       "type": "float",
@@ -53,7 +66,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 5,
+    "pk": "lower-int",
     "fields": {
       "name": "lower",
       "type": "int",
@@ -66,7 +79,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 6,
+    "pk": "upper-int",
     "fields": {
       "name": "upper",
       "type": "int",
@@ -79,7 +92,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 7,
+    "pk": "lower-float",
     "fields": {
       "name": "lower",
       "type": "float",
@@ -92,7 +105,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 8,
+    "pk": "upper-float",
     "fields": {
       "name": "upper",
       "type": "float",
@@ -105,7 +118,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 9,
+    "pk": "sigma",
     "fields": {
       "name": "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)",
       "type": "float",
@@ -118,7 +131,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 10,
+    "pk": "tau",
     "fields": {
       "name": "tau - Precision (tau > 0) (only required if sigma is not specified)",
       "type": "float",
@@ -131,7 +144,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 11,
+    "pk": "lam",
     "fields": {
       "name": "lam - Rate or inverse scale (lam > 0)",
       "type": "float",
@@ -144,7 +157,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 11,
+    "pk": "alpha",
     "fields": {
       "name": "alpha",
       "type": "float",
@@ -157,7 +170,7 @@
   },
   {
     "model": "storage.PortSpecification",
-    "pk": 12,
+    "pk": "beta",
     "fields": {
       "name": "beta",
       "type": "float",

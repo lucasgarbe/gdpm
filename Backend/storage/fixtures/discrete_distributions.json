@@ -7,12 +7,12 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Binomial.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Binomial-1.png",
       "input": [
-        1,
-        2,
-        3
-      ],
-      "output": 1
-    }
+        "n",
+        "p",
+        "logit_p"
+      ]
+    },
+    "output": "support"
   },
   {
     "model": "storage.Discrete",
@@ -22,10 +22,10 @@
       "url": "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Bernoulli.html",
       "image_url": "https://docs.pymc.io/en/v5.0.1/_images/pymc-Bernoulli-1.png",
       "input": [
-        2,
-        3
+        "p",
+        "logit_p"
       ],
-      "output": 1
+      "output": "support"
     }
   },
   {
@@ -36,9 +36,9 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Poisson.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Poisson-1.png",
       "input": [
-        4
+        "mu"
       ],
-      "output": 1
+      "output": "support"
     }
   },
   {
@@ -49,10 +49,10 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.DiscreteUniform.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-DiscreteUniform-1.png",
       "input": [
-        5,
-        6
+        "lower-int",
+        "upper-int"
       ],
-      "output": 1
+      "output": "support"
     }
   }
 ]

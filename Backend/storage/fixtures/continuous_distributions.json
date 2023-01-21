@@ -7,10 +7,10 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png",
       "input": [
-        7,
-        8
+        "lower-float",
+        "upper-float"
       ],
-      "output": 1
+      "output": "support"
     }
   },
   {
@@ -21,10 +21,10 @@
       "url": "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Normal.html",
       "image_url": "https://docs.pymc.io/en/v5.0.1/_images/pymc-Normal-1.png",
       "input": [
-        9,
-        10
+        "sigma",
+        "tau"
       ],
-      "output": 1
+      "output": "support"
     }
   },
   {
@@ -35,9 +35,9 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Exponential.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Exponential-1.png",
       "input": [
-        11
+        "lam"
       ],
-      "output": 1
+      "output": "support"
     }
   },
   {
@@ -48,12 +48,12 @@
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Gamma.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Gamma-1.png",
       "input": [
-        11,
-        12,
-        4,
-        9
+        "alpha",
+        "beta",
+        "mu",
+        "sigma"
       ],
-      "output": 1
+      "output": "support"
     }
   }
 ]
