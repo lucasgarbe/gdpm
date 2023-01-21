@@ -9,6 +9,8 @@ python manage.py migrate --settings=settings.development
 echo "Collect static files"
 python manage.py collectstatic --settings=settings.development --noinput
 
+#load data into db
+python manage.py loaddata portspecs.json discrete_distributions.json continuous_distributions.json
 
 # Start server
 echo "Starting server"

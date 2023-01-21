@@ -1,37 +1,21 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:latest
-    #restart: always
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
 
   backend:
     build:
       context: ./Backend
       dockerfile: ./Dockerfile
-    #command: python manage.py runserver 0.0.0.0:8000 --settings=settings.development
     #restart: always
     ports:
       - "8000:8000"
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    depends_on:
-      - db
     volumes:
       - ./Backend:/code
 
   frontend:
     image: frontend:production
     ports:
-      - 8080:3000
+      - "8080:3000"
     build:
       context: ./Frontend
       dockerfile: ./Dockerfile
