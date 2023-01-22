@@ -11,6 +11,8 @@ services:
       - "8000:8000"
     volumes:
       - ./Backend:/code
+    depends_on:
+      - db_model
 
   frontend:
     image: frontend:production
@@ -19,6 +21,9 @@ services:
     build:
       context: ./Frontend
       dockerfile: ./Dockerfile
+    depends_on:
+      - backend
+
   db_model:
     image: mongo
     ports:
