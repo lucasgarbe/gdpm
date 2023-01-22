@@ -1,3 +1,11 @@
-from django.shortcuts import render
+# pages/views.py
+from django.http import HttpResponse
 
-# Create your views here.
+from storage.models import Page
+
+
+def homePageView(request):
+    page = Page(title="Test Page23")
+    page.save()
+
+    return HttpResponse(page.title)

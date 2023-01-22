@@ -1,4 +1,5 @@
 from django.db import models
+from mongoengine import *
 
 
 class Support(models.Model):
@@ -63,3 +64,8 @@ class Discrete(Distribution):
 
 class DistributionModel(models.Model):
     pass
+
+
+class Page(Document):
+    title = StringField(max_length=200, required=True)
+    date_modified = DateTimeField(default=datetime.datetime.utcnow)
