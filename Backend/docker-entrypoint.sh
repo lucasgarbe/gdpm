@@ -2,6 +2,7 @@
 
 # Apply database migrations
 echo "Apply database migrations"
+python manage.py migrate --settings=settings.development
 python manage.py makemigrations --settings=settings.development
 python manage.py migrate --settings=settings.development
 

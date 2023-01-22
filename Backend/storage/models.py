@@ -1,22 +1,16 @@
 from django.db import models
 
 
-# Create your models here.
 class Support(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(max_length=29)
     type = models.CharField(max_length=29)
     upper = models.FloatField()
     lower = models.FloatField()
-    upperBound = models.BooleanField()  # open / closed
-    lowerBound = models.BooleanField()
-    mu = models.CharField(max_length=30)
-    sigma = models.CharField(max_length=30)
-    tau = models.CharField(max_length=30)
-    optional = models.BooleanField()
+    upperInclusive = models.BooleanField()
+    lowerInclusive = models.BooleanField()
 
     def __str__(self):
-        return self.name
+        return self.id
 
 
 class PortSpecification(models.Model):
@@ -25,11 +19,9 @@ class PortSpecification(models.Model):
     type = models.CharField(max_length=29)
     upper = models.FloatField()
     lower = models.FloatField()
-    upperBound = models.BooleanField()  # open / closed
-    lowerBound = models.BooleanField()
-    mu = models.CharField(max_length=30)
-    sigma = models.CharField(max_length=30)
-    tau = models.CharField(max_length=30)
+    upperInclusive = models.BooleanField()
+    lowerInclusive = models.BooleanField()
+
     optional = models.BooleanField()
 
     def __str__(self):
