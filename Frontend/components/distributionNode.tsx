@@ -11,7 +11,7 @@ export default memo(({ data }) => {
                     <div className="absolute top-0 left-0 -translate-x-1/2 flex flex-col justify-around h-full">
                         {data.dist.inputs?.map((input, index) => (
                             <div class="relative bg-black text-white text-[.4rem] p-1 rounded">
-                                <Handle type="target" position={Position.Left} key={index} />
+                                <Handle type="target" position={Position.Left} key={index} id={input.name} />
                                 {input.name}
                             </div>
                         ))}

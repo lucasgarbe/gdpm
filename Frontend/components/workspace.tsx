@@ -23,7 +23,7 @@ interface WorkspaceProps {
 const initialNodes = [];
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `node_${id++}`;
 
 const nodeTypes = {
     distribution: DistributionNode,
