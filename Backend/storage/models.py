@@ -1,3 +1,4 @@
+import mongoengine
 from django.db import models
 from mongoengine import *
 
@@ -62,10 +63,6 @@ class Discrete(Distribution):
     pass
 
 
-class DistributionModel(models.Model):
-    pass
-
-
-class Page(Document):
-    title = StringField(max_length=200, required=True)
-    date_modified = DateTimeField(default=datetime.datetime.utcnow)
+class GDPM_Model(models.Model):
+    title = mongoengine.fields.StringField(primary_key=True, max_length=200, unique=True)
+    body = models.JSONField()
