@@ -64,5 +64,8 @@ class Discrete(Distribution):
 
 
 class GDPM_Model(models.Model):
-    title = mongoengine.fields.StringField(primary_key=True, max_length=200, unique=True)
-    body = models.JSONField()
+    title = models.CharField(default="default_model", max_length=20, primary_key=True)
+    body = models.JSONField(default=dict)
+
+    def __str__(self):
+        return self.title
