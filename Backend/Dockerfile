@@ -18,5 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # running migrations (with mysql required to execute migration manually)
 # RUN python manage.py migrate
 
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+RUN chmod +x /code/docker-entrypoint.sh
+ENTRYPOINT ["/code/docker-entrypoint.sh"]
