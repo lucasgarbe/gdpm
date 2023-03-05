@@ -9,6 +9,6 @@ export type portSpec = {
   upperBound: bound;
 };
 
-type bound = "open" | "closed";
-type gate = string;
-type portSpecType = "float" | "integer";
+export type bound = "open" | "closed";
+export type gate = "inf" | `inputs[${string}]`;
+export type portSpecType = "float" | "integer";

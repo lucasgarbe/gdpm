@@ -101,7 +101,7 @@ export default function handler(
 
     {
       distType: "discrete",
-      name: "TestInf",
+      name: "TestInf Open",
       output: {
         name: "support",
         type: "float",
@@ -120,6 +120,38 @@ export default function handler(
           lower: "inf",
           upperBound: "open",
           lowerBound: "open",
+          default: 0,
+          optional: false,
+        },
+      ],
+      description: "lorem ipsum",
+      pymcdocsurl:
+        "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
+      image:
+        "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png",
+    },
+
+    {
+      distType: "discrete",
+      name: "TestInf Closed",
+      output: {
+        name: "support",
+        type: "float",
+        upper: "inf",
+        lower: "inf",
+        upperBound: "closed",
+        lowerBound: "closed",
+        default: 0,
+        optional: false,
+      },
+      inputs: [
+        {
+          name: "lower",
+          type: "float",
+          upper: "inf",
+          lower: "inf",
+          upperBound: "closed",
+          lowerBound: "closed",
           default: 0,
           optional: false,
         },
