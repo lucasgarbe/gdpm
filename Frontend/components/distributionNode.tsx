@@ -2,7 +2,8 @@ import { FC } from "react";
 import { Connection, Handle, NodeProps, Position, Node } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore, selector } from "../hooks/store";
-import { validate } from "../internal/validate";
+import { validate, findPreviousNode } from "../internal/validate";
+import { portSpec } from "../types/portSpec";
 
 type props = {
   data: any;
@@ -13,13 +14,21 @@ type NodeData = {
 };
 
 const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
-  const { nodes } = useStore(selector, shallow);
+  const { nodes, edges } = useStore(selector, shallow);
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
-    const targetNode = nodes.find((node: Node) => node.id == connection.target);
-    const targetInput = targetNode.data.dist.inputs.find(
+    const targetNode: Node = nodes.find(
+      (node: Node) => node.id == connection.target
+    );
+    const targetInput: portSpec = targetNode.data.dist.inputs.find(
       (input: any) => input.name == connection.targetHandle
     );
+
+    //console.log(
+    //  "find prev node: ",
+    ////musse von aktueller node ausgehen, nicht von target
+    //  findPreviousNode(sourceOutput, targetInput.name, edges, nodes)
+    //);
 
     const v = validate(sourceOutput, targetInput);
 

@@ -1,3 +1,4 @@
+import { Edge, Node } from "reactflow";
 import { portSpec, gate, bound } from "../types/portSpec";
 
 export const validateType = (a: portSpec, b: portSpec) => {
@@ -34,6 +35,32 @@ const compareBound = (a: bound, b: bound): -1 | 0 | 1 => {
   } else {
     return -1;
   }
+};
+
+export const findInputPortSpec = () => {
+  //find input portspec from support/output port spec
+  // needs outputHandleId and nodeId to find node in nodes or GETS NODE DIRECTLY
+};
+
+export const findPreviousNode = (
+  targetNodeId: string,
+  targetHandleId: string,
+  edges: Edge[],
+  nodes: Node[]
+): Node | null => {
+  //find connected outputHandle from list of edges
+  console.log(edges);
+  const edge = edges.find(
+    (edge) => targetHandleId == edge.targetHandle && targetNodeId == edge.target
+  );
+
+  if (edge) {
+    const node = nodes.find((node: Node) => edge.source == node.id);
+
+    if (node) return node;
+    return null;
+  }
+  return null;
 };
 
 export const validate = (a: portSpec, b: portSpec) => {
