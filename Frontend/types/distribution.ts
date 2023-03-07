@@ -1,4 +1,4 @@
-import { portSpec } from "../types/portSpec";
+import { portSpec } from "./portSpec";
 
 export type distribution = {
   distType: "discrete" | "continuous";

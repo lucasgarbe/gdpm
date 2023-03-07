@@ -1,5 +1,5 @@
-import { Edge, Node } from "reactflow";
-import { portSpec, gate, bound } from "../types/portSpec";
+import { Node } from "reactflow";
+import { portSpec, bound } from "../types/portSpec";
 
 export const validateType = (a: portSpec, b: portSpec) => {
   return a.type == b.type;
@@ -37,37 +37,36 @@ const compareBound = (a: bound, b: bound): -1 | 0 | 1 => {
   }
 };
 
-export const findInputPortSpec = () => {
+const getInputPortSpec = (node: Node, inputString: string): portSpec | null => {
   //find input portspec from support/output port spec
   // needs outputHandleId and nodeId to find node in nodes or GETS NODE DIRECTLY
-};
 
-export const findPreviousNode = (
-  targetNodeId: string,
-  targetHandleId: string,
-  edges: Edge[],
-  nodes: Node[]
-): Node | null => {
-  //find connected outputHandle from list of edges
-  console.log(edges);
-  const edge = edges.find(
-    (edge) => targetHandleId == edge.targetHandle && targetNodeId == edge.target
+  // check if output is dependent on inputs
+  if (!inputString.includes("inputs[")) return null;
+
+  const inputName = inputString.substring(
+    inputString.indexOf("[") + 1,
+    inputString.lastIndexOf("]")
   );
 
-  if (edge) {
-    const node = nodes.find((node: Node) => edge.source == node.id);
+  const inputPort = node.data.dist.inputs.find(
+    (input: portSpec) => input.name == inputName
+  );
 
-    if (node) return node;
-    return null;
-  }
-  return null;
+  console.log(node, inputName, inputPort);
+
+  return inputPort;
 };
 
-export const validate = (a: portSpec, b: portSpec) => {
+export const validate = (
+  sourceNode: Node,
+  source: portSpec,
+  target: portSpec
+) => {
   return (
-    validateType(a, b) &&
-    validateLowerBound(a, b) &&
-    validateUpperBound(a, b) &&
-    validateUpper(a, b)
+    validateType(source, target) &&
+    validateLowerBound(source, target) &&
+    validateUpperBound(source, target) &&
+    validateUpper(source, target)
   );
 };

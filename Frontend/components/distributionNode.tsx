@@ -24,25 +24,29 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
       (input: any) => input.name == connection.targetHandle
     );
 
+    const sourceNode: Node = nodes.find(
+      (node: Node) => node.id == connection.source
+    );
+
     //console.log(
     //  "find prev node: ",
     ////musse von aktueller node ausgehen, nicht von target
     //  findPreviousNode(sourceOutput, targetInput.name, edges, nodes)
     //);
 
-    const v = validate(sourceOutput, targetInput);
+    const v = validate(sourceNode, sourceOutput, targetInput);
 
     console.log("validating", sourceOutput, targetNode, targetInput, v);
     return v;
   };
 
   return (
-    <div className="border border-blue-600 bg-blue-200 rounded px-8 py-4">
+    <div className="border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 rounded px-8 py-4">
       {data.dist.inputs && (
         <div className="absolute top-0 left-0 -translate-x-1/2 flex flex-col justify-around h-full">
           {data.dist.inputs?.map((input: any, index: number) => (
             <div
-              className="relative bg-black text-white text-[.4rem] p-1 rounded"
+              className="relative bg-black text-white text-[.4rem] p-1 rounded dark:border-white dark:border"
               key={index}
             >
               <Handle type="target" position={Position.Left} id={input.name} />
@@ -58,7 +62,7 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
 
       {data.dist.output && (
         <div className="absolute top-0 right-0 translate-x-1/2 flex flex-col justify-around h-full">
-          <div className="relative bg-black text-white text-[.4rem] p-1 rounded">
+          <div className="relative bg-black text-white text-[.4rem] p-1 rounded dark:border-white dark:border">
             <Handle
               type="source"
               key="support"
