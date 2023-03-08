@@ -8,6 +8,8 @@ import ReactFlow, {
 } from "reactflow";
 import DistributionNode from "../components/distributionNode";
 import { useStore, selector } from "../hooks/store";
+import CustomEdge from "../components/customEdge";
+import connectionLine from "./connectionLine";
 import "reactflow/dist/style.css";
 
 interface WorkspaceProps {
@@ -19,6 +21,10 @@ const getId = () => `node_${id++}`;
 
 const nodeTypes = {
   distribution: DistributionNode,
+};
+
+const edgeTypes = {
+  default: CustomEdge,
 };
 
 export default function Workspace({ className }: WorkspaceProps) {
@@ -74,12 +80,14 @@ export default function Workspace({ className }: WorkspaceProps) {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onInit={setReactFlowInstance}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          connectionLineComponent={connectionLine}
           fitView
         >
           <Controls />
