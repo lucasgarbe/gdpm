@@ -11,7 +11,12 @@ WORKDIR /code
 COPY ./ ./
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
-RUN pip install -r requirements.txt
+# install python dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
-RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# running migrations (with mysql required to execute migration manually)
+# RUN python manage.py migrate
+
+RUN chmod +x /code/docker-entrypoint.sh
+ENTRYPOINT ["/code/docker-entrypoint.sh"]
