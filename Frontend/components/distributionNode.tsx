@@ -4,6 +4,7 @@ import { shallow } from "zustand/shallow";
 import { useStore, selector } from "../hooks/store";
 import { validate, findPreviousNode } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
+import CustomHandle from "./customHandle";
 
 type props = {
   data: any;
@@ -41,17 +42,17 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
   };
 
   return (
-    <div className="border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 rounded px-8 py-4">
+    <div className="flex border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 px-8 py-4">
       {data.dist.inputs && (
-        <div className="absolute top-0 left-0 -translate-x-1/2 flex flex-col justify-around h-full">
+        <div className="flex flex-col justify-around h-full">
           {data.dist.inputs?.map((input: any, index: number) => (
-            <div
-              className="relative bg-black text-white text-[.4rem] p-1 rounded dark:border-white dark:border"
+            <CustomHandle
+              type="target"
               key={index}
-            >
-              <Handle type="target" position={Position.Left} id={input.name} />
-              {input.name}
-            </div>
+              name={input.name}
+              position={Position.Left}
+              id={input.name}
+            ></CustomHandle>
           ))}
         </div>
       )}
@@ -62,15 +63,14 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
 
       {data.dist.output && (
         <div className="absolute top-0 right-0 translate-x-1/2 flex flex-col justify-around h-full">
-          <div className="relative bg-black text-white text-[.4rem] p-1 rounded dark:border-white dark:border">
-            <Handle
-              type="source"
-              key="support"
-              position={Position.Right}
-              isValidConnection={isValid}
-            />
-            {data.dist.output.name}
-          </div>
+          <CustomHandle
+            type="source"
+            key="support"
+            name={data.dist.output.name}
+            position={Position.Right}
+            isValidConnection={isValid}
+            className={"w-full h-full"}
+          ></CustomHandle>
         </div>
       )}
     </div>

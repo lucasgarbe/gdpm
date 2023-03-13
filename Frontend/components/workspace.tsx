@@ -10,7 +10,7 @@ import DistributionNode from "../components/distributionNode";
 import { useStore, selector } from "../hooks/store";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
-import "reactflow/dist/style.css";
+import "reactflow/dist/base.css";
 
 interface WorkspaceProps {
   className: string;
