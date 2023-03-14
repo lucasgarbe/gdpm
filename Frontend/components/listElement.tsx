@@ -1,45 +1,23 @@
 import Link from "next/link";
 import ArrowLeft from "../components/arrow-left";
+import { ArrowUpOnSquareIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
+import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 export default function ListElement() {
 
     return (
-        <div className="bg-gray-100 w-full grid grid-cols-4">
-
-          <div className=" flex-rows-3">
-            <div><p>&nbsp;</p></div>
-            <div><p>&nbsp;</p></div>
-            <p className="pl-14">Modellname</p>
-            <div><p>&nbsp;</p></div>
-            <div><p>&nbsp;</p></div>
+        <div className="bg-gray-100 w-full flex justify-between px-14 py-10">
+            <p className="text-2xl font-bold">Modellname</p>
+          <div className="flex gap-4">
+            <ArrowUpOnSquareIcon className="h-8 w-8"/>
+            <ArrowDownTrayIcon className="h-8 w-8"/>
+            <DocumentDuplicateIcon className="h-8 w-8"/>
+            <ArchiveBoxIcon className="h-8 w-8"/>
+            <TrashIcon className="h-8 w-8"/>
           </div>
-
-          <div>
-
           </div>
-
-          <div>
-          <div><p>&nbsp;</p></div>
-          <div><p>&nbsp;</p></div>
-          <div className="grid grid-cols-5">
-            <p>M</p>
-            <p>M</p>
-            <p>M</p>
-            <p>M</p>
-            <p>M</p>
-          </div>
-          <div><p>&nbsp;</p></div>
-          <div><p>&nbsp;</p></div>
-          </div>
-
-          <div className="grid grid-rows-5">
-            <div><p>&nbsp;</p></div>
-            <p className="pl-5">created at ...</p>
-            <p className="pl-5">last edited at ...</p>
-            <p className="pl-5">... views</p>
-            <div><p>&nbsp;</p></div>
-          </div>
-
-        </div>
     )
-}
+}// vim !!!!  NeoVim - bzw. Extension für VS Code
