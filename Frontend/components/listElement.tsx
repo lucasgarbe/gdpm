@@ -1,46 +1,36 @@
 import Link from "next/link";
 import ArrowLeft from "../components/arrow-left";
 
-// interface SidebarProps {
-//     className: string;
-// }
-
 export default function ListElement() {
-    // const onDragStart= (event: any, nodeType: string): void => {
-    //     if (event.dataTransfer === null) return;
-    //     event.dataTransfer.setData('application/reactflow', nodeType);
-    //     event.dataTransfer.effectAllowed = 'move';
-    // };
 
     return (
-        <div className={`${className} bg-gray-100 dark:bg-gray-900 h-full p-2`}>
-            // <div className="flex gap-4 items-center mb-4">
-            //     <Link href="/"><ArrowLeft /></Link>
-            //     <h1 className="text-2xl">Modelname</h1>
-            // </div>
-
-            // <div className="node-list flex flex-col gap-4">
-            //     <div
-            //         className="node cursor-pointer p-1 bg-white dark:bg-black border rounded border-black text-center"
-            //         onDragStart={(event) => onDragStart(event, 'input')}
-            //         draggable>
-            //         Input
-            //     </div>
-            //
-            //     <div
-            //         className="node cursor-pointer p-1 bg-white dark:bg-black border rounded border-black text-center"
-            //         onDragStart={(event) => onDragStart(event, 'normal')}
-            //         draggable>
-            //         Normal
-            //     </div>
-            //
-            //     <div
-            //         className="node cursor-pointer p-1 bg-white dark:bg-black border rounded border-black text-center"
-            //         onDragStart={(event) => onDragStart(event, 'output')}
-            //         draggable>
-            //         Output
-            //     </div>
-            // </div>
+        <div className="bg-gray-100 w-9/12 h-32 grid grid-cols-4 ">
+        <div className="grid grid-template-rows">
+        <p></p>
+        <p>Modellname</p>
+        <p></p>
         </div>
+
+
+
+
+
+
+        <div><p></p></div>
+        <div className="grid grid-cols-5">
+        <p>M</p>
+        <p>M</p>
+        <p>M</p>
+        <p>M</p>
+        <p>M</p>
+        </div>
+
+
+        <div className="grid-cols-5">
+        <p>created at ...</p>
+        <p>last edited at ...</p>
+        <p>... views</p>
+        </div>
+          </div>
     )
 }

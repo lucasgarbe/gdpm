@@ -6,12 +6,10 @@ export default function Home() {
         <>
             <Head>
                 <title>GDPM</title>
-                <meta name="description" content="Grafische Entwicklungsumgebung
-                zur Modellierung und zum Management
-                probabilistischer Modelle" />
+                <meta name="description" content="Grafische Entwicklungsumgebung zur Modellierung und zum Management probabilistischer Modelle" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            
+
             <header className="
                 bg-gray-100
                 dark:bg-gray-900
@@ -34,8 +32,8 @@ export default function Home() {
                 probabilistischer Modelle
                 </p>
             </main>
-              
-            
+
+
             <footer className="text-center font-light">
                 GPDM - Projektstudium
             </footer>
