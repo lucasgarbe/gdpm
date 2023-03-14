@@ -21,9 +21,6 @@ export default function Home() {
 
             <main className="container mx-auto flex-grow pt-40">
             <ListElement className=""/>
-            // div ist flexbox mit title (h2)
-            // div mit buttons (erstmal als text)
-            // div mit date und views
                 <p className="text-6xl font-bold text-center">Grafische Entwicklungsumgebung
               Modelle! Modelle! Modelle!
                 </p>
