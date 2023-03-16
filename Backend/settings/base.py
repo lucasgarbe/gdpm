@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'converter',
     'apigateway',
-    'storage'
+    'storage',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
