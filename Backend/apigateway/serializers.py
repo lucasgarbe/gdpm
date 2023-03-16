@@ -7,7 +7,8 @@ from storage.models import GDPM_Model
 #      model = GDPM_Model
 #     fields = ('title', serializers.JSONField())
 
-class ModelSerializer(serializers.Serializer):
+class ModelSerializer(serializers.ModelSerializer):
     # initialize fields
-    string_data = serializers.CharField()
-    json_data = serializers.JSONField()
+    class Meta:
+        model = GDPM_Model
+        fields = '__all__'

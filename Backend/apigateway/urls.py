@@ -1,6 +1,6 @@
 from django.urls import path, register_converter, include
 from . import converts
-from .views import get_model, post_model, put_model, delete_model, get_all_models, get_all_distributions
+# from .views import get_model, post_model, put_model, delete_model, get_all_models, get_all_distributions
 from . import views
 from rest_framework import routers
 
