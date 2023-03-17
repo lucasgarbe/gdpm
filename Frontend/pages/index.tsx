@@ -10,15 +10,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <header className="
-                bg-gray-100
-                dark:bg-gray-900
-                px-4
-                py-1
-                flex
-                justify-between
-                items-center
-                ">
+            <header className="bg-gray-100 dark:bg-gray-900 px-4 py-1 flex justify-between items-center">
                 <h1 className="text-4xl">GDPM</h1>
                 <nav className="flex gap-6">
                     <Link href="/edit">New Model</Link>
@@ -43,27 +35,23 @@ export default function Home() {
                     <div className="w-1/2">
                     <img src="https://via.placeholder.com/150"/></div>
                     <div  className="w-1/2">
-                      <p>probabilistische Modelle erstellen</p>
+                      <p className="text-2xl font-bold">probabilistische Modelle erstellen</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="
-                h-64  w-full
-                  bg-zinc-200">
+                <div className="h-64  w-full bg-zinc-200">
                   <div className="container mx-auto">
                     <div>Bild</div>
-                    <div>probabilistische Modelle erstellen</div>
+                    <div className="text-2xl font-bold">Modelle verwalten</div>
                   </div>
                 </div>
 
 
-                <div className="
-                h-64  w-full
-                  bg-amber-500">
+                <div className="h-64  w-full bg-amber-500">
                   <div className="container mx-auto">
                     <div>Bild</div>
-                    <div>probabilistische Modelle erstellen</div>
+                    <div className="text-2xl font-bold">probabilistische Modelle erstellen</div>
                   </div>
                 </div>
 

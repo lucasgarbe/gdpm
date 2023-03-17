@@ -12,7 +12,7 @@ export default function Home() {
             </Head>
 
             <header className="bg-gray-100 dark:bg-gray-900 px-4 py-1 flex justify-between items-center">
-                <h1 className="text-4xl">GDPM</h1>
+                <p className="text-4xl">GDPM</p>
                 <nav className="flex gap-6">
                     <Link href="/edit">New Model</Link>
                     <Link href="/login">Login</Link>
