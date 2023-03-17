@@ -18,9 +18,3 @@ services:
     build:
       context: ./Frontend
       dockerfile: ./Dockerfile
-  db_model:
-    image: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data-vol:/data/db

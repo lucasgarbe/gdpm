@@ -1,7 +1,7 @@
 import json
 from django.test import TestCase
 
-from Backend.converter.models import convert_with_decoder
+from Backend.converter.models import convert_model_to_pymc
 
 
 class SupportTestCase(TestCase):
@@ -28,5 +28,5 @@ class SupportTestCase(TestCase):
 
             obs = pm.Normal("obs", alpha=alpha_node1, beta=beta, sigma=sigma)
 
-    def convert_model_to_pymc(self):
-        convert_with_decoder('./converter/testedge.json')
+    def test_convert_model_to_pymc(self):
+        convert_model_to_pymc('./converter/testedge.json')
