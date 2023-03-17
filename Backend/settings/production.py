@@ -2,7 +2,7 @@
 Django settings for gdpm backend (Production)
 """
 
-from base import *
+from settings import *
 import os
 
 DEBUG = False
