@@ -1,0 +1,40 @@
+{
+  "edges": [
+    {
+      "source": "node_1",
+      "target": "node_0",
+      "targetHandle": "lower",
+      "id": "reactflow__edge-node_1-node_0lower"
+    },
+    {
+      "source": "node_0",
+      "target": "node_1",
+      "targetHandle": "lower",
+      "id": "reactflow__edge-node_0-node_1lower"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node_0",
+      "type": "distribution",
+      "data": {
+        "root": true,
+        "dist": {
+          "distType": "continuous",
+          "name": "Uniform"
+        }
+      }
+    },
+    {
+      "id": "node_1",
+      "type": "distribution",
+      "data": {
+        "root": true,
+        "dist": {
+          "distType": "continuous",
+          "name": "Uniform"
+        }
+      }
+    }
+  ]
+}
