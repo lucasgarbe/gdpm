@@ -5,7 +5,11 @@ const CustomHandle = ({
   position,
   isValidConnection,
   name,
-}: HandleProps & { key: string | number; name: string }) => (
+}: HandleProps & {
+  key: string | number;
+  name: string;
+  className?: string;
+}) => (
   <Handle
     type={type}
     id={name}

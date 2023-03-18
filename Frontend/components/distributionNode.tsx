@@ -2,23 +2,15 @@ import { FC } from "react";
 import { Connection, Handle, NodeProps, Position, Node } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore, selector } from "../hooks/store";
-import { validate, findPreviousNode } from "../internal/validate";
+import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
-type props = {
-  data: any;
-};
-
 type NodeData = {
-  distribution: string;
+  dist: any;
 };
 
-const distributionNode: FC<NodeProps<NodeData>> = ({
-  data,
-  dragging,
-  selected,
-}: props) => {
+const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
   const { nodes, edges } = useStore(selector, shallow);
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
@@ -67,7 +59,7 @@ const distributionNode: FC<NodeProps<NodeData>> = ({
         </div>
       )}
 
-      <div onClick={console.log("bang")}>
+      <div>
         <p className="font-bold text-md">{data.dist.name}</p>
       </div>
 
