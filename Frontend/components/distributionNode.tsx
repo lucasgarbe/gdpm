@@ -49,9 +49,9 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
             <CustomHandle
               type="target"
               key={index}
+              id={input.name}
               name={input.name}
               position={Position.Left}
-              id={input.name}
             ></CustomHandle>
           ))}
         </div>
@@ -66,6 +66,7 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
           <CustomHandle
             type="source"
             key="support"
+            id={data.dist.output.name}
             name={data.dist.output.name}
             position={Position.Right}
             isValidConnection={isValid}

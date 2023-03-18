@@ -2,14 +2,13 @@ import { Handle, HandleProps } from "reactflow";
 
 const CustomHandle = ({
   type,
-  key,
   position,
   isValidConnection,
   name,
 }: HandleProps & { key: string | number; name: string }) => (
   <Handle
     type={type}
-    key={key}
+    id={name}
     position={position}
     isValidConnection={isValidConnection}
     className={
