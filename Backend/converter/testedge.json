@@ -35,6 +35,18 @@
       "target": "node_1",
       "targetHandle": "lower",
       "id": "reactflow__edge-node_5-1lower"
+    },
+    {
+      "source": "node_6",
+      "target": "node_0",
+      "targetHandle": "upper",
+      "id": "reactflow__edge-node_6-0upper"
+    },
+    {
+      "source": "node_6",
+      "target": "node_2",
+      "targetHandle": "mu",
+      "id": "reactflow__edge-node_6-2mu"
     }
   ],
   "nodes": [
@@ -98,10 +110,15 @@
       "type": "Constant",
       "data": {
         "root": true,
-        "dist": {
-          "distType": "const",
-          "name": "const"
-        }
+        "value": 10
+      }
+    },
+    {
+      "id": "node_6",
+      "type": "Constant",
+      "data": {
+        "root": true,
+        "value": 5
       }
     }
   ]
