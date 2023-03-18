@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'converter',
     'apigateway',
     'storage',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
