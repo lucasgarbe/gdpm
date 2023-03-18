@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('apigateway/', include('apigateway.urls')),
+    path('', include('apigateway.urls')),
     path('db/', include('storage.urls')),
     # path('converter/', include('apigateway.urls')),
 ]
