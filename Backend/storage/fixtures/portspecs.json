@@ -1,0 +1,182 @@
+[
+  {
+    "model": "storage.Support",
+    "pk": "support",
+    "fields": {
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "n",
+    "fields": {
+      "name": "n - Number of Bernoulli trials (n >= 0)",
+      "type": "Int",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "p",
+    "fields": {
+      "name": "p - Probability of success (0 < p < 1)",
+      "type": "float",
+      "upper": "1",
+      "lower": "0",
+      "upperInclusive": "True",
+      "lowerInclusive": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "logit_p",
+    "fields": {
+      "name": "logit_p - Alternative log odds for the probability of success",
+      "type": "float",
+      "upper": "inf",
+      "lower": "inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "mu",
+    "fields": {
+      "name": "mu - Expected number of occurrences during the given interval (mu >= 0)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "lower-int",
+    "fields": {
+      "name": "lower",
+      "type": "int",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "upper-int",
+    "fields": {
+      "name": "upper",
+      "type": "int",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "lower-float",
+    "fields": {
+      "name": "lower",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "upper-float",
+    "fields": {
+      "name": "upper",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "sigma",
+    "fields": {
+      "name": "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "True",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "tau",
+    "fields": {
+      "name": "tau - Precision (tau > 0) (only required if sigma is not specified)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "True",
+      "optional": "True"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "lam",
+    "fields": {
+      "name": "lam - Rate or inverse scale (lam > 0)",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "True",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "alpha",
+    "fields": {
+      "name": "alpha",
+      "type": "float",
+      "upper": "inf",
+      "lower": "-inf",
+      "upperInclusive": "False",
+      "lowerInclusive": "False",
+      "optional": "False"
+    }
+  },
+  {
+    "model": "storage.PortSpecification",
+    "pk": "beta",
+    "fields": {
+      "name": "beta",
+      "type": "float",
+      "upper": "inf",
+      "lower": "0",
+      "upperInclusive": "False",
+      "lowerInclusive": "True",
+      "optional": "False"
+    }
+  }
+]

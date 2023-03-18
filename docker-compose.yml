@@ -1,44 +1,26 @@
-version: '1.0'
+version: '3.8'
 
 services:
-  db:
-    image: postgres:latest
-    restart: always
-    ports:
-      - "8088:8088"
-    volumes:
-      - data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
   backend:
-    restart: always
-    build: ./backend
-    container_name: backend
-    command: python manage.py runserver 127.0.0.1:8081 --settings=backend.settings.development
-    volumes:
-      - ./backend:/code
+    build:
+      context: ./Backend
+      dockerfile: ./Dockerfile
+    #restart: always
     ports:
-      - "8081:8081"
+      - "8000:8000"
+    volumes:
+      - ./Backend:/code
 
-  #  web:
-  #
-
-
-# fliegen wahrscheinlich raus und backend wird doch monolith
-#  converter:
-#    build: ./converter
-#    container_name: converter
-#    ports:
-#      - "127.0.0.1:8089:8089"
-#
-
-#  storage:
-#    build: ./Storage
-#    container_name: storage
-#    ports:
-#      - "127.0.0.1:8088:8088"
-
-volumes:
-  data:
+  frontend:
+    image: frontend:production
+    ports:
+      - "8080:3000"
+    build:
+      context: ./Frontend
+      dockerfile: ./Dockerfile
+  db_model:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data-vol:/data/db
