@@ -14,7 +14,11 @@ type NodeData = {
   distribution: string;
 };
 
-const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
+const distributionNode: FC<NodeProps<NodeData>> = ({
+  data,
+  dragging,
+  selected,
+}: props) => {
   const { nodes, edges } = useStore(selector, shallow);
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
@@ -43,6 +47,12 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
 
   return (
     <div className="flex border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 px-8 py-4">
+      {selected && (
+        <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
+          <button className="p-1">edit</button>
+          <button className="p-1">delete</button>
+        </div>
+      )}
       {data.dist.inputs && (
         <div className="flex flex-col justify-around h-full">
           {data.dist.inputs?.map((input: any, index: number) => (
@@ -57,7 +67,7 @@ const distributionNode: FC<NodeProps<NodeData>> = ({ data }: props) => {
         </div>
       )}
 
-      <div>
+      <div onClick={console.log("bang")}>
         <p className="font-bold text-md">{data.dist.name}</p>
       </div>
 
