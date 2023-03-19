@@ -1,6 +1,4 @@
-import mongoengine
 from django.db import models
-from mongoengine import *
 
 
 class Support(models.Model):

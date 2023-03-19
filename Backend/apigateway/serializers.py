@@ -47,10 +47,3 @@ class DistributionSerializer(serializers.Serializer):
     class Meta:
         fields = '__all__'
 
-
-class SwaggerRequestSerializer(serializers.Serializer):
-    name = serializers.CharField()
-
-
-class SwaggerResponseSerializer(serializers.Serializer):
-    message = serializers.CharField()

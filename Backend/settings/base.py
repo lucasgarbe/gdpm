@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'apigateway',
     'storage',
     'rest_framework',
-    'rest_framework_swagger'
+    #'drf_yasg',
 ]
 
 MIDDLEWARE = [
