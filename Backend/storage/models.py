@@ -1,13 +1,11 @@
-import mongoengine
 from django.db import models
-from mongoengine import *
 
 
 class Support(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     type = models.CharField(max_length=29)
-    upper = models.FloatField()
-    lower = models.FloatField()
+    upper = models.CharField(max_length=29)
+    lower = models.CharField(max_length=29)
     upperInclusive = models.BooleanField()
     lowerInclusive = models.BooleanField()
 
@@ -19,8 +17,8 @@ class PortSpecification(models.Model):
     id = models.CharField(max_length=20, primary_key=True)
     name = models.CharField(max_length=29)
     type = models.CharField(max_length=29)
-    upper = models.FloatField()
-    lower = models.FloatField()
+    upper = models.CharField(max_length=29)
+    lower = models.CharField(max_length=29)
     upperInclusive = models.BooleanField()
     lowerInclusive = models.BooleanField()
 
