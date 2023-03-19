@@ -5,12 +5,15 @@ import ReactFlow, {
   Controls,
   Background,
   MiniMap,
+  Panel,
 } from "reactflow";
+import { CloudArrowDownIcon, TrashIcon } from "@heroicons/react/24/outline";
 import DistributionNode from "../components/distributionNode";
 import { useStore, selector } from "../hooks/store";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
 import "reactflow/dist/base.css";
+import { useUpdateModel } from "../hooks/useUpdateModel";
 
 interface WorkspaceProps {
   className: string;
@@ -32,6 +35,7 @@ export default function Workspace({ className }: WorkspaceProps) {
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode } =
     useStore(selector, shallow);
+  const updateModel = useUpdateModel();
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -73,6 +77,14 @@ export default function Workspace({ className }: WorkspaceProps) {
     [reactFlowInstance]
   );
 
+  const handleSave = useCallback(() => {
+    if (reactFlowInstance) {
+      const flow = reactFlowInstance.toObject();
+      console.log("saving", flow);
+      updateModel.mutate({ title: "yep", body: flow });
+    }
+  }, [reactFlowInstance]);
+
   return (
     <div className={className} ref={reactFlowWrapper}>
       <ReactFlowProvider>
@@ -92,6 +104,17 @@ export default function Workspace({ className }: WorkspaceProps) {
         >
           <Controls />
           <MiniMap />
+          <Panel position="top-right" className="bg-gray-100 rounded flex">
+            <button className="p-1 hover:bg-gray-200 rounded">
+              <TrashIcon className="w-5" />
+            </button>
+            <button
+              className="p-1 hover:bg-gray-200 rounded"
+              onClick={handleSave}
+            >
+              <CloudArrowDownIcon className="w-5" />
+            </button>
+          </Panel>
           <Background />
         </ReactFlow>
       </ReactFlowProvider>
