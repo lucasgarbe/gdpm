@@ -17,8 +17,8 @@ const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
     const targetNode: Node = nodes.find(
       (node: Node) => node.id == connection.target
     );
-    const targetInput: portSpec = targetNode.data.dist.inputs.find(
-      (input: any) => input.name == connection.targetHandle
+    const targetInput: portSpec = targetNode.data.dist.input.find(
+      (input: any) => input.id == connection.targetHandle
     );
 
     const sourceNode: Node = nodes.find(
@@ -45,14 +45,14 @@ const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
           <button className="p-1">delete</button>
         </div>
       )}
-      {data.dist.inputs && (
+      {data.dist.input && (
         <div className="flex flex-col justify-around h-full">
-          {data.dist.inputs?.map((input: any, index: number) => (
+          {data.dist.input?.map((input: any, index: number) => (
             <CustomHandle
               type="target"
               key={index}
-              id={input.name}
-              name={input.name}
+              id={input.id}
+              name={input.id}
               position={Position.Left}
             ></CustomHandle>
           ))}
@@ -68,8 +68,8 @@ const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
           <CustomHandle
             type="source"
             key="support"
-            id={data.dist.output.name}
-            name={data.dist.output.name}
+            id={data.dist.output.id}
+            name={data.dist.output.id}
             position={Position.Right}
             isValidConnection={isValid}
             className={"w-full h-full"}
