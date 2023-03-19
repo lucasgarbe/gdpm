@@ -21,5 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apigateway.urls')),
     path('db/', include('storage.urls')),
-    # path('converter/', include('apigateway.urls')),
 ]
