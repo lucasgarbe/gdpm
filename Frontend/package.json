@@ -11,11 +11,15 @@
   "dependencies": {
     "@heroicons/react": "^2.0.16",
     "@next/font": "^13.0.4",
+    "@tanstack/react-query": "^4.20.9",
+    "@tanstack/react-query-devtools": "^4.20.9",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
+    "ky": "^0.33.1",
+    "ky-universal": "^0.11.0",
     "next": "13.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -25,6 +29,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "zustand": "^4.3.5"
   }
 }
