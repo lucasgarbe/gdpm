@@ -1,16 +1,12 @@
-import { FC } from "react";
-import { Connection, Handle, NodeProps, Position, Node } from "reactflow";
+import { memo } from "react";
+import { Position, Node, Connection } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore, selector } from "../hooks/store";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
-type NodeData = {
-  dist: any;
-};
-
-const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
+const DistributionNode = memo(({ data, selected }: any) => {
   const { nodes, edges } = useStore(selector, shallow);
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
@@ -78,6 +74,7 @@ const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
       )}
     </div>
   );
-};
+});
 
-export default distributionNode;
+DistributionNode.displayName = "DistributionNode";
+export default DistributionNode;

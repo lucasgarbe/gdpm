@@ -8,7 +8,7 @@ import ReactFlow, {
   Panel,
 } from "reactflow";
 import { CloudArrowDownIcon, TrashIcon } from "@heroicons/react/24/outline";
-import DistributionNode from "../components/distributionNode";
+import DistributionNode from "../components/DistributionNode";
 import { useStore, selector } from "../hooks/store";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
@@ -82,7 +82,7 @@ export default function Workspace({ className }: WorkspaceProps) {
       const flow = reactFlowInstance.toObject();
       console.log("saving", flow);
       markRootNodes(flow);
-      updateModel.mutate({ title: "yep", body: flow });
+      // updateModel.mutate({ title: "yep", body: flow });
     }
   }, [reactFlowInstance]);
 
@@ -123,15 +123,15 @@ export default function Workspace({ className }: WorkspaceProps) {
   );
 }
 
-const markRootNodes = (flow) => {
-  const targetIds = flow.edges.map((edge) => {
+const markRootNodes = (flow: any) => {
+  const targetIds = flow.edges.map((edge: any) => {
     return edge.target;
   });
-  const rootNodes = flow.nodes.filter((node) => {
+  const rootNodes = flow.nodes.filter((node: any) => {
     return !targetIds.includes(node.id);
   });
 
-  rootNodes.map((node) => {
+  rootNodes.map((node: any) => {
     node.data.root = true;
   });
   console.log(targetIds, rootNodes);
