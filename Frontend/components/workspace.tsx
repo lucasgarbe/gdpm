@@ -86,8 +86,6 @@ export default function Workspace({ className }: WorkspaceProps) {
   const handleSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log("saving", flow);
-      markRootNodes(flow);
       updateModelMutation.mutate({ id: 1, title: "test", body: flow });
     }
   }, [reactFlowInstance]);
@@ -144,17 +142,3 @@ export default function Workspace({ className }: WorkspaceProps) {
     </div>
   );
 }
-
-const markRootNodes = (flow: any) => {
-  const targetIds = flow.edges.map((edge: any) => {
-    return edge.target;
-  });
-  const rootNodes = flow.nodes.filter((node: any) => {
-    return !targetIds.includes(node.id);
-  });
-
-  rootNodes.map((node: any) => {
-    node.data.root = true;
-  });
-  console.log(targetIds, rootNodes);
-};
