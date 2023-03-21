@@ -6,7 +6,7 @@ from converter.pymc_converter import convert_model
 
 
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
-    queryset = GDPM_Model.objects.all().order_by('title')
+    queryset = GDPM_Model.objects.all().order_by('id')
     serializer_class = GDPMModelSerializer
 
 
@@ -40,7 +40,7 @@ class DistributionViewSet(viewsets.ViewSet):
 class PymcViewSet(viewsets.ModelViewSet):
     queryset = GDPM_Model.objects.all()
     serializer_class = GDPMModelSerializer
-    lookup_field = 'title'
+    lookup_field = 'id'
     http_method_names = ['get']
 
     def retrieve(self, request, *args, **kwargs):
