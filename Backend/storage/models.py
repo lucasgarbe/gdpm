@@ -62,6 +62,7 @@ class Discrete(Distribution):
 
 
 class GDPM_Model(models.Model):
+    id = models.CharField(primary_key=True, max_length=20)
     title = models.CharField(default="default_model", max_length=20)
     body = models.JSONField(default=dict)
 
