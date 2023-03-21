@@ -1,8 +1,14 @@
 import Head from "next/head";
 import Link from "next/link";
 import ListElement from "../components/listElement";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import {
+  fetchModels,
+  useModels,
+} from "../hooks/useModels";
 
-export default function Home() {
+export default function Models() {
+  const { data, isLoading } = useModels();
     return (
         <>
             <Head>
@@ -20,16 +26,33 @@ export default function Home() {
             </header>
 
             <main className="container mx-auto flex-grow pt-40">
-            <ListElement className=""/>
-                <p className="text-6xl font-bold text-center">Grafische Entwicklungsumgebung
-              Modelle! Modelle! Modelle!
+                <p className="text-6xl font-bold text-center pb-20">Gespeicherte Models
                 </p>
-            </main>
 
+                <div className="flex flex-col gap-4">
+                  {data?.map((model, index) => (
+                <ListElement className="" model={model}/>
+                  ))}
+                </div>
+            </main>
 
             <footer className="text-center font-light">
                 GPDM - Projektstudium
             </footer>
         </>
     )
+}
+export async function getStaticProps() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["models"],
+    queryFn: () => fetchModels(),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }

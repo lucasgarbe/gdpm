@@ -20,7 +20,7 @@ export default function Home() {
                 </nav>
             </header>
 
-            <main className="flex-grow pt-34">
+            <main className= "flex-grow pt-34">
             <div className="container mx-auto pt-40">
             <div className="group">
                 <p className="text-6xl font-bold text-left text-amber-500 group-hover:text-black">Grafische</p>
@@ -36,7 +36,7 @@ export default function Home() {
                 <div className="h-32"></div>
               </div>
 
-                <div className="w-full bg-amber-500">
+                <div className="flex flex-grow flex-col justify-between pt-34 bg-amber-500">
                   <div className="container mx-auto">
                     <div className="flex justify-center gap-4 py-10">
                     <Link href="/edit" className="hover:bg-black hover:text-amber-500 flex gap-4 py-2 px-3">
@@ -61,4 +61,3 @@ export default function Home() {
         </>
     )
 }
-// nur die Buchstaben der Überschrift hoverbar

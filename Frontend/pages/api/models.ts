@@ -6,10 +6,6 @@ export default function handler(
 ) {
   res.status(200).json([
     {
-      title: "default_model",
-      body: {},
-    },
-    {
       title: "wow",
       body: {
         type: "beep",
