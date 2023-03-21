@@ -8,12 +8,11 @@ export default function SaveButton({ reactFlowInstance }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
-      return ky.put("http://httpbin.org/anything", { json: payload }).json();
-      // return ky
-      //   .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
-      //     json: payload,
-      //   })
-      //   .json();
+      return ky
+        .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
+          json: payload,
+        })
+        .json();
     },
     onMutate: () => {
       setDefaultButton(false);
