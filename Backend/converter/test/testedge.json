@@ -1,6 +1,12 @@
 {
   "edges": [
     {
+      "source": "node_3",
+      "target": "node_7",
+      "targetHandle": "lower",
+      "id": "reactflow__edge-node_3-node_7lower"
+    },
+    {
       "source": "node_1",
       "target": "node_0",
       "targetHandle": "lower",
@@ -52,6 +58,17 @@
   "nodes": [
     {
       "id": "node_0",
+      "type": "distribution",
+      "data": {
+        "root": false,
+        "dist": {
+          "distType": "continuous",
+          "name": "Uniform"
+        }
+      }
+    },
+    {
+      "id": "node_7",
       "type": "distribution",
       "data": {
         "root": false,
