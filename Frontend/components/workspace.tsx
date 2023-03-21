@@ -7,7 +7,13 @@ import ReactFlow, {
   MiniMap,
   Panel,
 } from "reactflow";
-import { CloudArrowDownIcon, TrashIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathIcon,
+  CloudArrowDownIcon,
+  CloudIcon,
+  ExclamationTriangleIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import DistributionNode from "../components/DistributionNode";
 import { useStore, selector } from "../hooks/store";
 import CustomEdge from "../components/customEdge";
@@ -35,7 +41,7 @@ export default function Workspace({ className }: WorkspaceProps) {
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode } =
     useStore(selector, shallow);
-  const updateModel = useUpdateModel();
+  const updateModelMutation = useUpdateModel();
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -82,7 +88,7 @@ export default function Workspace({ className }: WorkspaceProps) {
       const flow = reactFlowInstance.toObject();
       console.log("saving", flow);
       markRootNodes(flow);
-      // updateModel.mutate({ title: "yep", body: flow });
+      updateModelMutation.mutate({ id: 1, title: "test", body: flow });
     }
   }, [reactFlowInstance]);
 
@@ -113,7 +119,23 @@ export default function Workspace({ className }: WorkspaceProps) {
               className="p-1 hover:bg-gray-200 rounded"
               onClick={handleSave}
             >
-              <CloudArrowDownIcon className="w-5" />
+              {updateModelMutation.isLoading ? (
+                <ArrowPathIcon className="w-5" />
+              ) : (
+                <>
+                  {updateModelMutation.isError ? (
+                    <ExclamationTriangleIcon className="w-5 text-red-500" />
+                  ) : (
+                    <>
+                      {updateModelMutation.isSuccess ? (
+                        <CloudIcon className="w-5 text-green-500" />
+                      ) : (
+                        <CloudArrowDownIcon className="w-5" />
+                      )}
+                    </>
+                  )}
+                </>
+              )}
             </button>
           </Panel>
           <Background />
