@@ -12,8 +12,8 @@ import { useStore, selector } from "../hooks/store";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
 import "reactflow/dist/base.css";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import SaveButton from "./SaveButton";
+import DeleteButton from "./DeleteButton";
 
 interface WorkspaceProps {
   className: string;
@@ -35,6 +35,7 @@ export default function Workspace({ className }: WorkspaceProps) {
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode } =
     useStore(selector, shallow);
+  const [modelname, setModelname] = useState("Model");
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -95,11 +96,25 @@ export default function Workspace({ className }: WorkspaceProps) {
         >
           <Controls />
           <MiniMap />
+          <Panel position="top-left">
+            <input
+              type="text"
+              value={modelname}
+              onChange={(e) => {
+                setModelname(e.target.value);
+              }}
+            />
+            <p>{modelname}</p>
+          </Panel>
           <Panel position="top-right" className="bg-gray-100 rounded flex">
-            <button className="p-1 hover:bg-gray-200 rounded">
-              <TrashIcon className="w-5" />
-            </button>
-            <SaveButton reactFlowInstance={reactFlowInstance} />
+            <DeleteButton
+              reactFlowInstance={reactFlowInstance}
+              modelname={modelname}
+            />
+            <SaveButton
+              reactFlowInstance={reactFlowInstance}
+              modelname={modelname}
+            />
           </Panel>
           <Background />
         </ReactFlow>

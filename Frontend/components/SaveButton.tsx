@@ -4,13 +4,21 @@ import { useMutation } from "@tanstack/react-query";
 import ky from "ky-universal";
 import { useCallback, useState } from "react";
 
-export default function SaveButton({ reactFlowInstance }: any) {
+export default function SaveButton({ reactFlowInstance, modelname }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
+      if (!payload.id) {
+        return ky
+          .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
+            json: payload,
+          })
+          .json();
+      }
+
       return ky
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
-          json: payload,
+        .put(`${process.env.NEXT_PUBLIC_API_URL}/models/${modelname}/`, {
+          json: payload.body,
         })
         .json();
     },
@@ -28,11 +36,11 @@ export default function SaveButton({ reactFlowInstance }: any) {
       const flow = reactFlowInstance.toObject();
       console.log("saving", flow);
       updateModelMutation.mutate({
-        title: "test",
+        title: modelname,
         body: flow,
       });
     }
-  }, [reactFlowInstance]);
+  }, [modelname, reactFlowInstance]);
 
   return (
     <button className="p-1 hover:bg-gray-200 rounded" onClick={handleSave}>

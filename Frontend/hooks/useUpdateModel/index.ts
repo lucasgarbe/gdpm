@@ -9,12 +9,11 @@ type updatePayload = {
 const useUpdateModel = () => {
   return useMutation({
     mutationFn: (payload: updatePayload) => {
-      return ky.put("http://httpbin.org/anything", { json: payload }).json();
-      // return ky
-      //   .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
-      //     json: payload,
-      //   })
-      //   .json();
+      return ky
+        .patch(`${process.env.NEXT_PUBLIC_API_URL}/${payload.title}/models/`, {
+          json: payload,
+        })
+        .json();
     },
   });
 };
