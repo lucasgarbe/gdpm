@@ -1,3 +1,10 @@
+import json
 from django.test import TestCase
 
-# Create your tests here.
+from Backend.converter.pymc_converter import convert_model
+
+
+class SupportTestCase(TestCase):
+
+    def test_convert_model_to_pymc(self):
+        print(convert_model('./converter/test/testmodel.json'))
