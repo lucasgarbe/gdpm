@@ -108,7 +108,7 @@ export default function Workspace({ className }: WorkspaceProps) {
   );
 
   if (isLoading) {
-    return <h1 className="h-screen w-screen bg-red-400">loading</h1>;
+    return <h1 className="h-screen w-screen">loading</h1>;
   }
 
   return (

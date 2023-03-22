@@ -21,12 +21,6 @@ const DistributionNode = memo(({ data, selected }: any) => {
       (node: Node) => node.id == connection.source
     );
 
-    //console.log(
-    //  "find prev node: ",
-    ////musse von aktueller node ausgehen, nicht von target
-    //  findPreviousNode(sourceOutput, targetInput.name, edges, nodes)
-    //);
-
     const v = validate(sourceNode, sourceOutput, targetInput);
 
     console.log("validating", sourceOutput, targetNode, targetInput, v);
@@ -34,7 +28,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
   };
 
   return (
-    <div className="flex border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 px-8 py-4">
+    <div className="flex">
       {selected && (
         <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
           <button className="p-1">edit</button>
@@ -42,7 +36,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
         </div>
       )}
       {data.dist.input && (
-        <div className="flex flex-col justify-around h-full">
+        <div className="h-full flex flex-col justify-between gap-1 py-1">
           {data.dist.input?.map((input: any, index: number) => (
             <CustomHandle
               type="target"
@@ -55,12 +49,12 @@ const DistributionNode = memo(({ data, selected }: any) => {
         </div>
       )}
 
-      <div>
+      <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
         <p className="font-bold text-md">{data.dist.name}</p>
       </div>
 
       {data.dist.output && (
-        <div className="absolute top-0 right-0 translate-x-1/2 flex flex-col justify-around h-full">
+        <div className="flex flex-col justify-center py-1">
           <CustomHandle
             type="source"
             key="support"
