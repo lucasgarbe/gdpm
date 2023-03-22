@@ -1,5 +1,5 @@
 import { shallow } from "zustand/shallow";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -18,6 +18,10 @@ import DistributionList from "./DistributionList";
 import Link from "next/link";
 import ArrowLeft from "./arrow-left";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
+import kyUniversal from "ky-universal";
+import ky from "ky-universal";
+import { useQuery } from "@tanstack/react-query";
 
 interface WorkspaceProps {
   className: string;
@@ -35,11 +39,34 @@ const edgeTypes = {
 };
 
 export default function Workspace({ className }: WorkspaceProps) {
+  const router = useRouter();
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode } =
-    useStore(selector, shallow);
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    addNode,
+    setNodes,
+    setEdges,
+  } = useStore(selector, shallow);
   const [modelname, setModelname] = useState("Model");
+
+  const { id } = router.query;
+  const { data: model, isLoading } = useQuery({
+    queryKey: ["model", id],
+    queryFn: () => fetchModel(id),
+    enabled: !!id,
+  });
+
+  useEffect(() => {
+    if (model) {
+      setNodes(model.body.nodes);
+      setEdges(model.body.edges);
+    }
+  }, [model]);
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -56,7 +83,6 @@ export default function Workspace({ className }: WorkspaceProps) {
       const data = JSON.parse(
         event.dataTransfer.getData("application/reactflow")
       );
-      console.log(data);
 
       // check if the dropped element is valid
       if (typeof data.type === "undefined" || !data.type) {
@@ -80,6 +106,10 @@ export default function Workspace({ className }: WorkspaceProps) {
     },
     [reactFlowInstance]
   );
+
+  if (isLoading) {
+    return <h1 className="h-screen w-screen bg-red-400">loading</h1>;
+  }
 
   return (
     <div className={className} ref={reactFlowWrapper}>
@@ -135,3 +165,7 @@ export default function Workspace({ className }: WorkspaceProps) {
     </div>
   );
 }
+
+const fetchModel = async (id) => {
+  return ky.get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`).json();
+};

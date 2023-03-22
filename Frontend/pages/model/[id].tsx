@@ -1,6 +1,5 @@
 import Head from "next/head";
-import Sidebar from "../components/sidebar";
-import Workspace from "../components/workspace";
+import Workspace from "../../components/workspace";
 
 export default function Edit() {
   return (

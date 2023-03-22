@@ -1,3 +1,9 @@
+import {
+  ArrowDownIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { useDistributions } from "../hooks/useDistributions";
 
 export default function DistributionList() {
@@ -9,23 +15,13 @@ export default function DistributionList() {
 
   return (
     <div className="flex gap-2">
-      <div>
-        <h2>Discrete</h2>
-        <ul className="flex flex-col gap-1">
-          {data?.discrete.map((dist: any, i: number) => (
-            <DistributionListItem dist={dist} color="blue" key={i} />
-          ))}
-        </ul>
-      </div>
+      <TypeList name="Discrete" distributions={data?.discrete} color="blue" />
 
-      <div>
-        <h2>Continuous</h2>
-        <ul className="flex flex-col gap-1">
-          {data?.continuous.map((dist: any, i: number) => (
-            <DistributionListItem dist={dist} color="amber" key={i} />
-          ))}
-        </ul>
-      </div>
+      <TypeList
+        name="Continuous"
+        distributions={data?.continuous}
+        color="amber"
+      />
     </div>
   );
 }
@@ -48,5 +44,41 @@ function DistributionListItem({ dist, color }: { dist: any; color: string }) {
     >
       {dist.name}
     </li>
+  );
+}
+
+function TypeList({
+  name,
+  distributions,
+  color,
+}: {
+  name: string;
+  distributions: any;
+  color: string;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setOpen(!open);
+        }}
+        className="flex gap-1"
+      >
+        {name}
+        {open ? (
+          <ChevronUpIcon className="w-5" />
+        ) : (
+          <ChevronDownIcon className="w-5" />
+        )}
+      </button>
+      {open && (
+        <ul className="flex flex-col gap-1">
+          {distributions.map((dist: any, i: number) => (
+            <DistributionListItem dist={dist} color={color} key={i} />
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
