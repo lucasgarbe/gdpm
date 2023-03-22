@@ -112,7 +112,7 @@ function Flow() {
     [reactFlowInstance]
   );
 
-  if (isLoading) {
+  if (id && isLoading) {
     return <h1 className="h-screen w-screen">loading</h1>;
   }
 
