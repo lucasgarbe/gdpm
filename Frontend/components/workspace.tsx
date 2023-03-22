@@ -18,7 +18,7 @@ import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import DistributionList from "./DistributionList";
 import Link from "next/link";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
@@ -38,7 +38,7 @@ function Flow() {
   const router = useRouter();
   const flowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [modelname, setModelname] = useState("Model");
+  const [modelname, setModelname] = useState("Modelname");
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setViewport } = useReactFlow();
@@ -51,6 +51,7 @@ function Flow() {
     setNodes(model.body.nodes);
     setEdges(model.body.edges);
     setViewport(model.body.viewport);
+    return model;
   };
 
   const onConnect = useCallback(
@@ -134,22 +135,23 @@ function Flow() {
       >
         <Controls />
         <MiniMap />
-        <Panel
-          position="top-left"
-          className="bg-gray-100 rounded flex items-start p-1"
-        >
-          <div className="flex items-center gap-2">
-            <Link href="/">
+        <Panel position="top-left" className="flex items-start gap-2">
+          <div className="bg-gray-100 rounded flex items-center">
+            <Link href="/" className="hover:bg-gray-200 rounded p-1">
               <ArrowLeftIcon className="w-5" />
             </Link>
-            <input
-              type="text"
-              value={modelname}
-              onChange={(e) => {
-                setModelname(e.target.value);
-              }}
-              className="bg-transparent h-min"
-            />
+            <div className="relative hover:bg-gray-200 rounded p-1">
+              <input
+                type="text"
+                value={modelname}
+                size={modelname.length}
+                onChange={(e) => {
+                  setModelname(e.target.value);
+                }}
+                className="bg-transparent h-min"
+              />
+              <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
+            </div>
           </div>
           <DistributionList />
         </Panel>

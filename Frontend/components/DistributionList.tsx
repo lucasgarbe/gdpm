@@ -14,7 +14,7 @@ export default function DistributionList() {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 bg-gray-100 rounded">
       <TypeList name="Discrete" distributions={data?.discrete} color="blue" />
 
       <TypeList
@@ -63,7 +63,7 @@ function TypeList({
         onClick={() => {
           setOpen(!open);
         }}
-        className="flex gap-1"
+        className="flex gap-1 hover:bg-gray-200 rounded p-1"
       >
         {name}
         {open ? (
