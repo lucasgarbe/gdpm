@@ -1,26 +1,24 @@
 import json
 
-from Backend.converter.model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
-from Backend.converter.utils import create_reversed_graph, get_end_of_graph, traverse_graph
+from converter.model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
+from converter.utils import create_reversed_graph, get_end_of_graph, traverse_graph
 
 
-def convert_model(path):
-    with open(path) as f:
-        data = json.load(f)
-        nodes = decode_JSON_to_Nodes(data)
-        edges = decode_JSON_to_edges(data, nodes_dict=nodes)
+def convert_model(json_obj):
+    nodes = decode_JSON_to_Nodes(json_obj)
+    edges = decode_JSON_to_edges(json_obj, nodes_dict=nodes)
 
-        graph = create_reversed_graph(nodes, edges)
-        endnodes = get_end_of_graph(nodes, edges)
+    graph = create_reversed_graph(nodes, edges)
+    endnodes = get_end_of_graph(nodes, edges)
 
-        pymc_graph = traverse_graph(graph, edges, endnodes)
+    pymc_graph = traverse_graph(graph, edges, endnodes)
 
-        pymc_code = 'import pymc as pm \nwith pm.Model():\n'
+    pymc_code = 'import pymc as pm \nwith pm.Model():\n'
 
-        for e in pymc_graph:
-            pymc_code += '\n\t' + e
+    for e in pymc_graph:
+        pymc_code += '\n\t' + e
 
-        return pymc_code
+    return pymc_code
 
 
 def convert(node, edges):

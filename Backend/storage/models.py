@@ -67,4 +67,4 @@ class GDPM_Model(models.Model):
     body = models.JSONField(default=dict)
 
     def __str__(self):
-        return self.title
+        return self.id
