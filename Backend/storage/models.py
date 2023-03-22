@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -62,7 +63,7 @@ class Discrete(Distribution):
 
 
 class GDPM_Model(models.Model):
-    id = models.CharField(primary_key=True, max_length=20)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(default="default_model", max_length=20)
     body = models.JSONField(default=dict)
 
