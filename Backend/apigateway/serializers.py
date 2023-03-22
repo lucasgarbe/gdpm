@@ -21,7 +21,6 @@ class SupportSerializer(serializers.ModelSerializer):
 
 
 class DiscreteSerializer(serializers.ModelSerializer):
-    distType = serializers.CharField(source='distType.name', allow_null=True)
     input = PortSpecificationSerializer(many=True)
     output = SupportSerializer(many=False)
 
@@ -31,7 +30,6 @@ class DiscreteSerializer(serializers.ModelSerializer):
 
 
 class ContinuousSerializer(serializers.ModelSerializer):
-    distType = serializers.CharField(source='distType.name', allow_null=True)
     input = PortSpecificationSerializer(many=True)
     output = SupportSerializer(many=False)
 
@@ -46,4 +44,3 @@ class DistributionSerializer(serializers.Serializer):
 
     class Meta:
         fields = '__all__'
-
