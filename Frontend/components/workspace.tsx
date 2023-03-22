@@ -14,6 +14,10 @@ import connectionLine from "./connectionLine";
 import "reactflow/dist/base.css";
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
+import DistributionList from "./DistributionList";
+import Link from "next/link";
+import ArrowLeft from "./arrow-left";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 interface WorkspaceProps {
   className: string;
@@ -96,15 +100,24 @@ export default function Workspace({ className }: WorkspaceProps) {
         >
           <Controls />
           <MiniMap />
-          <Panel position="top-left">
-            <input
-              type="text"
-              value={modelname}
-              onChange={(e) => {
-                setModelname(e.target.value);
-              }}
-            />
-            <p>{modelname}</p>
+          <Panel
+            position="top-left"
+            className="bg-gray-100 rounded flex items-start p-1"
+          >
+            <div className="flex items-center gap-2">
+              <Link href="/">
+                <ArrowLeftIcon className="w-5" />
+              </Link>
+              <input
+                type="text"
+                value={modelname}
+                onChange={(e) => {
+                  setModelname(e.target.value);
+                }}
+                className="bg-transparent h-min"
+              />
+            </div>
+            <DistributionList />
           </Panel>
           <Panel position="top-right" className="bg-gray-100 rounded flex">
             <DeleteButton

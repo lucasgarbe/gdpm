@@ -48,18 +48,3 @@ export default function Sidebar({ className }: SidebarProps) {
     </div>
   );
 }
-
-export async function getStaticProps() {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["distributions"],
-    queryFn: () => fetchDistributions(),
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}

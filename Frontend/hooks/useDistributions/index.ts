@@ -10,7 +10,7 @@ const fetchDistributions = async () => {
   const continuous: any = await ky(
     `${process.env.NEXT_PUBLIC_API_URL}/continuous/`
   ).json();
-  return [...discrete, ...continuous];
+  return { discrete, continuous };
 };
 
 const useDistributions = () => {
