@@ -1,14 +1,19 @@
 import { ArrowPathIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { CloudIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ky from "ky-universal";
+import router from "next/router";
 import { useCallback, useState } from "react";
 
 export default function SaveButton({ reactFlowInstance, modelname }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
+  const [isFirstSave, setIsFirstSave] = useState(false);
+
+  const queryClient = useQueryClient();
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
       if (!payload.id) {
+        setIsFirstSave(true);
         return ky
           .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
             json: payload,
@@ -16,6 +21,7 @@ export default function SaveButton({ reactFlowInstance, modelname }: any) {
           .json();
       }
 
+      setIsFirstSave(false);
       return ky
         .put(`${process.env.NEXT_PUBLIC_API_URL}/models/${modelname}/`, {
           json: payload.body,
@@ -25,10 +31,11 @@ export default function SaveButton({ reactFlowInstance, modelname }: any) {
     onMutate: () => {
       setDefaultButton(false);
     },
-    onSettled: () => {
+    onSuccess: (response: any) => {
       setTimeout(() => {
         setDefaultButton(true);
       }, 1000);
+      router.push(`/model/${response.id}`);
     },
   });
   const handleSave = useCallback(() => {
