@@ -31,7 +31,7 @@ export default function Models() {
 
                 <div className="flex flex-col gap-4">
                   {data?.map((model, index) => (
-                <ListElement className="" model={model}/>
+                <ListElement key={index} className="" model={model}/>
                   ))}
                 </div>
             </main>
