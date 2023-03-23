@@ -128,7 +128,7 @@ function Flow() {
         console.log(changedNode, nodes);
       };
 
-      const newNodeId = "nodes_" + lastIndex;
+      const newNodeId = "node_" + lastIndex;
       setLastIndex(lastIndex + 1);
       console.log(nodes, newNodeId);
       if (data.type == "constant") {
