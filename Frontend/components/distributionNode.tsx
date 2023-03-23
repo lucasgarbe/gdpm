@@ -1,13 +1,12 @@
 import { memo } from "react";
-import { Position, Node, Connection } from "reactflow";
-import { shallow } from "zustand/shallow";
-import { useStore, selector } from "../hooks/store";
+import { Position, Node, Connection, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
 const DistributionNode = memo(({ data, selected }: any) => {
-  const { nodes, edges } = useStore(selector, shallow);
+  const nodes = useNodes();
+  const edges = useEdges();
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
     const targetNode: Node = nodes.find(

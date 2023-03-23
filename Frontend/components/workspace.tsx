@@ -22,12 +22,14 @@ import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
+import ConstantNode from "./ConstantNode";
 
 let id = 0;
 const getId = () => `node_${id++}`;
 
 const nodeTypes = {
   distribution: DistributionNode,
+  constant: ConstantNode,
 };
 
 const edgeTypes = {
@@ -42,6 +44,7 @@ function Flow() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setViewport } = useReactFlow();
+  const [lastIndex, setLastIndex] = useState(0);
 
   const { id } = router.query;
   const fetchModel = async () => {
@@ -51,6 +54,7 @@ function Flow() {
     setNodes(model.body.nodes);
     setEdges(model.body.edges);
     setViewport(model.body.viewport);
+    setLastIndex(model.body.lastIndex);
     return model;
   };
 
@@ -63,6 +67,7 @@ function Flow() {
     queryKey: ["model", id],
     queryFn: () => fetchModel(),
     enabled: !!id,
+    staleTime: Infinity,
   });
 
   //   useEffect(() => {
@@ -101,16 +106,37 @@ function Flow() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const newNode = {
-        id: getId(),
-        type: data.type,
-        position,
-        data: { dist: data.dist },
+
+      const onChange = (event: any, id: string) => {
+        console.log("CHANGE", id, event);
+        const changedNode = nodes.find((node) => {
+          return node.id == id;
+        });
+        console.log(changedNode, nodes);
       };
 
-      setNodes((nds) => nds.concat(newNode));
+      const newNodeId = "nodes_" + lastIndex;
+      setLastIndex(lastIndex + 1);
+      console.log(nodes, newNodeId);
+      if (data.type == "constant") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { setNodes, onChange, constant: data.constant },
+        };
+        setNodes(() => nodes.concat(newNode));
+      } else if (data.type == "distribution") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { dist: data.dist },
+        };
+        setNodes(() => [...nodes, newNode]);
+      }
     },
-    [reactFlowInstance]
+    [nodes, reactFlowInstance]
   );
 
   if (id && isLoading) {
@@ -163,6 +189,7 @@ function Flow() {
           <SaveButton
             reactFlowInstance={reactFlowInstance}
             modelname={modelname}
+            lastIndex={lastIndex}
           />
         </Panel>
         <Background />

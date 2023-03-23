@@ -5,7 +5,11 @@ import ky from "ky-universal";
 import router from "next/router";
 import { useCallback, useState } from "react";
 
-export default function SaveButton({ reactFlowInstance, modelname }: any) {
+export default function SaveButton({
+  reactFlowInstance,
+  modelname,
+  lastIndex,
+}: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const [isFirstSave, setIsFirstSave] = useState(false);
 
@@ -44,10 +48,10 @@ export default function SaveButton({ reactFlowInstance, modelname }: any) {
       console.log("saving", flow);
       updateModelMutation.mutate({
         title: modelname,
-        body: flow,
+        body: { ...flow, lastIndex },
       });
     }
-  }, [modelname, reactFlowInstance]);
+  }, [modelname, lastIndex, reactFlowInstance]);
 
   return (
     <button className="p-1 hover:bg-gray-200 rounded" onClick={handleSave}>

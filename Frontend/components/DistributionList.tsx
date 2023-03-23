@@ -14,7 +14,8 @@ export default function DistributionList() {
   }
 
   return (
-    <div className="flex gap-2 bg-gray-100 rounded">
+    <div className="flex items-start gap-2 bg-gray-100 rounded">
+      <ConstantButtom />
       <TypeList name="Discrete" distributions={data?.discrete} color="blue" />
 
       <TypeList
@@ -23,6 +24,27 @@ export default function DistributionList() {
         color="amber"
       />
     </div>
+  );
+}
+
+function ConstantButtom() {
+  const handleDrag = (event: any): void => {
+    if (event.dataTransfer === null) return;
+    event.dataTransfer.setData(
+      "application/reactflow",
+      JSON.stringify({ type: "constant", constant: 1.0 })
+    );
+    event.dataTransfer.effectAllowed = "move";
+  };
+
+  return (
+    <button
+      className="bg-purple-100 hover:bg-purple-200 p-1 rounded"
+      draggable
+      onDragStart={(event) => handleDrag(event)}
+    >
+      Constant
+    </button>
   );
 }
 
