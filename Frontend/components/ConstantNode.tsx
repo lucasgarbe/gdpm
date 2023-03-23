@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Node, Position, useNodes } from "reactflow";
 import CustomHandle from "./customHandle";
 
-export default memo(({ data, id }: any) => {
+const ConstantNode = memo(({ data, id }: any) => {
   const nodes = useNodes();
   const handleChange = (e: any) => {
     const changedNodes = nodes.map((node: Node) => {
@@ -41,3 +41,5 @@ export default memo(({ data, id }: any) => {
     </div>
   );
 });
+ConstantNode.displayName = "ConstantNode";
+export default ConstantNode;

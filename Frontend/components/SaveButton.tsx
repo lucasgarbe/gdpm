@@ -50,7 +50,7 @@ export default function SaveButton({
         body: { ...flow, lastIndex },
       });
     }
-  }, [modelname, lastIndex, reactFlowInstance]);
+  }, [modelname, lastIndex, reactFlowInstance, updateModelMutation]);
 
   return (
     <button className="p-1 hover:bg-gray-200 rounded" onClick={handleSave}>

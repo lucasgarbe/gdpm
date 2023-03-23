@@ -24,8 +24,16 @@ import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
 
-let id = 0;
-const getId = () => `node_${id++}`;
+type modelResponse = {
+  body: {
+    id: string;
+    title: string;
+    nodes: any;
+    edges: any;
+    viewport: any;
+    lastIndex: number;
+  };
+};
 
 const nodeTypes = {
   distribution: DistributionNode,
@@ -48,18 +56,20 @@ function Flow() {
 
   const { id } = router.query;
   const fetchModel = async () => {
-    const model = await ky
+    const model: modelResponse = await ky
       .get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
       .json();
-    setNodes(model.body.nodes);
-    setEdges(model.body.edges);
-    setViewport(model.body.viewport);
-    setLastIndex(model.body.lastIndex);
+    if (model) {
+      setNodes(model.body.nodes);
+      setEdges(model.body.edges);
+      setViewport(model.body.viewport);
+      setLastIndex(model.body.lastIndex);
+    }
     return model;
   };
 
   const onConnect = useCallback(
-    (params) => setEdges((edges) => addEdge(params, edges)),
+    (params: any) => setEdges((edges) => addEdge(params, edges)),
     [setEdges]
   );
 
@@ -136,7 +146,7 @@ function Flow() {
         setNodes(() => [...nodes, newNode]);
       }
     },
-    [nodes, reactFlowInstance]
+    [nodes, reactFlowInstance, lastIndex, setLastIndex, setNodes]
   );
 
   if (id && isLoading) {
@@ -198,8 +208,10 @@ function Flow() {
   );
 }
 
-export default () => (
+const Workspace = () => (
   <ReactFlowProvider>
     <Flow />
   </ReactFlowProvider>
 );
+
+export default Workspace;

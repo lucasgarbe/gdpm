@@ -9,14 +9,14 @@ const DistributionNode = memo(({ data, selected }: any) => {
   const edges = useEdges();
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
-    const targetNode: Node = nodes.find(
+    const targetNode: any = nodes.find(
       (node: Node) => node.id == connection.target
     );
     const targetInput: portSpec = targetNode.data.dist.input.find(
       (input: any) => input.id == connection.targetHandle
     );
 
-    const sourceNode: Node = nodes.find(
+    const sourceNode: any = nodes.find(
       (node: Node) => node.id == connection.source
     );
 

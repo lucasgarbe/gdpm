@@ -1,6 +1,6 @@
 import { ArrowPathIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { CloudIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import ky from "ky-universal";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
@@ -32,7 +32,7 @@ export default function DeleteButton({ reactFlowInstance, modelname }: any) {
         body: flow,
       });
     }
-  }, [modelname, reactFlowInstance]);
+  }, [modelname, reactFlowInstance, deleteModelMutation]);
 
   return (
     <button className="p-1 hover:bg-gray-200 rounded" onClick={handleDelete}>

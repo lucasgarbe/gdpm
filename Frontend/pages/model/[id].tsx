@@ -11,7 +11,7 @@ export default function Edit() {
       </Head>
 
       <div className="h-full w-full">
-        <Workspace className="h-full w-full" />
+        <Workspace />
       </div>
     </>
   );
