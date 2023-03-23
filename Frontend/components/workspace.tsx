@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -25,6 +25,7 @@ import { useQuery } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
 import PyMCButton from "./PyMCButton";
 import PyMCModal from "./PyMCModal";
+import OperationNode from "./OperationNode";
 
 type modelResponse = {
   body: {
@@ -40,6 +41,7 @@ type modelResponse = {
 const nodeTypes = {
   distribution: DistributionNode,
   constant: ConstantNode,
+  operation: OperationNode,
 };
 
 const edgeTypes = {
@@ -145,6 +147,14 @@ function Flow() {
         };
         setNodes(() => nodes.concat(newNode));
       } else if (data.type == "distribution") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { dist: data.dist },
+        };
+        setNodes(() => [...nodes, newNode]);
+      } else if (data.type == "operation") {
         const newNode = {
           id: newNodeId,
           type: data.type,
