@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Position, Node, Connection } from "reactflow";
 import { shallow } from "zustand/shallow";
 import { useStore, selector } from "../hooks/store";
@@ -7,6 +7,7 @@ import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
 const DistributionNode = memo(({ data, selected }: any) => {
+  const [showModal, setShowModal] = useState(false);
   const { nodes, edges } = useStore(selector, shallow);
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
@@ -33,6 +34,9 @@ const DistributionNode = memo(({ data, selected }: any) => {
         <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
           <button className="p-1">edit</button>
           <button className="p-1">delete</button>
+          <button className="p-1">info</button>
+          <button onClick={() => {setShowModal(true)}}>modal</button>
+         {showModal && ( <div className="p-1 absolute -top-10 w-6 h-6 bg-amber-500" onClick={() =>setShowModal(false)}></div>)}
         </div>
       )}
       {data.dist.input && (
