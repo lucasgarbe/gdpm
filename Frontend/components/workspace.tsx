@@ -23,6 +23,8 @@ import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
+import PyMCButton from "./PyMCButton";
+import PyMCModal from "./PyMCModal";
 
 type modelResponse = {
   body: {
@@ -53,6 +55,7 @@ function Flow() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
+  const [showPyMCModal, setShowPyMCModal] = useState(false);
 
   const { id } = router.query;
   const fetchModel = async () => {
@@ -192,6 +195,10 @@ function Flow() {
           <DistributionList />
         </Panel>
         <Panel position="top-right" className="bg-gray-100 rounded flex">
+          <PyMCButton
+            id={id}
+            toggleModal={() => setShowPyMCModal(!showPyMCModal)}
+          />
           <DeleteButton id={id} />
           <SaveButton
             reactFlowInstance={reactFlowInstance}
@@ -199,6 +206,9 @@ function Flow() {
             lastIndex={lastIndex}
           />
         </Panel>
+        {showPyMCModal && (
+          <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
+        )}
         <Background />
       </ReactFlow>
     </div>
