@@ -46,8 +46,5 @@ const ConstantNode = memo(({ data, id }: any) => {
   );
 });
 
-const isInt = (number: number): "float" | "int" => {
-  return number % 1 === 0 ? "int" : "float";
-};
 ConstantNode.displayName = "ConstantNode";
 export default ConstantNode;
