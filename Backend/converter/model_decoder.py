@@ -7,7 +7,7 @@ def decode_JSON_to_Nodes(data):
             Node(
                 node["id"],
                 node["type"],
-                node["data"]) for node in data["body"]["nodes"]}
+                node["data"]) for node in data["nodes"]}
     return nodes_dict
 
 
@@ -16,5 +16,5 @@ def decode_JSON_to_edges(data, nodes_dict: dict):
         Edge(
             nodes_dict[edge["source"]],
             nodes_dict[edge["target"]],
-            edge["targetHandle"]) for edge in data["body"]["edges"]]
+            edge["targetHandle"]) for edge in data["edges"]]
     return edges
