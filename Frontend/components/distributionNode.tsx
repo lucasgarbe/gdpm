@@ -6,7 +6,6 @@ import CustomHandle from "./customHandle";
 
 const DistributionNode = memo(({ data, selected }: any) => {
   const nodes = useNodes();
-  const edges = useEdges();
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
     const targetNode: any = nodes.find(
@@ -35,7 +34,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
         </div>
       )}
       {data.dist.input && (
-        <div className="h-full flex flex-col justify-between gap-1 py-1">
+        <div className="flex flex-col justify-center gap-1 py-1">
           {data.dist.input?.map((input: any, index: number) => (
             <CustomHandle
               type="target"
@@ -61,6 +60,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
             name={data.dist.output.id}
             position={Position.Right}
             isValidConnection={isValid}
+            isConnectable={false}
             className={"w-full h-full"}
           ></CustomHandle>
         </div>
