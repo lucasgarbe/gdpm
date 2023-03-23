@@ -39,6 +39,11 @@ const DistributionNode = memo(({ data, selected }: any) => {
          {showModal && ( <div className="p-1 absolute top-24 w-64 h-64 bg-gray-50" onClick={() =>setShowModal(false)}>
             {data.dist.distType}
             {data.dist.url}
+            {data.dist.input && data.dist.input(
+            elem => (
+            <div key={elem.id}>
+                {elem.name}
+            ))}
          </div>)}
         </div>
       )}
