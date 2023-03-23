@@ -6,7 +6,7 @@ import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
 import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
 import { TrashIcon } from '@heroicons/react/24/outline';
 
-export default function ListElement({model}) {
+export default function ListElement({model} : any){
   console.log(model);
     return (
         <div className="bg-gray-100 w-full flex justify-between px-14 py-10">
@@ -20,4 +20,4 @@ export default function ListElement({model}) {
           </div>
           </div>
     )
-}// vim !!!!  NeoVim - bzw. Extension für VS Code
+}
