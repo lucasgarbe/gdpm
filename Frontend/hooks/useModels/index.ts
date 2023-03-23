@@ -3,9 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchModels = async () => {
   console.log("fetch d", process.env.NEXT_PUBLIC_API_URL);
-  const models = await ky(
-    `http://localhost:3000/api/models`
-  ).json();
+  const models = await ky(`${process.env.NEXT_PUBLIC_API_URL}/models`).json();
   return models;
 };
 
