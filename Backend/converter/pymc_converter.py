@@ -36,6 +36,9 @@ def convert(node, edges):
         dist_name = node.data['dist']['name']
         pymc_string = f'{var_name} = pm.{dist_name}("{var_name}"{args})'
 
+    if node.type == 'operation':
+        pymc_string = f'{var_name} = {args}'
+
     return pymc_string
 
 
@@ -46,11 +49,18 @@ def __write_constant(node):
 
 
 def __write_arguments(node, edges):
+    if node.data['dist']['distType'] == "operation":
+        input_edges = [
+            f'{edge.source.id}_out'
+            for edge in edges
+            if edge.target == node]
+        if input_edges:
+            return node.data['dist']['name'].join(input_edges)
+
     input_edges = [
         f'{edge.targetHandle}={edge.source.id}_out'
         for edge in edges
         if edge.target == node]
-
     if input_edges:
         return ', ' + ', '.join(input_edges)
 
