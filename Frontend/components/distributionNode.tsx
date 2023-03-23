@@ -1,7 +1,5 @@
 import { memo, useState } from "react";
-import { Position, Node, Connection } from "reactflow";
-import { shallow } from "zustand/shallow";
-import { useStore, selector } from "../hooks/store";
+import { Position, Node, Connection, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
@@ -9,17 +7,17 @@ import Link from "next/link";
 
 const DistributionNode = memo(({ data, selected }: any) => {
   const [showModal, setShowModal] = useState(false);
-  const { nodes, edges } = useStore(selector, shallow);
+  const nodes = useNodes();
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
-    const targetNode: Node = nodes.find(
+    const targetNode: any = nodes.find(
       (node: Node) => node.id == connection.target
     );
     const targetInput: portSpec = targetNode.data.dist.input.find(
       (input: any) => input.id == connection.targetHandle
     );
 
-    const sourceNode: Node = nodes.find(
+    const sourceNode: any = nodes.find(
       (node: Node) => node.id == connection.source
     );
 
@@ -52,22 +50,12 @@ const DistributionNode = memo(({ data, selected }: any) => {
                     ))}
                   </ul>
 
-         <ul>
-                    {data.dist.output.map((output, index) => (
-                  <div><li className="p-1" key={index}><p>id:</p> {output.id}</li>
-                      <li className="p-1" key={index}><p>name:</p> {output.type}</li>
-                      <li className="p-1" key={index}><p>type:</p> {output.upper}</li>
-                      <li className="p-1" key={index}><p>upper:</p> {output.lower}</li>
-                      <hr className="border-b border-blue-600 my-4" ></hr>
-                      </div>
-                    ))}
-                  </ul>
 
          </div>)}
         </div>
       )}
       {data.dist.input && (
-        <div className="h-full flex flex-col justify-between gap-1 py-1">
+        <div className="flex flex-col justify-center gap-1 py-1">
           {data.dist.input?.map((input: any, index: number) => (
             <CustomHandle
               type="target"
@@ -93,6 +81,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
             name={data.dist.output.id}
             position={Position.Right}
             isValidConnection={isValid}
+            isConnectable={false}
             className={"w-full h-full"}
           ></CustomHandle>
         </div>

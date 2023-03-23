@@ -1,4 +1,4 @@
-from converter.models import Edge, Node
+from .models import Edge, Node
 
 
 def decode_JSON_to_Nodes(data):

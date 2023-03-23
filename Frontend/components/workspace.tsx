@@ -18,16 +18,26 @@ import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import DistributionList from "./DistributionList";
 import Link from "next/link";
-import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
+import ConstantNode from "./ConstantNode";
 
-let id = 0;
-const getId = () => `node_${id++}`;
+type modelResponse = {
+  body: {
+    id: string;
+    title: string;
+    nodes: any;
+    edges: any;
+    viewport: any;
+    lastIndex: number;
+  };
+};
 
 const nodeTypes = {
   distribution: DistributionNode,
+  constant: ConstantNode,
 };
 
 const edgeTypes = {
@@ -38,23 +48,28 @@ function Flow() {
   const router = useRouter();
   const flowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [modelname, setModelname] = useState("Model");
+  const [modelname, setModelname] = useState("Modelname");
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setViewport } = useReactFlow();
+  const [lastIndex, setLastIndex] = useState(0);
 
   const { id } = router.query;
   const fetchModel = async () => {
-    const model = await ky
+    const model: modelResponse = await ky
       .get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
       .json();
-    setNodes(model.body.nodes);
-    setEdges(model.body.edges);
-    setViewport(model.body.viewport);
+    if (model) {
+      setNodes(model.body.nodes);
+      setEdges(model.body.edges);
+      setViewport(model.body.viewport);
+      setLastIndex(model.body.lastIndex);
+    }
+    return model;
   };
 
   const onConnect = useCallback(
-    (params) => setEdges((edges) => addEdge(params, edges)),
+    (params: any) => setEdges((edges) => addEdge(params, edges)),
     [setEdges]
   );
 
@@ -62,6 +77,7 @@ function Flow() {
     queryKey: ["model", id],
     queryFn: () => fetchModel(),
     enabled: !!id,
+    staleTime: Infinity,
   });
 
   //   useEffect(() => {
@@ -100,16 +116,37 @@ function Flow() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      const newNode = {
-        id: getId(),
-        type: data.type,
-        position,
-        data: { dist: data.dist },
+
+      const onChange = (event: any, id: string) => {
+        console.log("CHANGE", id, event);
+        const changedNode = nodes.find((node) => {
+          return node.id == id;
+        });
+        console.log(changedNode, nodes);
       };
 
-      setNodes((nds) => nds.concat(newNode));
+      const newNodeId = "nodes_" + lastIndex;
+      setLastIndex(lastIndex + 1);
+      console.log(nodes, newNodeId);
+      if (data.type == "constant") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { setNodes, onChange, constant: data.constant },
+        };
+        setNodes(() => nodes.concat(newNode));
+      } else if (data.type == "distribution") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { dist: data.dist },
+        };
+        setNodes(() => [...nodes, newNode]);
+      }
     },
-    [reactFlowInstance]
+    [nodes, reactFlowInstance, lastIndex, setLastIndex, setNodes]
   );
 
   if (id && isLoading) {
@@ -134,33 +171,32 @@ function Flow() {
       >
         <Controls />
         <MiniMap />
-        <Panel
-          position="top-left"
-          className="bg-gray-100 rounded flex items-start p-1"
-        >
-          <div className="flex items-center gap-2">
-            <Link href="/">
+        <Panel position="top-left" className="flex items-start gap-2">
+          <div className="bg-gray-100 rounded flex items-center">
+            <Link href="/" className="hover:bg-gray-200 rounded p-1">
               <ArrowLeftIcon className="w-5" />
             </Link>
-            <input
-              type="text"
-              value={modelname}
-              onChange={(e) => {
-                setModelname(e.target.value);
-              }}
-              className="bg-transparent h-min"
-            />
+            <div className="relative hover:bg-gray-200 rounded p-1">
+              <input
+                type="text"
+                value={modelname}
+                size={modelname.length}
+                onChange={(e) => {
+                  setModelname(e.target.value);
+                }}
+                className="bg-transparent h-min"
+              />
+              <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
+            </div>
           </div>
           <DistributionList />
         </Panel>
         <Panel position="top-right" className="bg-gray-100 rounded flex">
-          <DeleteButton
-            reactFlowInstance={reactFlowInstance}
-            modelname={modelname}
-          />
+          <DeleteButton id={id} />
           <SaveButton
             reactFlowInstance={reactFlowInstance}
             modelname={modelname}
+            lastIndex={lastIndex}
           />
         </Panel>
         <Background />
@@ -169,8 +205,10 @@ function Flow() {
   );
 }
 
-export default () => (
+const Workspace = () => (
   <ReactFlowProvider>
     <Flow />
   </ReactFlowProvider>
 );
+
+export default Workspace;

@@ -1,7 +1,7 @@
 import json
 
-from converter.model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
-from converter.utils import create_reversed_graph, get_end_of_graph, traverse_graph
+from .model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
+from .utils import create_reversed_graph, get_end_of_graph, traverse_graph
 
 
 def convert_model(json_obj):
@@ -26,7 +26,7 @@ def convert(node, edges):
     pymc_string = ''
     args = []
 
-    if node.type == 'Constant':
+    if node.type == 'constant':
         return __write_constant(node)
 
     else:

@@ -26,7 +26,7 @@ class DiscreteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Discrete
-        fields = ('distType', 'name', 'url', 'image_url', 'input', 'output')
+        fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
 
 
 class ContinuousSerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class ContinuousSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Continuous
-        fields = ('distType', 'name', 'url', 'image_url', 'input', 'output')
+        fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
 
 
 class DistributionSerializer(serializers.Serializer):

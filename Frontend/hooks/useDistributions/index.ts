@@ -17,6 +17,7 @@ const useDistributions = () => {
   return useQuery({
     queryKey: ["distributions"],
     queryFn: () => fetchDistributions(),
+    staleTime: Infinity,
   });
 };
 
