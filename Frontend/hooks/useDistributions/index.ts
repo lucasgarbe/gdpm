@@ -3,20 +3,21 @@ import { useQuery } from "@tanstack/react-query";
 
 const fetchDistributions = async () => {
   console.log("fetch d", process.env.NEXT_PUBLIC_API_URL);
-  const discrete = await ky(
+  const discrete: any = await ky(
     `${process.env.NEXT_PUBLIC_API_URL}/discrete/`
   ).json();
 
-  const continuous = await ky(
+  const continuous: any = await ky(
     `${process.env.NEXT_PUBLIC_API_URL}/continuous/`
   ).json();
-  return [...discrete, ...continuous];
+  return { discrete, continuous };
 };
 
 const useDistributions = () => {
   return useQuery({
     queryKey: ["distributions"],
     queryFn: () => fetchDistributions(),
+    staleTime: Infinity,
   });
 };
 

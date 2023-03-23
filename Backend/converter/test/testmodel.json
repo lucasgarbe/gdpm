@@ -1,0 +1,249 @@
+{
+  "edges": [
+    {
+      "source": "node_1",
+      "sourceHandle": null,
+      "target": "node_0",
+      "targetHandle": "lower",
+      "id": "reactflow__edge-node_1-node_0lower"
+    },
+    {
+      "source": "node_0",
+      "sourceHandle": null,
+      "target": "node_2",
+      "targetHandle": "tau",
+      "id": "reactflow__edge-node_0-node_2tau"
+    },
+    {
+      "source": "node_1",
+      "sourceHandle": null,
+      "target": "node_3",
+      "targetHandle": "lower",
+      "id": "reactflow__edge-node_1-node_3lower"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "node_0",
+      "type": "distribution",
+      "position": {
+        "x": 247.0642857142857,
+        "y": 122.03035714285716
+      },
+      "data": {
+        "root": false,
+        "dist": {
+          "distType": "discrete",
+          "name": "TestInf Open",
+          "output": {
+            "name": "support",
+            "type": "float",
+            "upper": "inf",
+            "lower": "inf",
+            "upperBound": "open",
+            "lowerBound": "open",
+            "default": 0,
+            "optional": false
+          },
+          "inputs": [
+            {
+              "name": "lower",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": 0,
+              "optional": false
+            }
+          ],
+          "description": "lorem ipsum",
+          "pymcdocsurl": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
+          "image": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+        }
+      },
+      "width": 169,
+      "height": 58,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 247.0642857142857,
+        "y": 122.03035714285716
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1",
+      "type": "distribution",
+      "position": {
+        "x": -26,
+        "y": 205.75
+      },
+      "data": {
+        "root": true,
+        "dist": {
+          "distType": "discrete",
+          "name": "TestInf Closed",
+          "output": {
+            "name": "support",
+            "type": "float",
+            "upper": "inf",
+            "lower": "inf",
+            "upperBound": "closed",
+            "lowerBound": "closed",
+            "default": 0,
+            "optional": false
+          },
+          "inputs": [
+            {
+              "name": "lower",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "closed",
+              "lowerBound": "closed",
+              "default": 0,
+              "optional": false
+            }
+          ],
+          "description": "lorem ipsum",
+          "pymcdocsurl": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
+          "image": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+        }
+      },
+      "width": 182,
+      "height": 58,
+      "selected": false,
+      "positionAbsolute": {
+        "x": -26,
+        "y": 205.75
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_2",
+      "type": "distribution",
+      "position": {
+        "x": 503.6410714285714,
+        "y": 176.26785714285717
+      },
+      "data": {
+        "root": false,
+        "dist": {
+          "distType": "discrete",
+          "name": "Normal",
+          "output": {
+            "name": "support",
+            "type": "float",
+            "upper": "inputs[upper]",
+            "lower": "inputs[lower]",
+            "upperBound": "open",
+            "lowerBound": "open",
+            "default": 0,
+            "optional": false
+          },
+          "inputs": [
+            {
+              "name": "mu",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": 0,
+              "optional": false
+            },
+            {
+              "name": "sigma",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": false,
+              "optional": true
+            },
+            {
+              "name": "tau",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": false,
+              "optional": true
+            }
+          ],
+          "description": "lorem ipsum",
+          "pymcdocsurl": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Normal.html",
+          "image": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Normal-1.png"
+        }
+      },
+      "width": 124,
+      "height": 58,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 503.6410714285714,
+        "y": 176.26785714285717
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_3",
+      "type": "distribution",
+      "position": {
+        "x": 255,
+        "y": 278.75
+      },
+      "data": {
+        "root": false,
+        "dist": {
+          "distType": "discrete",
+          "name": "Uniform",
+          "output": {
+            "name": "support",
+            "type": "float",
+            "upper": "inputs[upper]",
+            "lower": "inputs[lower]",
+            "upperBound": "open",
+            "lowerBound": "open",
+            "default": 0,
+            "optional": false
+          },
+          "inputs": [
+            {
+              "name": "lower",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": 0,
+              "optional": false
+            },
+            {
+              "name": "upper",
+              "type": "float",
+              "upper": "inf",
+              "lower": "inf",
+              "upperBound": "open",
+              "lowerBound": "open",
+              "default": 1,
+              "optional": false
+            }
+          ],
+          "description": "lorem ipsum",
+          "pymcdocsurl": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
+          "image": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+        }
+      },
+      "width": 131,
+      "height": 58,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 255,
+        "y": 278.75
+      },
+      "dragging": false
+    }
+  ]
+}

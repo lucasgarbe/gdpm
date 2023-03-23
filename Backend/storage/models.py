@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -31,6 +32,7 @@ class PortSpecification(models.Model):
 class Distribution(models.Model):
     distType = models.CharField(max_length=30)
     name = models.CharField(max_length=30, primary_key=True)
+    displayName = models.CharField(max_length=40)
     url = models.URLField()
     image_url = models.URLField()  # kann man noch auf ImageField() aendern
 
@@ -62,8 +64,9 @@ class Discrete(Distribution):
 
 
 class GDPM_Model(models.Model):
-    title = models.CharField(default="default_model", max_length=20, primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(default="default_model", max_length=20)
     body = models.JSONField(default=dict)
 
     def __str__(self):
-        return self.title
+        return self.id

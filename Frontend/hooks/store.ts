@@ -20,6 +20,8 @@ export type RFState = {
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   addNode: (node: any) => void;
+  setNodes: (nodes: any) => void;
+  setEdges: (edges: any) => void;
 };
 
 export const useStore = create<RFState>((set, get) => ({
@@ -45,6 +47,16 @@ export const useStore = create<RFState>((set, get) => ({
       nodes: [...get().nodes, node],
     });
   },
+  setNodes: (nodes: Node[]) => {
+    set({
+      nodes: nodes,
+    });
+  },
+  setEdges: (edges: Edge[]) => {
+    set({
+      edges: edges,
+    });
+  },
 }));
 
 export const selector = (state: any) => ({
@@ -54,4 +66,6 @@ export const selector = (state: any) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
   addNode: state.addNode,
+  setNodes: state.setNodes,
+  setEdges: state.setEdges,
 });

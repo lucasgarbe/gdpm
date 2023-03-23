@@ -21,23 +21,21 @@ class SupportSerializer(serializers.ModelSerializer):
 
 
 class DiscreteSerializer(serializers.ModelSerializer):
-    distType = serializers.CharField(source='distType.name', allow_null=True)
     input = PortSpecificationSerializer(many=True)
     output = SupportSerializer(many=False)
 
     class Meta:
         model = Discrete
-        fields = ('distType', 'name', 'url', 'image_url', 'input', 'output')
+        fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
 
 
 class ContinuousSerializer(serializers.ModelSerializer):
-    distType = serializers.CharField(source='distType.name', allow_null=True)
     input = PortSpecificationSerializer(many=True)
     output = SupportSerializer(many=False)
 
     class Meta:
         model = Continuous
-        fields = ('distType', 'name', 'url', 'image_url', 'input', 'output')
+        fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
 
 
 class DistributionSerializer(serializers.Serializer):
@@ -46,4 +44,3 @@ class DistributionSerializer(serializers.Serializer):
 
     class Meta:
         fields = '__all__'
-
