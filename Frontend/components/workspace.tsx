@@ -136,7 +136,12 @@ function Flow() {
           id: newNodeId,
           type: data.type,
           position,
-          data: { setNodes, onChange, constant: data.constant },
+          data: {
+            setNodes,
+            onChange,
+            value: data.value,
+            valueType: data.valueType,
+          },
         };
         setNodes(() => nodes.concat(newNode));
       } else if (data.type == "distribution") {

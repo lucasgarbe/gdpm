@@ -1,8 +1,8 @@
-import { Node } from "reactflow";
+import { Connection, Node, useNodes } from "reactflow";
 import { portSpec, bound } from "../types/portSpec";
 
-export const validateType = (a: portSpec, b: portSpec) => {
-  return a.type == b.type;
+export const validateType = (a: string, b: string) => {
+  return a == b;
 };
 
 export const validateUpperBound = (a: portSpec, b: portSpec) => {
@@ -58,15 +58,54 @@ const getInputPortSpec = (node: Node, inputString: string): portSpec | null => {
   return inputPort;
 };
 
-export const validate = (
-  sourceNode: Node,
-  source: portSpec,
-  target: portSpec
-) => {
-  return (
-    validateType(source, target) &&
-    validateLowerBound(source, target) &&
-    validateUpperBound(source, target) &&
-    validateUpper(source, target)
+export const validate = (connection: Connection, nodes: Node[]): boolean => {
+  const sourceNode = nodes.find((n) => {
+    return n.id == connection.source;
+  });
+
+  if (typeof sourceNode === "undefined") {
+    console.log("NO SOURCENODE");
+    return false;
+  }
+
+  const targetNode = nodes.find((n) => {
+    return n.id == connection.target;
+  });
+
+  if (typeof targetNode === "undefined") {
+    console.log("NO TARGETNODE");
+    return false;
+  }
+
+  const targetHandle = targetNode.data.dist.input.find(
+    (input: any) => input.id == connection.targetHandle
   );
+
+  // Handle constant node as source
+  if (sourceNode.type == "constant") {
+    console.log("is constant");
+    const vtype = validateType(sourceNode.data.valueType, targetHandle.type);
+    return vtype;
+  }
+
+  const sourceHandle = sourceNode.data.dist.output;
+
+  const vtype = validateType(sourceHandle.type, targetHandle.type);
+  console.log({
+    connection,
+    sourceNode,
+    sourceHandle,
+    targetNode,
+    targetHandle,
+    vtype,
+  });
+
+  return vtype;
+
+  // return (
+  //   validateType(source, target) &&
+  //   validateLowerBound(source, target) &&
+  //   validateUpperBound(source, target) &&
+  //   validateUpper(source, target)
+  // );
 };

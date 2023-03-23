@@ -32,7 +32,7 @@ function ConstantButtom() {
     if (event.dataTransfer === null) return;
     event.dataTransfer.setData(
       "application/reactflow",
-      JSON.stringify({ type: "constant", constant: 1.0 })
+      JSON.stringify({ type: "constant", value: 1, valueType: "int" })
     );
     event.dataTransfer.effectAllowed = "move";
   };

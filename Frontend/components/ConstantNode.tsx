@@ -1,5 +1,6 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Node, Position, useNodes } from "reactflow";
+import { validate } from "../internal/validate";
 import CustomHandle from "./customHandle";
 
 const ConstantNode = memo(({ data, id }: any) => {
@@ -8,20 +9,22 @@ const ConstantNode = memo(({ data, id }: any) => {
     const changedNodes = nodes.map((node: Node) => {
       if (node.id == id) {
         console.log(node);
-        const constant = parseFloat(e.target.value);
-        return { ...node, data: { ...node.data, constant } };
+        const value = parseFloat(e.target.value);
+        const valueType = value % 1 === 0 ? "int" : "float";
+        return { ...node, data: { ...node.data, value, valueType } };
       }
 
       return node;
     });
     data.setNodes(changedNodes);
   };
+
   return (
     <div className="flex">
       <div className="bg-purple-200 border border-purple-600 p-2 flex items-center justify-center">
         <input
           type="number"
-          value={data.constant}
+          value={data.value}
           size={4}
           onChange={(e) => handleChange(e)}
           className="p-1 bg-purple-300 text-sm"
@@ -31,15 +34,20 @@ const ConstantNode = memo(({ data, id }: any) => {
         <CustomHandle
           key="support"
           id="constant"
-          name="constant"
           type="source"
+          portSpec={{ id: "support" }}
           position={Position.Right}
           isConnectable={false}
+          isValidConnection={(connection) => validate(connection, nodes)}
           className="h-full w-full"
         />
       </div>
     </div>
   );
 });
+
+const isInt = (number: number): "float" | "int" => {
+  return number % 1 === 0 ? "int" : "float";
+};
 ConstantNode.displayName = "ConstantNode";
 export default ConstantNode;
