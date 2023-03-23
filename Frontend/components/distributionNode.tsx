@@ -1,35 +1,23 @@
-import { FC } from "react";
-import { Connection, Handle, NodeProps, Position, Node } from "reactflow";
-import { shallow } from "zustand/shallow";
-import { useStore, selector } from "../hooks/store";
+import { memo } from "react";
+import { Position, Node, Connection, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
-type NodeData = {
-  dist: any;
-};
-
-const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
-  const { nodes, edges } = useStore(selector, shallow);
+const DistributionNode = memo(({ data, selected }: any) => {
+  const nodes = useNodes();
   const isValid = (connection: Connection): boolean => {
     const sourceOutput = data.dist.output;
-    const targetNode: Node = nodes.find(
+    const targetNode: any = nodes.find(
       (node: Node) => node.id == connection.target
     );
-    const targetInput: portSpec = targetNode.data.dist.inputs.find(
-      (input: any) => input.name == connection.targetHandle
+    const targetInput: portSpec = targetNode.data.dist.input.find(
+      (input: any) => input.id == connection.targetHandle
     );
 
-    const sourceNode: Node = nodes.find(
+    const sourceNode: any = nodes.find(
       (node: Node) => node.id == connection.source
     );
-
-    //console.log(
-    //  "find prev node: ",
-    ////musse von aktueller node ausgehen, nicht von target
-    //  findPreviousNode(sourceOutput, targetInput.name, edges, nodes)
-    //);
 
     const v = validate(sourceNode, sourceOutput, targetInput);
 
@@ -38,46 +26,48 @@ const distributionNode: FC<Node<NodeData>> = ({ data, selected }) => {
   };
 
   return (
-    <div className="flex border border-blue-600 dark:border-blue-900 bg-blue-200 dark:bg-blue-800 px-8 py-4">
+    <div className="flex">
       {selected && (
         <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
           <button className="p-1">edit</button>
           <button className="p-1">delete</button>
         </div>
       )}
-      {data.dist.inputs && (
-        <div className="flex flex-col justify-around h-full">
-          {data.dist.inputs?.map((input: any, index: number) => (
+      {data.dist.input && (
+        <div className="flex flex-col justify-center gap-1 py-1">
+          {data.dist.input?.map((input: any, index: number) => (
             <CustomHandle
               type="target"
               key={index}
-              id={input.name}
-              name={input.name}
+              id={input.id}
+              name={input.id}
               position={Position.Left}
             ></CustomHandle>
           ))}
         </div>
       )}
 
-      <div>
+      <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
         <p className="font-bold text-md">{data.dist.name}</p>
       </div>
 
       {data.dist.output && (
-        <div className="absolute top-0 right-0 translate-x-1/2 flex flex-col justify-around h-full">
+        <div className="flex flex-col justify-center py-1">
           <CustomHandle
             type="source"
             key="support"
-            id={data.dist.output.name}
-            name={data.dist.output.name}
+            id={data.dist.output.id}
+            name={data.dist.output.id}
             position={Position.Right}
             isValidConnection={isValid}
+            isConnectable={false}
             className={"w-full h-full"}
           ></CustomHandle>
         </div>
       )}
     </div>
   );
-};
+});
 
-export default distributionNode;
+DistributionNode.displayName = "DistributionNode";
+export default DistributionNode;

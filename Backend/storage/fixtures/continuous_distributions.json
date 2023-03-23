@@ -3,7 +3,8 @@
     "model": "storage.Continuous",
     "fields": {
       "distType": "continuous",
-      "name": "Continuous uniform log-likelihood",
+      "name": "Uniform",
+      "displayName": "Continuous uniform log-likelihood.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png",
       "input": [
@@ -17,7 +18,8 @@
     "model": "storage.Continuous",
     "fields": {
       "distType": "continuous",
-      "name": "Univariate normal log-likelihood",
+      "name": "Normal",
+      "displayName": "Univariate normal log-likelihood",
       "url": "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Normal.html",
       "image_url": "https://docs.pymc.io/en/v5.0.1/_images/pymc-Normal-1.png",
       "input": [
@@ -31,7 +33,8 @@
     "model": "storage.Continuous",
     "fields": {
       "distType": "continuous",
-      "name": "Exponential log-likelihood",
+      "name": "Exponential",
+      "displayName": "Exponential log-likelihood.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Exponential.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Exponential-1.png",
       "input": [
@@ -44,7 +47,8 @@
     "model": "storage.Continuous",
     "fields": {
       "distType": "continuous",
-      "name": "Gamma log-likelihood.",
+      "name": "Gamma",
+      "displayName": "Gamma log-likelihood.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Gamma.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Gamma-1.png",
       "input": [
