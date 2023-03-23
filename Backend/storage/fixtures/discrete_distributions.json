@@ -3,7 +3,8 @@
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",
-      "name": "Binomial log-likelihood",
+      "name": "Binomial",
+      "displayName": "Binomial log-likelihood.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Binomial.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Binomial-1.png",
       "input": [
@@ -18,7 +19,8 @@
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",
-      "name": "Bernoulli log-likelihood",
+      "name": "Bernoulli",
+      "displayName": "Bernoulli log-likelihood",
       "url": "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Bernoulli.html",
       "image_url": "https://docs.pymc.io/en/v5.0.1/_images/pymc-Bernoulli-1.png",
       "input": [
@@ -32,7 +34,8 @@
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",
-      "name": "Poisson log-likelihood",
+      "name": "Poisson",
+      "displayName": "Poisson log-likelihood.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Poisson.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Poisson-1.png",
       "input": [
@@ -45,7 +48,8 @@
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",
-      "name": "Discrete uniform distribution",
+      "name": "DiscreteUniform",
+      "displayName": "Discrete uniform distribution.",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.DiscreteUniform.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-DiscreteUniform-1.png",
       "input": [

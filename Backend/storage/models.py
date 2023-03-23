@@ -32,6 +32,7 @@ class PortSpecification(models.Model):
 class Distribution(models.Model):
     distType = models.CharField(max_length=30)
     name = models.CharField(max_length=30, primary_key=True)
+    displayName = models.CharField(max_length=40)
     url = models.URLField()
     image_url = models.URLField()  # kann man noch auf ImageField() aendern
 
