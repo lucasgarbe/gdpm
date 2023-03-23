@@ -10,7 +10,7 @@ export default function ListElement({model} : any){
   console.log(model);
     return (
         <div className="bg-gray-100 w-full flex justify-between px-14 py-10">
-            <p className="text-2xl font-bold">{model?.title}</p>
+            <Link href={`/model/${model?.id}`}><p className="text-2xl font-bold">{model?.title}</p></Link>
           <div className="flex gap-4">
             <ArrowUpOnSquareIcon className="h-8 w-8"/>
             <ArrowDownTrayIcon className="h-8 w-8"/>
