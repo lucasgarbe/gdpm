@@ -1,10 +1,17 @@
 from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification
 from rest_framework import viewsets
-from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer, DistributionSerializer
+from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer
 from rest_framework.response import Response
 from converter.pymc_converter import convert_model
 
 
+# In the Django Rest Framework, a ViewSet is a class that provides CRUD (Create, Retrieve, Update, Delete) operations
+# for a specific resource or model. It also provides a default routing mechanism for mapping URLs to actions.
+# For more information please see: www.django-rest-framework.org/api-guide/viewsets/
+
+# ModelViewSet is a subclass of ViewSet. It is designed to work with Django models and provides a lot of built-in
+# functionality for handling common operations as well as a shorthand way of creating viewsets for Django model
+# instances.
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
     queryset = GDPM_Model.objects.all().order_by('id')
     serializer_class = GDPMModelSerializer
@@ -26,15 +33,6 @@ class ContinuousViewSet(viewsets.ModelViewSet):
     queryset = Continuous.objects.all().order_by('name')
     serializer_class = ContinuousSerializer
     http_method_names = ['get']
-
-
-class DistributionViewSet(viewsets.ViewSet):
-
-    def list(self, request):
-        discrete = Discrete.objects.all().order_by('name')
-        continuous = Continuous.objects.all().order_by('name')
-        serializer = DistributionSerializer({'discrete': discrete, 'continuous': continuous})
-        return Response(serializer.data)
 
 
 class PymcViewSet(viewsets.ModelViewSet):
