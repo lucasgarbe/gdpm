@@ -192,10 +192,7 @@ function Flow() {
           <DistributionList />
         </Panel>
         <Panel position="top-right" className="bg-gray-100 rounded flex">
-          <DeleteButton
-            reactFlowInstance={reactFlowInstance}
-            modelname={modelname}
-          />
+          <DeleteButton id={id} />
           <SaveButton
             reactFlowInstance={reactFlowInstance}
             modelname={modelname}
