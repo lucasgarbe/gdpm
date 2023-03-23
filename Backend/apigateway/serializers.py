@@ -43,10 +43,3 @@ class ContinuousSerializer(serializers.ModelSerializer):
         model = Continuous
         fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
 
-
-class DistributionSerializer(serializers.Serializer):
-    discrete = DiscreteSerializer()
-    continuous = ContinuousSerializer()
-
-    class Meta:
-        fields = '__all__'

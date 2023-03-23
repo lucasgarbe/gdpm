@@ -11,9 +11,9 @@
         "n",
         "p",
         "logit_p"
-      ]
-    },
-    "output": "support"
+      ],
+      "output": "support"
+    }
   },
   {
     "model": "storage.Discrete",
@@ -44,7 +44,7 @@
       "output": "support"
     }
   },
-  {
+{
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",
