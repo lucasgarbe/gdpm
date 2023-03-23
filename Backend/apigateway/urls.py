@@ -7,7 +7,6 @@ router.register(r'models', views.GDPM_ModelViewSet)
 router.register(r'download', views.DownloadViewSet, basename='download')
 router.register(r'discrete', views.DiscreteViewSet)
 router.register(r'continuous', views.ContinuousViewSet)
-router.register(r'distribution', views.DistributionViewSet, basename='distribution')
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 
 
