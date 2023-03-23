@@ -5,6 +5,7 @@ import { useStore, selector } from "../hooks/store";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
+import Link from "next/link";
 
 const DistributionNode = memo(({ data, selected }: any) => {
   const [showModal, setShowModal] = useState(false);
@@ -36,14 +37,32 @@ const DistributionNode = memo(({ data, selected }: any) => {
           <button className="p-1">delete</button>
           <button className="p-1">info</button>
           <button onClick={() => {setShowModal(true)}}>modal</button>
-         {showModal && ( <div className="p-1 absolute top-24 w-64 h-64 bg-gray-50" onClick={() =>setShowModal(false)}>
-            {data.dist.distType}
-            {data.dist.url}
-            {data.dist.input && data.dist.input(
-            elem => (
-            <div key={elem.id}>
-                {elem.name}
-            ))}
+         {showModal && ( <div className="overflow-auto p-1 absolute top-24 w-64 h-96 border border-blue-600 bg-blue-200" onClick={() =>setShowModal(false)}>
+            <div className="pb-2 overflow-auto">{data.dist.distType}</div>
+            <div className="overflow-auto p-1"><Link href={data.dist.url} target="_blank">{data.dist.url}</Link></div>
+            <ul>
+                    {data.dist.input.map((input, index) => (
+                  <div><li className="p-1" key={index}><p>id:</p> {input.id}</li>
+                      <li className="p-1" key={index}><p>name:</p> {input.name}</li>
+                      <li className="p-1" key={index}><p>type:</p> {input.type}</li>
+                      <li className="p-1" key={index}><p>upper:</p> {input.upper}</li>
+                      <li className="p-1" key={index}><p>lower:</p> {input.lower}</li>
+                      <hr className="border-b border-blue-600 my-4" ></hr>
+                      </div>
+                    ))}
+                  </ul>
+
+         <ul>
+                    {data.dist.output.map((output, index) => (
+                  <div><li className="p-1" key={index}><p>id:</p> {output.id}</li>
+                      <li className="p-1" key={index}><p>name:</p> {output.type}</li>
+                      <li className="p-1" key={index}><p>type:</p> {output.upper}</li>
+                      <li className="p-1" key={index}><p>upper:</p> {output.lower}</li>
+                      <hr className="border-b border-blue-600 my-4" ></hr>
+                      </div>
+                    ))}
+                  </ul>
+
          </div>)}
         </div>
       )}
