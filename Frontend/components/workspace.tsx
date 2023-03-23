@@ -194,12 +194,12 @@ function Flow() {
           </div>
           <DistributionList />
         </Panel>
-        <Panel position="top-right" className="bg-gray-100 rounded flex">
+        <Panel position="top-right" className="rounded flex gap-2">
           <PyMCButton
             id={id}
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
           />
-          <DeleteButton id={id} />
+          {id && <DeleteButton id={id} />}
           <SaveButton
             reactFlowInstance={reactFlowInstance}
             modelname={modelname}
