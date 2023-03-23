@@ -3,7 +3,7 @@ import { Position, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import CustomHandle from "./customHandle";
 
-const DistributionNode = memo(({ data, selected }: any) => {
+const OperationNode = memo(({ data, selected }: any) => {
   const nodes = useNodes();
   return (
     <div className="flex">
@@ -27,8 +27,10 @@ const DistributionNode = memo(({ data, selected }: any) => {
         </div>
       )}
 
-      <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
-        <p className="font-bold text-md">{data.dist.displayName}</p>
+      <div className="bg-green-200 border border-green-600 p-1 flex items-center justify-center">
+        <p className="font-bold text-md">
+          {data.dist.displayName} {data.dist.name}
+        </p>
       </div>
 
       {data.dist.output && (
@@ -49,5 +51,5 @@ const DistributionNode = memo(({ data, selected }: any) => {
   );
 });
 
-DistributionNode.displayName = "DistributionNode";
-export default DistributionNode;
+OperationNode.displayName = "OperationNode";
+export default OperationNode;

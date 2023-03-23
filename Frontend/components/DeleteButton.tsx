@@ -29,9 +29,15 @@ export default function DeleteButton({ id }: any) {
   }, [id, deleteModelMutation]);
 
   return (
-    <button className="p-1 hover:bg-gray-200 rounded" onClick={handleDelete}>
+    <button
+      className="flex gap-1 p-1 bg-gray-100 hover:bg-gray-200 rounded"
+      onClick={handleDelete}
+    >
       {defaultButton ? (
-        <TrashIcon className="w-5" />
+        <>
+          <TrashIcon className="w-5" />
+          Delete
+        </>
       ) : (
         <>
           {deleteModelMutation.isLoading && <ArrowPathIcon className="w-5" />}

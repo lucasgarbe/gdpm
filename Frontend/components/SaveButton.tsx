@@ -53,9 +53,15 @@ export default function SaveButton({
   }, [modelname, lastIndex, reactFlowInstance, updateModelMutation]);
 
   return (
-    <button className="p-1 hover:bg-gray-200 rounded" onClick={handleSave}>
+    <button
+      className="flex gap-1 p-1 bg-gray-100 hover:bg-gray-200 rounded"
+      onClick={handleSave}
+    >
       {defaultButton ? (
-        <CloudArrowDownIcon className="w-5" />
+        <>
+          <CloudArrowDownIcon className="w-5" />
+          Save
+        </>
       ) : (
         <>
           {updateModelMutation.isLoading && <ArrowPathIcon className="w-5" />}

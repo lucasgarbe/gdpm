@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -10,7 +10,7 @@ import ReactFlow, {
   addEdge,
   useReactFlow,
 } from "reactflow";
-import DistributionNode from "../components/distributionNode";
+import DistributionNode from "../components/DistributionNode";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
 import "reactflow/dist/base.css";
@@ -23,6 +23,9 @@ import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
+import PyMCButton from "./PyMCButton";
+import PyMCModal from "./PyMCModal";
+import OperationNode from "./OperationNode";
 
 type modelResponse = {
   body: {
@@ -38,6 +41,7 @@ type modelResponse = {
 const nodeTypes = {
   distribution: DistributionNode,
   constant: ConstantNode,
+  operation: OperationNode,
 };
 
 const edgeTypes = {
@@ -53,6 +57,7 @@ function Flow() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
+  const [showPyMCModal, setShowPyMCModal] = useState(false);
 
   const { id } = router.query;
   const fetchModel = async () => {
@@ -125,7 +130,7 @@ function Flow() {
         console.log(changedNode, nodes);
       };
 
-      const newNodeId = "nodes_" + lastIndex;
+      const newNodeId = "node_" + lastIndex;
       setLastIndex(lastIndex + 1);
       console.log(nodes, newNodeId);
       if (data.type == "constant") {
@@ -133,10 +138,23 @@ function Flow() {
           id: newNodeId,
           type: data.type,
           position,
-          data: { setNodes, onChange, constant: data.constant },
+          data: {
+            setNodes,
+            onChange,
+            value: data.value,
+            valueType: data.valueType,
+          },
         };
         setNodes(() => nodes.concat(newNode));
       } else if (data.type == "distribution") {
+        const newNode = {
+          id: newNodeId,
+          type: data.type,
+          position,
+          data: { dist: data.dist },
+        };
+        setNodes(() => [...nodes, newNode]);
+      } else if (data.type == "operation") {
         const newNode = {
           id: newNodeId,
           type: data.type,
@@ -191,14 +209,21 @@ function Flow() {
           </div>
           <DistributionList />
         </Panel>
-        <Panel position="top-right" className="bg-gray-100 rounded flex">
-          <DeleteButton id={id} />
+        <Panel position="top-right" className="rounded flex gap-2">
+          <PyMCButton
+            id={id}
+            toggleModal={() => setShowPyMCModal(!showPyMCModal)}
+          />
+          {id && <DeleteButton id={id} />}
           <SaveButton
             reactFlowInstance={reactFlowInstance}
             modelname={modelname}
             lastIndex={lastIndex}
           />
         </Panel>
+        {showPyMCModal && (
+          <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
+        )}
         <Background />
       </ReactFlow>
     </div>
