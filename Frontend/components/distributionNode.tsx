@@ -48,7 +48,7 @@ const DistributionNode = memo(({ data, selected }: any) => {
       )}
 
       <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
-        <p className="font-bold text-md">{data.dist.name}</p>
+        <p className="font-bold text-md">{data.dist.displayName}</p>
       </div>
 
       {data.dist.output && (

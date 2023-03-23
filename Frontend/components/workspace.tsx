@@ -10,7 +10,7 @@ import ReactFlow, {
   addEdge,
   useReactFlow,
 } from "reactflow";
-import DistributionNode from "../components/distributionNode";
+import DistributionNode from "../components/DistributionNode";
 import CustomEdge from "../components/customEdge";
 import connectionLine from "./connectionLine";
 import "reactflow/dist/base.css";
