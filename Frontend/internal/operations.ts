@@ -73,7 +73,7 @@ export default [
 
   {
     distType: "operation",
-    name: "x",
+    name: "*",
     displayName: "Multiplication",
     input: [
       {
