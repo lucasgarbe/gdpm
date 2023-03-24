@@ -7,9 +7,13 @@
       "displayName": "Binomial log-likelihood",
       "url": "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Binomial.html",
       "image_url": "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Binomial-1.png",
-      "input": ["n", "p", "logit_p"]
-    },
-    "output": "support"
+      "input": [
+        "n",
+        "p",
+        "logit_p"
+      ],
+      "output": "support"
+    }
   },
   {
     "model": "storage.Discrete",
@@ -35,7 +39,7 @@
       "output": "support"
     }
   },
-  {
+{
     "model": "storage.Discrete",
     "fields": {
       "distType": "discrete",

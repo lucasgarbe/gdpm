@@ -1,6 +1,10 @@
 import uuid
 from django.db import models
 
+""" Support
+Defines the output of all distributions
+"""
+
 
 class Support(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
@@ -12,6 +16,11 @@ class Support(models.Model):
 
     def __str__(self):
         return self.id
+
+
+""" PortSpecification
+ Defines the Inputs of a distribution.
+"""
 
 
 class PortSpecification(models.Model):
@@ -29,12 +38,17 @@ class PortSpecification(models.Model):
         return self.name
 
 
+"""
+Abstract class to act as Interface for continuous / discrete distributions
+"""
+
+
 class Distribution(models.Model):
     distType = models.CharField(max_length=30)
     name = models.CharField(max_length=30, primary_key=True)
     displayName = models.CharField(max_length=40)
     url = models.URLField()
-    image_url = models.URLField()  # kann man noch auf ImageField() aendern
+    image_url = models.URLField()
 
     input = models.ManyToManyField(PortSpecification,
                                    blank=True,
@@ -51,16 +65,17 @@ class Distribution(models.Model):
         return self.name
 
 
-class Constant(models.Model):
-    value = models.IntegerField()
-
-
 class Continuous(Distribution):
     pass
 
 
 class Discrete(Distribution):
     pass
+
+
+""" GDPM_Model
+Model to save the reactflow-graph in body as JSON
+"""
 
 
 class GDPM_Model(models.Model):
@@ -70,3 +85,7 @@ class GDPM_Model(models.Model):
 
     def __str__(self):
         return self.id
+
+
+class Constant(models.Model):
+    value = models.IntegerField()
