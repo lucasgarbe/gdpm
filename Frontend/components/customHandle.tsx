@@ -14,7 +14,7 @@ const CustomHandle = ({
 }) => {
   const optionalClass = optional ? " border-b-2 border-b-red-500" : "";
   return (
-    <>
+    <div>
       <Handle
         type={type}
         id={portSpec.id}
@@ -27,8 +27,8 @@ const CustomHandle = ({
       >
         {portSpec.id}
       </Handle>
-      <pre className="text-xs">{portSpec.type}</pre>
-    </>
+      <pre className="text-[.3rem]">{portSpec.type}</pre>
+    </div>
   );
 };
 

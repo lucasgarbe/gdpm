@@ -31,9 +31,15 @@ const DistributionNode = memo(({ data, selected }: any) => {
         </div>
       )}
 
-      <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
-        <p className="font-bold text-md">{data.dist.displayName}</p>
-      </div>
+      {data.dist.distType == "continuous" ? (
+        <div className="bg-amber-200 border border-amber-600 p-1 flex items-center justify-center">
+          <p className="font-bold text-md">{data.dist.displayName}</p>
+        </div>
+      ) : (
+        <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
+          <p className="font-bold text-md">{data.dist.displayName}</p>
+        </div>
+      )}
 
       {data.dist.output && (
         <div className="flex flex-col justify-center py-1">
