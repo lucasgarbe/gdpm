@@ -24,7 +24,7 @@ class DownloadViewSet(viewsets.ModelViewSet):
 
 
 class DiscreteViewSet(viewsets.ModelViewSet):
-    queryset = Discrete.objects.all().order_by('name')
+    queryset = Discrete.objects.all()
     serializer_class = DiscreteSerializer
     http_method_names = ['get']
 

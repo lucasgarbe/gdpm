@@ -1,8 +1,9 @@
-import { memo, useState } from "react";
-import { Position, Node, Connection, useEdges, useNodes } from "reactflow";
-import { validate } from "../internal/validate";
+import {memo, useState} from "react";
+import {Position, Node, Connection, useEdges, useNodes} from "reactflow";
+import {validate} from "../internal/validate";
 import CustomHandle from "./customHandle";
 import Link from "next/link";
+
 
 const DistributionNode = memo(({ data, selected }: any) => {
   const [showModal, setShowModal] = useState(false);
@@ -26,46 +27,29 @@ const DistributionNode = memo(({ data, selected }: any) => {
                       <hr className="border-b border-blue-600 my-4" ></hr>
                       </div>
                     ))}
-                  </ul>
+                </div>
+            )}
 
+            <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
+                <p className="font-bold text-md">{data.dist.displayName}</p>
+            </div>
 
-         </div>)}
+            {data.dist.output && (
+                <div className="flex flex-col justify-center py-1">
+                    <CustomHandle
+                        type="source"
+                        key="support"
+                        id={data.dist.output.id}
+                        portSpec={data.dist.output}
+                        position={Position.Right}
+                        isValidConnection={(connection) => validate(connection, nodes)}
+                        isConnectable={false}
+                        className={"w-full h-full"}
+                    ></CustomHandle>
+                </div>
+            )}
         </div>
-      )}
-      {data.dist.input && (
-        <div className="flex flex-col justify-center gap-1 py-1">
-          {data.dist.input?.map((input: any, index: number) => (
-            <CustomHandle
-              type="target"
-              key={index}
-              id={input.id}
-              portSpec={input}
-              position={Position.Left}
-            ></CustomHandle>
-          ))}
-        </div>
-      )}
-
-      <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
-        <p className="font-bold text-md">{data.dist.displayName}</p>
-      </div>
-
-      {data.dist.output && (
-        <div className="flex flex-col justify-center py-1">
-          <CustomHandle
-            type="source"
-            key="support"
-            id={data.dist.output.id}
-            portSpec={data.dist.output}
-            position={Position.Right}
-            isValidConnection={(connection) => validate(connection, nodes)}
-            isConnectable={false}
-            className={"w-full h-full"}
-          ></CustomHandle>
-        </div>
-      )}
-    </div>
-  );
+    );
 });
 
 DistributionNode.displayName = "DistributionNode";
