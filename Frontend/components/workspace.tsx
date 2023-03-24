@@ -28,6 +28,8 @@ import PyMCModal from "./PyMCModal";
 import OperationNode from "./OperationNode";
 
 type modelResponse = {
+  id: string;
+  title: string;
   body: {
     id: string;
     title: string;
@@ -78,20 +80,20 @@ function Flow() {
     [setEdges]
   );
 
-  const { data: model, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["model", id],
     queryFn: () => fetchModel(),
     enabled: !!id,
-    staleTime: Infinity,
+    onSuccess: (data) => {
+      if (data) {
+        setModelname(data.title);
+        setNodes(data.body.nodes);
+        setEdges(data.body.edges);
+        setViewport(data.body.viewport);
+        setLastIndex(data.body.lastIndex);
+      }
+    },
   });
-
-  //   useEffect(() => {
-  //     if (model) {
-  //       setNodes(model.body.nodes);
-  //       setEdges(model.body.edges);
-  //       setViewport(model.body.viewport);
-  //     }
-  //   }, [model]);
 
   const onDragOver = useCallback((event: any) => {
     console.log("drag over");
