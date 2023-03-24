@@ -40,6 +40,7 @@ const ConstantNode = memo(({ data, id }: any) => {
           portSpec={{ id: "support" }}
           position={Position.Right}
           isConnectable={false}
+          optional={false}
           isValidConnection={(connection) => validate(connection, nodes, edges)}
           className="h-full w-full"
         />
