@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Position, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
+import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 
 const DistributionNode = memo(({ data, selected }: any) => {
@@ -17,13 +18,14 @@ const DistributionNode = memo(({ data, selected }: any) => {
       )}
       {data.dist.input && (
         <div className="flex flex-col justify-center gap-1 py-1">
-          {data.dist.input?.map((input: any, index: number) => (
+          {data.dist.input?.map((input: portSpec, index: number) => (
             <CustomHandle
               type="target"
               key={index}
               id={input.id}
               portSpec={input}
               position={Position.Left}
+              optional={input.optional}
             ></CustomHandle>
           ))}
         </div>

@@ -1,4 +1,5 @@
 export type portSpec = {
+  id: string;
   name: string;
   type: portSpecType;
   optional: boolean;
