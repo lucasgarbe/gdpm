@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any
+from typing import Any, Dict, List
 
 from . import pymc_converter
 from .models import Edge, Node
@@ -111,3 +111,27 @@ def get_end_of_graph(nodes: dict[str, Node], edges: list[Edge]) -> set[Node]:
            for node in nodes
            if nodes.get(node) not in source}
     return endnodes
+
+
+def to_ipynb(data: str):
+    return {
+        "cells": [
+            {
+                "cell_type": "code",
+                "execution_count": "null",
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    data
+                ]
+            }
+        ],
+        "metadata": {
+            "language_info": {
+                "name": "python"
+            },
+            "orig_nbformat": 4
+        },
+        "nbformat": 4,
+        "nbformat_minor": 2
+    }
