@@ -26,7 +26,7 @@ export default function PyMCModal({ id, closeModal }: any) {
               href={`data:text/json;charset=utf-8,${encodeURIComponent(
                 data.toString()
               )}`}
-              download="filename.py"
+              download={`gdpm-${id}.ipynb`}
               className="flex gap-1 p-1 bg-white rounded hover:bg-gray-200"
             >
               <ArrowDownTrayIcon className="w-5" />
@@ -46,11 +46,7 @@ export default function PyMCModal({ id, closeModal }: any) {
         {data && (
           <pre
             dangerouslySetInnerHTML={{
-              __html:
-                data.toString() +
-                data.toString() +
-                data.toString() +
-                data.toString(),
+              __html: data.toString(),
             }}
             className="bg-white rounded p-2 h-full overflow-auto"
           ></pre>
