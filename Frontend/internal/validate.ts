@@ -1,4 +1,4 @@
-import { Connection, Node, useNodes } from "reactflow";
+import { Connection, Edge, Node } from "reactflow";
 import { portSpec, bound } from "../types/portSpec";
 
 export const validateType = (a: string, b: string) => {
@@ -90,11 +90,28 @@ const findTargetHandleFromNode = (
   return targetHandle;
 };
 
+const targetHandleIsEmpty = (
+  node: Node,
+  handleId: string,
+  edges: Edge[]
+): boolean => {
+  console.log("empty?", edges);
+  const alreadyConnectedEdge = edges.find((edge: Edge) => {
+    return edge.target == node.id && edge.targetHandle == handleId;
+  });
+  return alreadyConnectedEdge ? false : true;
+};
+
 const findSourceHandleFromNode = (node: Node): any | undefined => {
   return node.data.dist.output;
 };
 
-const validateConstant = (connection: Connection, nodes: Node[]): boolean => {
+const validateConstant = (
+  connection: Connection,
+  nodes: Node[],
+  edges: Edge[]
+): boolean => {
+  console.log(edges);
   if (!connection.source) return false;
   const sourceNode = findSourceNodeFromId(connection.source, nodes);
   console.log("is constant");
@@ -104,6 +121,8 @@ const validateConstant = (connection: Connection, nodes: Node[]): boolean => {
   const targetNode = findTargetNodeFromId(connection.target, nodes);
   if (typeof targetNode === "undefined") return false;
   if (!connection.targetHandle) return false;
+  if (!targetHandleIsEmpty(targetNode, connection.targetHandle, edges))
+    return false;
   const targetHandle = findTargetHandleFromNode(
     targetNode,
     connection.targetHandle
@@ -121,7 +140,11 @@ const validateConstant = (connection: Connection, nodes: Node[]): boolean => {
   return vtype;
 };
 
-const validateDistribution = (connection: Connection, nodes: Node[]) => {
+const validateDistribution = (
+  connection: Connection,
+  nodes: Node[],
+  edges: Edge[]
+) => {
   if (!connection.source) return false;
   const sourceNode = findSourceNodeFromId(connection.source, nodes);
   console.log("is distribution");
@@ -133,6 +156,8 @@ const validateDistribution = (connection: Connection, nodes: Node[]) => {
   const targetNode = findTargetNodeFromId(connection.target, nodes);
   if (typeof targetNode === "undefined") return false;
   if (!connection.targetHandle) return false;
+  if (!targetHandleIsEmpty(targetNode, connection.targetHandle, edges))
+    return false;
   const targetHandle = findTargetHandleFromNode(
     targetNode,
     connection.targetHandle
@@ -150,31 +175,23 @@ const validateDistribution = (connection: Connection, nodes: Node[]) => {
   return vtype;
 };
 
-export const validate = (connection: Connection, nodes: Node[]): boolean => {
+export const validate = (
+  connection: Connection,
+  nodes: Node[],
+  edges: Edge[]
+): boolean => {
+  console.log(edges);
   if (!connection.source) return false;
   const sourceNode = findSourceNodeFromId(connection.source, nodes);
-
-  // const targetNode = nodes.find((n) => {
-  // return n.id == connection.target;
-  // });
-
-  // if (typeof targetNode === "undefined") {
-  // console.log("NO TARGETNODE");
-  // return false;
-  // }
-
-  // const targetHandle = targetNode.data.dist.input.find(
-  // (input: any) => input.id == connection.targetHandle
-  // );
 
   if (typeof sourceNode === "undefined") return false;
   // Handle constant node as source
   if (sourceNode.type == "constant") {
-    return validateConstant(connection, nodes);
+    return validateConstant(connection, nodes, edges);
   }
 
   if (sourceNode.type == "distribution") {
-    return validateDistribution(connection, nodes);
+    return validateDistribution(connection, nodes, edges);
   }
 
   return false;

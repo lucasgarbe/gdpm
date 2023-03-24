@@ -1,10 +1,12 @@
 import { memo, useCallback } from "react";
-import { Node, Position, useNodes } from "reactflow";
+import { Node, Position, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import CustomHandle from "./customHandle";
 
 const ConstantNode = memo(({ data, id }: any) => {
   const nodes = useNodes();
+  const edges = useEdges();
+
   const handleChange = (e: any) => {
     const changedNodes = nodes.map((node: Node) => {
       if (node.id == id) {
@@ -38,7 +40,7 @@ const ConstantNode = memo(({ data, id }: any) => {
           portSpec={{ id: "support" }}
           position={Position.Right}
           isConnectable={false}
-          isValidConnection={(connection) => validate(connection, nodes)}
+          isValidConnection={(connection) => validate(connection, nodes, edges)}
           className="h-full w-full"
         />
       </div>

@@ -1,10 +1,12 @@
 import { memo } from "react";
-import { Position, useNodes } from "reactflow";
+import { Position, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import CustomHandle from "./customHandle";
 
 const DistributionNode = memo(({ data, selected }: any) => {
   const nodes = useNodes();
+  const edges = useEdges();
+
   return (
     <div className="flex">
       {selected && (
@@ -39,7 +41,9 @@ const DistributionNode = memo(({ data, selected }: any) => {
             id={data.dist.output.id}
             portSpec={data.dist.output}
             position={Position.Right}
-            isValidConnection={(connection) => validate(connection, nodes)}
+            isValidConnection={(connection) =>
+              validate(connection, nodes, edges)
+            }
             isConnectable={false}
             className={"w-full h-full"}
           ></CustomHandle>
