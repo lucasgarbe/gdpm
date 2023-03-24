@@ -212,6 +212,22 @@ const validateDistribution = (
   return vtype && upper && lower;
 };
 
+const validateOperation = (
+  connection: Connection,
+  nodes: Node[],
+  edges: Edge[]
+) => {
+  if (!connection.target) return false;
+  const targetNode = findTargetNodeFromId(connection.target, nodes);
+  if (typeof targetNode === "undefined") return false;
+  if (!connection.targetHandle) return false;
+  if (!targetHandleIsEmpty(targetNode, connection.targetHandle, edges)) {
+    return false;
+  }
+
+  return true;
+};
+
 export const validate = (
   connection: Connection,
   nodes: Node[],
@@ -229,6 +245,10 @@ export const validate = (
 
   if (sourceNode.type == "distribution") {
     return validateDistribution(connection, nodes, edges);
+  }
+
+  if (sourceNode.type == "operation") {
+    return validateOperation(connection, nodes, edges);
   }
 
   return false;
