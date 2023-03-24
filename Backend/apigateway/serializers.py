@@ -42,4 +42,3 @@ class ContinuousSerializer(serializers.ModelSerializer):
     class Meta:
         model = Continuous
         fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
-
