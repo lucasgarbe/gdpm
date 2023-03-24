@@ -41,7 +41,6 @@ const OperationNode = memo(({ data, selected }: any) => {
             id={data.dist.output.id}
             portSpec={data.dist.output}
             position={Position.Right}
-            isValidConnection={(connection) => validate(connection, nodes)}
             isConnectable={false}
             className={"w-full h-full"}
           ></CustomHandle>
