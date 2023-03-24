@@ -8,7 +8,7 @@ router.register(r'download', views.DownloadViewSet, basename='download')
 router.register(r'discrete', views.DiscreteViewSet)
 router.register(r'continuous', views.ContinuousViewSet)
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
-
+router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')
 
 """gdpmdjango URL Configuration
 
