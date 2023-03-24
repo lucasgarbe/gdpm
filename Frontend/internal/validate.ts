@@ -1,62 +1,95 @@
 import { Connection, Edge, Node } from "reactflow";
-import { portSpec, bound } from "../types/portSpec";
+import { portSpec } from "../types/portSpec";
 
 export const validateType = (a: string, b: string) => {
   if (a == "int" && b == "float") return true;
   return a == b;
 };
 
-export const validateUpperBound = (a: portSpec, b: portSpec) => {
-  return (
-    compareBound(a.upperBound, b.upperBound) == 0 ||
-    compareBound(a.upperBound, b.upperBound) == -1
-  );
-};
+export const validateUpper = (a: portSpec, b: portSpec): boolean => {
+  console.log("validateUpper", { a, b });
+  if (a.upper == b.upper) return true;
 
-export const validateLowerBound = (a: portSpec, b: portSpec) => {
-  return (
-    compareBound(a.lowerBound, b.lowerBound) == 0 ||
-    compareBound(a.lowerBound, b.lowerBound) == -1
-  );
-};
+  const aParsed = parseFloat(a.upper);
+  const bParsed = parseFloat(b.upper);
 
-export const validateUpper = (a: portSpec, b: portSpec) => {
-  return a.upper == b.upper;
-};
+  // check if b.upper is a number
+  if (isNaN(bParsed)) {
+    //b.upper is not a number
 
-export const validateLower = (a: portSpec, b: portSpec) => {
-  return a.lower == b.lower;
-};
-
-const compareBound = (a: bound, b: bound): -1 | 0 | 1 => {
-  if (a == b) return 0;
-
-  if (a == "open" && b == "closed") {
-    return 1;
+    //check if a.upper is a number
+    if (isNaN(aParsed)) {
+      //a.upper is not an number
+      //possible solutions should always be true both can only be "inf"
+      return true;
+    } else {
+      //a.upper is a number
+      // possible solutions should always be true b.upper can only be "inf" (a < inf)
+      return true;
+    }
   } else {
-    return -1;
+    //b.upper is a number
+
+    //check if a.upper is a number
+    if (isNaN(aParsed)) {
+      //a.upper is not an number
+      //possible solutions should always be false, b is number and a is inf
+      return false;
+    } else {
+      //a.upper is a number
+      //both a and b are numbers: compare
+
+      //is inclusive?
+      if (b.upperInclusive) {
+        return a <= b;
+      } else {
+        return a < b;
+      }
+    }
   }
 };
 
-const getInputPortSpec = (node: Node, inputString: string): portSpec | null => {
-  //find input portspec from support/output port spec
-  // needs outputHandleId and nodeId to find node in nodes or GETS NODE DIRECTLY
+export const validateLower = (a: portSpec, b: portSpec) => {
+  console.log("validateLower", { a, b });
+  if (a.lower == b.lower) return true;
 
-  // check if output is dependent on inputs
-  if (!inputString.includes("inputs[")) return null;
+  const aParsed = parseFloat(a.lower);
+  const bParsed = parseFloat(b.lower);
 
-  const inputName = inputString.substring(
-    inputString.indexOf("[") + 1,
-    inputString.lastIndexOf("]")
-  );
+  // check if b.lower is a number
+  if (isNaN(bParsed)) {
+    //b.upper is not a number
 
-  const inputPort = node.data.dist.inputs.find(
-    (input: portSpec) => input.name == inputName
-  );
+    //check if a.lower is a number
+    if (isNaN(aParsed)) {
+      //a.lower is not an number
+      //possible solutions should always be true both can only be "-inf"
+      return true;
+    } else {
+      //a.lower is a number
+      // possible solutions should always be true b.lower can only be "-inf" (a > -inf)
+      return true;
+    }
+  } else {
+    //b.lower is a number
 
-  console.log(node, inputName, inputPort);
+    //check if a.upper is a number
+    if (isNaN(aParsed)) {
+      //a.lower is not an number
+      //possible solutions should always be false, b is number and a is -inf
+      return false;
+    } else {
+      //a.lower is a number
+      //both a and b are numbers: compare
 
-  return inputPort;
+      //is inclusive?
+      if (b.lowerInclusive) {
+        return a >= b;
+      } else {
+        return a > b;
+      }
+    }
+  }
 };
 
 const findSourceNodeFromId = (
@@ -164,6 +197,8 @@ const validateDistribution = (
   );
 
   const vtype = validateType(sourceHandle.type, targetHandle.type);
+  const upper = validateUpper(sourceNode.data.dist.output, targetHandle);
+  const lower = validateLower(sourceNode.data.dist.output, targetHandle);
   console.log({
     validating: "distribution",
     connection,
@@ -171,8 +206,10 @@ const validateDistribution = (
     targetNode,
     targetHandle,
     vtype,
+    upper,
+    lower,
   });
-  return vtype;
+  return vtype && upper && lower;
 };
 
 export const validate = (
@@ -195,11 +232,4 @@ export const validate = (
   }
 
   return false;
-
-  // return (
-  //   validateType(source, target) &&
-  //   validateLowerBound(source, target) &&
-  //   validateUpperBound(source, target) &&
-  //   validateUpper(source, target)
-  // );
 };
