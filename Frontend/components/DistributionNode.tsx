@@ -11,10 +11,8 @@ const DistributionNode = memo(({ data, selected }: any) => {
     <div className="flex">
       {selected && (
         <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
-          <button className="p-1">edit</button>
           <button className="p-1">delete</button>
-          <button className="p-1">info</button>
-          <button onClick={() => {setShowModal(true)}}>modal</button>
+          <button onClick={() => {setShowModal(true)}}>info</button>
          {showModal && ( <div className="overflow-auto p-1 absolute top-24 w-64 h-96 border border-blue-600 bg-blue-200" onClick={() =>setShowModal(false)}>
             <div className="pb-2 overflow-auto">{data.dist.distType}</div>
             <div className="overflow-auto p-1"><Link href={data.dist.url} target="_blank">{data.dist.url}</Link></div>
