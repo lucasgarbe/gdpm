@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ky from "ky-universal";
 import router, { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import Button from "./Button";
 
 export default function SaveButton({
   reactFlowInstance,
@@ -53,7 +54,7 @@ export default function SaveButton({
   }, [modelname, lastIndex, reactFlowInstance, updateModelMutation]);
 
   return (
-    <button
+    <Button
       className="flex gap-1 p-1 bg-gray-100 hover:bg-gray-200 rounded"
       onClick={handleSave}
     >
@@ -73,6 +74,6 @@ export default function SaveButton({
           )}
         </>
       )}
-    </button>
+    </Button>
   );
 }
