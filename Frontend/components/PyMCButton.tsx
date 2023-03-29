@@ -1,9 +1,9 @@
 import { CodeBracketIcon } from "@heroicons/react/24/outline";
-import Button from "./Button";
+import { Button } from "./ButtonsAndLinks";
 
 export default function PyMCButton({ toggleModal }: any) {
   return (
-    <Button onClick={toggleModal}>
+    <Button onClick={toggleModal} size="small">
       <CodeBracketIcon className="w-5" />
       Download
     </Button>

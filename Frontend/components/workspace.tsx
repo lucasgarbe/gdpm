@@ -18,7 +18,11 @@ import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import DistributionList from "./DistributionList";
 import Link from "next/link";
-import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  Cog8ToothIcon,
+  PencilIcon,
+} from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
@@ -26,6 +30,7 @@ import ConstantNode from "./ConstantNode";
 import PyMCButton from "./PyMCButton";
 import PyMCModal from "./PyMCModal";
 import OperationNode from "./OperationNode";
+import { Button, HighlightLink } from "./ButtonsAndLinks";
 
 type modelResponse = {
   id: string;
@@ -192,26 +197,27 @@ function Flow() {
         <Controls />
         <MiniMap />
         <Panel position="top-left" className="flex items-start gap-2">
-          <div className="bg-gray-100 rounded flex items-center">
-            <Link href="/" className="hover:bg-gray-200 rounded p-1">
-              <ArrowLeftIcon className="w-5" />
-            </Link>
-            <div className="relative hover:bg-gray-200 rounded p-1">
-              <input
-                type="text"
-                value={modelname}
-                size={modelname.length}
-                onChange={(e) => {
-                  setModelname(e.target.value);
-                }}
-                className="bg-transparent h-min"
-              />
-              <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
-            </div>
+          <HighlightLink href="/" size="small">
+            <ArrowLeftIcon className="w-5" />
+          </HighlightLink>
+          <Button onClick={() => console.log("show settings")} size="small">
+            <Cog8ToothIcon className="w-5" />
+          </Button>
+          <div className="relative hover:bg-gray-200 rounded p-1">
+            <input
+              type="text"
+              value={modelname}
+              size={modelname.length}
+              onChange={(e) => {
+                setModelname(e.target.value);
+              }}
+              className="bg-transparent h-min"
+            />
+            <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
           </div>
           <DistributionList />
         </Panel>
-        <Panel position="top-right" className="rounded flex gap-2">
+        <Panel position="top-right" className="flex gap-2">
           <PyMCButton
             id={id}
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}

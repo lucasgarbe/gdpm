@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import ky from "ky-universal";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import Button from "./Button";
+import { Button } from "./ButtonsAndLinks";
 
 export default function DeleteButton({ id }: any) {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function DeleteButton({ id }: any) {
   }, [id, deleteModelMutation]);
 
   return (
-    <Button onClick={handleDelete}>
+    <Button onClick={handleDelete} size="small">
       {defaultButton ? (
         <>
           <TrashIcon className="w-5" />

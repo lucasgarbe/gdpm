@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ReactChild, ReactNode } from "react";
+import { HighlightLink } from "./ButtonsAndLinks";
 
 export default function Header() {
   return (
@@ -15,18 +15,3 @@ export default function Header() {
     </header>
   );
 }
-
-const HighlightLink = ({
-  href,
-  children,
-}: {
-  href: string;
-  children: ReactNode;
-}) => (
-  <Link
-    href={href}
-    className="border-2 border-black px-4 py-2 font-semibold bg-white hover:shadow-hard hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all ease-in-out duration-75"
-  >
-    {children}
-  </Link>
-);

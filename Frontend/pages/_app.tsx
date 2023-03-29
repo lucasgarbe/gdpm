@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
         <main
-          className={`${font.variable} layout font-sans flex flex-col justify-between`}
+          className={`${font.variable} layout font-sans flex flex-col justify-between bg-stone-100`}
         >
           <Component {...pageProps} />
         </main>
