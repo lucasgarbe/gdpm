@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import { DocumentPlusIcon } from "@heroicons/react/24/outline";
+import Header from "../components/Header";
 
 export default function Home() {
   return (
@@ -15,12 +16,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="bg-gray-100 dark:bg-gray-900 px-4 py-1 flex justify-between items-center">
-        <h1 className="text-4xl">GDPM</h1>
-        <nav className="flex gap-6">
-          <Link href="/models/new">New Model</Link>
-        </nav>
-      </header>
+      <Header />
 
       <main className="flex-grow pt-34">
         <div className="container mx-auto pt-40">
