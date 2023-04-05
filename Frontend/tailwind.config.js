@@ -9,11 +9,15 @@ module.exports = {
   safelist: [{ pattern: /(bg|border)-(blue|amber|green)-(200|600)/ }],
   theme: {
     extend: {
+      fontSize: {
+        xxs: "0.4rem",
+      },
       fontFamily: {
         sans: ["var(--font-clash)", ...defaultTheme.fontFamily.sans],
       },
       boxShadow: {
         hard: "2px 2px 0 black",
+        harder: "4px 4px 0 black",
       },
     },
   },

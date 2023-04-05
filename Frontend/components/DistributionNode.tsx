@@ -1,14 +1,27 @@
-import { memo, useState } from "react";
-import { Position, Node, Connection, useEdges, useNodes } from "reactflow";
+import { memo, useEffect, useState } from "react";
+import { Position, useEdges, useNodes } from "reactflow";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
 import Link from "next/link";
 
-const DistributionNode = memo(({ data, selected }: any) => {
+const DistributionNode = memo(({ id, data, selected }: any) => {
   const [showModal, setShowModal] = useState(false);
+  const [color, setColor] = useState("stone");
   const nodes = useNodes();
   const edges = useEdges();
+
+  useEffect(() => {
+    console.log("effect", data.dist.distType);
+    switch (data.dist.distType) {
+      case "continuous":
+        setColor("amber");
+        break;
+      case "discrete":
+        setColor("blue");
+        break;
+    }
+  }, [data.dist.distType]);
 
   return (
     <div className="flex">
@@ -70,20 +83,19 @@ const DistributionNode = memo(({ data, selected }: any) => {
               portSpec={input}
               position={Position.Left}
               optional={input.optional}
+              isConnectableStart={false}
             ></CustomHandle>
           ))}
         </div>
       )}
 
-      {data.dist.distType == "continuous" ? (
-        <div className="bg-amber-200 border border-amber-600 p-1 flex items-center justify-center">
-          <p className="font-bold text-md">{data.dist.displayName}</p>
-        </div>
-      ) : (
-        <div className="bg-blue-200 border border-blue-600 p-1 flex items-center justify-center">
-          <p className="font-bold text-md">{data.dist.displayName}</p>
-        </div>
-      )}
+      <div
+        className={`bg-${color}-200 border border-${color}-600 p-1 flex flex-col justify-center`}
+      >
+        <p className="text-sm font-semibold mb-auto">{data.dist.displayName}</p>
+        <p className="text-xxs mt-2">{data.dist.displayName}</p>
+        <p className="text-xxs">{id}</p>
+      </div>
 
       {data.dist.output && (
         <div className="flex flex-col justify-center py-1">

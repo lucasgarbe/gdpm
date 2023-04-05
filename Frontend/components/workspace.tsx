@@ -31,6 +31,7 @@ import PyMCButton from "./PyMCButton";
 import PyMCModal from "./PyMCModal";
 import OperationNode from "./OperationNode";
 import { Button, HighlightLink } from "./ButtonsAndLinks";
+import Modal from "./Modal";
 
 type modelResponse = {
   id: string;
@@ -65,6 +66,7 @@ function Flow() {
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
   const [showPyMCModal, setShowPyMCModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const { id } = router.query;
   const fetchModel = async () => {
@@ -89,6 +91,7 @@ function Flow() {
     queryKey: ["model", id],
     queryFn: () => fetchModel(),
     enabled: !!id,
+    staleTime: Infinity,
     onSuccess: (data) => {
       if (data) {
         setModelname(data.title);
@@ -197,23 +200,14 @@ function Flow() {
         <Controls />
         <MiniMap />
         <Panel position="top-left" className="flex items-start gap-2">
-          <HighlightLink href="/" size="small">
-            <ArrowLeftIcon className="w-5" />
-          </HighlightLink>
-          <Button onClick={() => console.log("show settings")} size="small">
-            <Cog8ToothIcon className="w-5" />
-          </Button>
-          <div className="relative hover:bg-gray-200 rounded p-1">
-            <input
-              type="text"
-              value={modelname}
-              size={modelname.length}
-              onChange={(e) => {
-                setModelname(e.target.value);
-              }}
-              className="bg-transparent h-min"
-            />
-            <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
+          <div className="flex gap-2">
+            <HighlightLink href="/" size="small">
+              <ArrowLeftIcon className="w-5" />
+            </HighlightLink>
+            <Button onClick={() => setShowSettingsModal(true)} size="small">
+              <Cog8ToothIcon className="w-5" />
+              Settings
+            </Button>
           </div>
           <DistributionList />
         </Panel>
@@ -232,6 +226,26 @@ function Flow() {
         {showPyMCModal && (
           <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
         )}
+
+        <Modal
+          open={showSettingsModal}
+          close={() => setShowSettingsModal(false)}
+        >
+          <p className="text-xl font-semibold">Settings</p>
+          <div className="mt-6">
+            <label className="flex items-center gap-2">
+              Modelname:
+              <input
+                type="text"
+                value={modelname}
+                onChange={(e) => {
+                  setModelname(e.target.value);
+                }}
+                className="bg-stone-300 p-1"
+              />
+            </label>
+          </div>
+        </Modal>
         <Background />
       </ReactFlow>
     </div>

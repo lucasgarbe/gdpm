@@ -2,20 +2,36 @@ import {
   ArrowDownIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { useDistributions } from "../hooks/useDistributions";
 import operations from "../internal/operations";
+import { Button } from "./ButtonsAndLinks";
 
 export default function DistributionList() {
   const { data, isLoading } = useDistributions();
+  const [open, setOpen] = useState(false);
 
   if (isLoading) {
     return <div>loading</div>;
   }
 
+  if (!open) {
+    return (
+      <Button onClick={() => setOpen(!open)} size="small">
+        <PlusIcon className="w-5" />
+        Add Nodes
+      </Button>
+    );
+  }
+
   return (
-    <div className="flex items-start gap-2 bg-gray-100 rounded">
+    <div className="flex items-start gap-2 bg-stone-100">
+      <Button onClick={() => setOpen(!open)} size="small">
+        <PlusIcon className="w-5" />
+        Add Nodes
+      </Button>
       <ConstantButtom />
       <TypeList
         name="Discrete"
