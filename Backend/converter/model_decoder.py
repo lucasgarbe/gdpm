@@ -16,10 +16,12 @@ def decode_JSON_to_Nodes(data: dict) -> dict[str, Node]:
     @param data: unprocessed JSON body of the reactflow graph
     @return: all Nodes as dict[Node]
     """
+    print(data)
     nodes_dict = {
         node["id"]:
             Node(
                 node["id"],
+                node["var_name"],
                 node["type"],
                 node["data"]) for node in data["nodes"]}
     return nodes_dict

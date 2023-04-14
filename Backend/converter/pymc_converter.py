@@ -50,7 +50,7 @@ def convert(node: Node, edges: list[Edge]):
     @return: PyMc code for a single node
     """
 
-    var_name = f'{node.id}_out'
+    var_name = f'{node.var_name}'
     pymc_string = ''
     args = []
 
@@ -77,7 +77,7 @@ def __write_constant(node):
     @return: attribute string
     """
     cons_value = node.data['value']
-    pymc_string = f'{node.id}_out = {cons_value}'
+    pymc_string = f'{node.var_name} = {cons_value}'
     return pymc_string
 
 
@@ -90,14 +90,14 @@ def __write_arguments(node, edges):
     """
     if node.data['dist']['distType'] == "operation":
         input_edges = [
-            f'{edge.source.id}_out'
+            f'{edge.source.var_name}'
             for edge in edges
             if edge.target == node]
         if input_edges:
             return node.data['dist']['name'].join(input_edges)
 
     input_edges = [
-        f'{edge.targetHandle}={edge.source.id}_out'
+        f'{edge.targetHandle}={edge.source.var_name}'
         for edge in edges
         if edge.target == node]
 

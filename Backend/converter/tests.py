@@ -1,7 +1,8 @@
 import json
 from django.test import TestCase
 
-from Backend.converter.pymc_converter import convert_model
+from .pymc_converter import convert_model
+from .utils import to_ipynb
 
 
 class SupportTestCase(TestCase):
@@ -13,6 +14,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "Konstante-phi",
                     "id": "nodes_0",
                     "type": "constant",
                     "position": {
@@ -32,6 +34,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "Konstante-mu",
                     "id": "nodes_1",
                     "type": "constant",
                     "position": {
@@ -51,6 +54,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 314,
                     "height": 47,
+                    "var_name": "dist_n2",
                     "id": "nodes_2",
                     "type": "distribution",
                     "position": {
@@ -103,6 +107,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 327,
                     "height": 47,
+                    "var_name": "dist_node_3",
                     "id": "nodes_3",
                     "type": "distribution",
                     "position": {
@@ -157,6 +162,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 251,
                     "height": 90,
+                    "var_name": "dist_node4",
                     "id": "nodes_4",
                     "type": "distribution",
                     "position": {
@@ -231,6 +237,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "KOnstante_5",
                     "id": "nodes_5",
                     "type": "constant",
                     "position": {
@@ -250,6 +257,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "Konstante-phi_2",
                     "id": "nodes_6",
                     "type": "constant",
                     "position": {
@@ -269,6 +277,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "Konstante-phi7",
                     "id": "nodes_7",
                     "type": "constant",
                     "position": {
@@ -288,6 +297,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 126,
                     "height": 46,
+                    "var_name": "Konstante-phi8",
                     "id": "nodes_8",
                     "type": "constant",
                     "position": {
@@ -307,6 +317,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 238,
                     "height": 34,
+                    "var_name": "plus",
                     "id": "nodes_9",
                     "type": "operation",
                     "position": {
@@ -361,6 +372,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 327,
                     "height": 47,
+                    "var_name": "dist_nod11",
                     "id": "nodes_11",
                     "type": "distribution",
                     "position": {
@@ -415,6 +427,7 @@ class SupportTestCase(TestCase):
                 {
                     "width": 272,
                     "height": 34,
+                    "var_name": "dist_node12",
                     "id": "nodes_12",
                     "type": "distribution",
                     "position": {
