@@ -4,6 +4,8 @@ from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSeri
 from rest_framework.response import Response
 from converter.pymc_converter import convert_model
 from converter import utils
+from django.http import FileResponse
+from io import BytesIO
 
 
 # In the Django Rest Framework, a ViewSet is a class that provides CRUD (Create, Retrieve, Update, Delete) operations
@@ -47,7 +49,21 @@ class PymcViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         model_instance = self.get_object()
         pymc_code = convert_model(model_instance.body)
-        return Response(pymc_code)
+
+        byte_io = BytesIO()
+        byte_io.write(pymc_code.encode('utf-8'))
+        byte_io.seek(0)
+
+        print(request.path)
+        print(self)
+        filename = str(model_instance.id) + '.py'
+
+        response = FileResponse(
+            byte_io,
+            as_attachment=True,
+            filename=filename)
+
+        return response
 
 
 class IpynbViewSet(viewsets.ModelViewSet):
