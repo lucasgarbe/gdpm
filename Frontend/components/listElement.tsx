@@ -1,23 +1,26 @@
 import Link from "next/link";
-import ArrowLeft from "../components/arrow-left";
-import { ArrowUpOnSquareIcon } from '@heroicons/react/24/outline';
-import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import { DocumentDuplicateIcon } from '@heroicons/react/24/outline';
-import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from "@heroicons/react/24/outline";
+import { Button } from "./ButtonsAndLinks";
 
-export default function ListElement({model} : any){
+export default function ListElement({ model }: any) {
   console.log(model);
-    return (
-        <div className="bg-gray-100 w-full flex justify-between px-14 py-10">
-            <Link href={`/model/${model?.id}`}><p className="text-2xl font-bold">{model?.title}</p></Link>
-          <div className="flex gap-4">
-            <ArrowUpOnSquareIcon className="h-8 w-8"/>
-            <ArrowDownTrayIcon className="h-8 w-8"/>
-            <DocumentDuplicateIcon className="h-8 w-8"/>
-            <ArchiveBoxIcon className="h-8 w-8"/>
-            <TrashIcon className="h-8 w-8"/>
-          </div>
-          </div>
-    )
+  return (
+    <div className="w-full flex justify-between gap-4">
+      <Link
+        href={`/model/${model?.id}`}
+        className="w-full flex justify-between p-3 border-2 border-black hover:shadow-hard hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all ease-in-out duration-75"
+      >
+        <p className="text-2xl">{model?.title}</p>
+      </Link>
+      <Button
+        onClick={() => {
+          console.log("should delete");
+        }}
+        size="small"
+      >
+        <TrashIcon className="w-5" />
+        Delete
+      </Button>
+    </div>
+  );
 }

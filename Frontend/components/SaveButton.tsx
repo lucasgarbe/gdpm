@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ky from "ky-universal";
 import router, { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import { Button } from "./ButtonsAndLinks";
 
 export default function SaveButton({
   reactFlowInstance,
@@ -53,10 +54,7 @@ export default function SaveButton({
   }, [modelname, lastIndex, reactFlowInstance, updateModelMutation]);
 
   return (
-    <button
-      className="flex gap-1 p-1 bg-gray-100 hover:bg-gray-200 rounded"
-      onClick={handleSave}
-    >
+    <Button onClick={handleSave} size="small">
       {defaultButton ? (
         <>
           <CloudArrowDownIcon className="w-5" />
@@ -73,6 +71,6 @@ export default function SaveButton({
           )}
         </>
       )}
-    </button>
+    </Button>
   );
 }

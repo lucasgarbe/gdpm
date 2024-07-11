@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -17,8 +17,7 @@ import "reactflow/dist/base.css";
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import DistributionList from "./DistributionList";
-import Link from "next/link";
-import { ArrowLeftIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, Cog8ToothIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
@@ -26,6 +25,16 @@ import ConstantNode from "./ConstantNode";
 import PyMCButton from "./PyMCButton";
 import PyMCModal from "./PyMCModal";
 import OperationNode from "./OperationNode";
+import { Button, HighlightLink } from "./ButtonsAndLinks";
+import {
+  useModal,
+  ModalProvider,
+  ModalContext,
+  ModalContextType,
+} from "./Modal";
+
+import { shallow } from "zustand/shallow";
+import { useStore, selector } from "../hooks/store";
 
 type modelResponse = {
   id: string;
@@ -55,11 +64,23 @@ function Flow() {
   const flowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [modelname, setModelname] = useState("Modelname");
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    addNode,
+    setNodes,
+    setEdges,
+  } = useStore(selector, shallow);
+
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
   const [showPyMCModal, setShowPyMCModal] = useState(false);
+
+  const { openModal } = useContext(ModalContext) as ModalContextType;
 
   const { id } = router.query;
   const fetchModel = async () => {
@@ -75,15 +96,16 @@ function Flow() {
     return model;
   };
 
-  const onConnect = useCallback(
-    (params: any) => setEdges((edges) => addEdge(params, edges)),
-    [setEdges]
-  );
+  // const onConnect = useCallback(
+  //   (params: any) => setEdges((edges) => addEdge(params, edges)),
+  //   [setEdges]
+  // );
 
   const { data, isLoading } = useQuery({
-    queryKey: ["model", id],
+    queryKey: ["model", id || "new"],
     queryFn: () => fetchModel(),
     enabled: !!id,
+    staleTime: Infinity,
     onSuccess: (data) => {
       if (data) {
         setModelname(data.title);
@@ -147,15 +169,15 @@ function Flow() {
             valueType: data.valueType,
           },
         };
-        setNodes(() => nodes.concat(newNode));
+        addNode(newNode);
       } else if (data.type == "distribution") {
         const newNode = {
           id: newNodeId,
           type: data.type,
           position,
-          data: { dist: data.dist },
+          data: { dist: data.dist, name: data.dist.displayName },
         };
-        setNodes(() => [...nodes, newNode]);
+        addNode(newNode);
       } else if (data.type == "operation") {
         const newNode = {
           id: newNodeId,
@@ -163,7 +185,7 @@ function Flow() {
           position,
           data: { dist: data.dist },
         };
-        setNodes(() => [...nodes, newNode]);
+        addNode(newNode);
       }
     },
     [nodes, reactFlowInstance, lastIndex, setLastIndex, setNodes]
@@ -192,26 +214,29 @@ function Flow() {
         <Controls />
         <MiniMap />
         <Panel position="top-left" className="flex items-start gap-2">
-          <div className="bg-gray-100 rounded flex items-center">
-            <Link href="/" className="hover:bg-gray-200 rounded p-1">
+          <div className="flex gap-2">
+            <HighlightLink href="/" size="small">
               <ArrowLeftIcon className="w-5" />
-            </Link>
-            <div className="relative hover:bg-gray-200 rounded p-1">
-              <input
-                type="text"
-                value={modelname}
-                size={modelname.length}
-                onChange={(e) => {
-                  setModelname(e.target.value);
-                }}
-                className="bg-transparent h-min"
-              />
-              <PencilIcon className="w-4 absolute top-1/2 right-1 -translate-y-1/2" />
-            </div>
+            </HighlightLink>
+            <Button
+              onClick={() =>
+                openModal(
+                  "top",
+                  <SettingsModal
+                    modelname={modelname}
+                    updateModelname={setModelname}
+                  />
+                )
+              }
+              size="small"
+            >
+              <Cog8ToothIcon className="w-5" />
+              Settings
+            </Button>
           </div>
           <DistributionList />
         </Panel>
-        <Panel position="top-right" className="rounded flex gap-2">
+        <Panel position="top-right" className="flex gap-2">
           <PyMCButton
             id={id}
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
@@ -232,9 +257,34 @@ function Flow() {
   );
 }
 
+const SettingsModal = ({ modelname, updateModelname }: any) => {
+  const [innerName, setInnerName] = useState(modelname);
+  return (
+    <>
+      <p className="text-xl font-semibold">Settings</p>
+      <div className="mt-4">
+        <label>
+          Modelname:
+          <input
+            type="text"
+            value={innerName}
+            onChange={(e) => {
+              updateModelname(e.target.value);
+              setInnerName(e.target.value);
+            }}
+            className="ml-2 px-1 py-0.5 bg-stone-200"
+          />
+        </label>
+      </div>
+    </>
+  );
+};
+
 const Workspace = () => (
   <ReactFlowProvider>
-    <Flow />
+    <ModalProvider>
+      <Flow />
+    </ModalProvider>
   </ReactFlowProvider>
 );
 

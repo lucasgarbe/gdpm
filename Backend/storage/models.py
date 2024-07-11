@@ -84,8 +84,13 @@ class GDPM_Model(models.Model):
     body = models.JSONField(default=dict)
 
     def __str__(self):
-        return self.id
+        return self.title
 
 
 class Constant(models.Model):
     value = models.IntegerField()
+
+class Job(models.Model):
+    model = models.ForeignKey(GDPM_Model, on_delete=models.CASCADE)
+    status = models.CharField(max_length=30)
+

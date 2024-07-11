@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "backend"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&^z0q55rqn3mm@dk87y9jkx63x1caaxdq9)4^gz1%@9!pmv^x-'
@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'apigateway',
     'storage',
     'rest_framework',
+    # 'pgpubsub',
+    # 'pgtrigger',
     # 'drf_yasg',
 ]
 
@@ -128,9 +130,35 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        'NAME': 'gdpm',
+        'USER': 'postgres',
+        'PASSWORD': 'p4ssw0rd',
+        'HOST': 'db',
+        'PORT': '5432',
+        # "OPTIONS": {
+        #     # "service": "local_pg",
+        #     # "passfile": ".pgpass",
+        # },
     }
+
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     'NAME': 'gdpm',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'p4ssw0rd',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
+    #     # "OPTIONS": {
+    #     #     # "service": "local_pg",
+    #     #     # "passfile": ".pgpass",
+    #     # },
+    # }
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 
 }

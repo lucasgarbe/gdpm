@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   backend:
+    container_name: backend
     build:
       context: ./Backend
       dockerfile: ./Dockerfile
@@ -10,11 +11,34 @@ services:
       - "8000:8000"
     volumes:
       - ./Backend:/code
+      - ./config.yml:/code/config.yml
+    networks:
+      - gdpm
 
   frontend:
+    container_name: frontend
     image: frontend:production
     ports:
       - "8080:3000"
     build:
       context: ./Frontend
       dockerfile: ./Dockerfile
+    networks:
+      - gdpm
+
+  db:
+    container_name: db
+    image: postgres:16.3
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: gdpm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: p4ssw0rd
+    networks:
+      - gdpm
+
+networks:
+  gdpm:
+    name: gdpm
+    external: true

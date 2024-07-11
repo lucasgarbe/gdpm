@@ -34,7 +34,7 @@ def convert_model(json_obj):
 
     pymc_elements = traverse_graph_recursive(graph, edges, endnodes)
 
-    pymc_code = 'import pymc as pm \nwith pm.Model():\n'
+    pymc_code = 'import pymc as pm \nmodel = pm.Model();\nwith model:\n'
 
     for e in pymc_elements:
         pymc_code += '\n\t' + e

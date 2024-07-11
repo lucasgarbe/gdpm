@@ -13,6 +13,8 @@ import {
 } from "reactflow";
 import { create } from "zustand";
 
+//import inital nodes and edges?
+
 export type RFState = {
   nodes: Node[];
   edges: Edge[];
@@ -22,10 +24,13 @@ export type RFState = {
   addNode: (node: any) => void;
   setNodes: (nodes: any) => void;
   setEdges: (edges: any) => void;
+  updateNodeName: (nodeId: string, name: string) => void;
 };
 
 export const useStore = create<RFState>((set, get) => ({
-  nodes: [],
+  nodes: [
+    { id: "node_0", type: "constant", data: {}, position: { x: 250, y: 25 } },
+  ],
   edges: [],
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -57,6 +62,16 @@ export const useStore = create<RFState>((set, get) => ({
       edges: edges,
     });
   },
+  updateNodeName: (nodeId, name) => {
+    set({
+      nodes: get().nodes.map((node) => {
+        if (node.id === nodeId) {
+          node.data = { ...node.data, name };
+        }
+        return node;
+      }),
+    });
+  },
 }));
 
 export const selector = (state: any) => ({
@@ -68,4 +83,5 @@ export const selector = (state: any) => ({
   addNode: state.addNode,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
+  updateNodeName: state.updateNodeName,
 });

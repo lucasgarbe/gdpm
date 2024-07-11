@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import ky from "ky-universal";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import { Button } from "./ButtonsAndLinks";
 
 export default function DeleteButton({ id }: any) {
   const router = useRouter();
@@ -29,10 +30,7 @@ export default function DeleteButton({ id }: any) {
   }, [id, deleteModelMutation]);
 
   return (
-    <button
-      className="flex gap-1 p-1 bg-gray-100 hover:bg-gray-200 rounded"
-      onClick={handleDelete}
-    >
+    <Button onClick={handleDelete} size="small">
       {defaultButton ? (
         <>
           <TrashIcon className="w-5" />
@@ -49,6 +47,6 @@ export default function DeleteButton({ id }: any) {
           )}
         </>
       )}
-    </button>
+    </Button>
   );
 }
