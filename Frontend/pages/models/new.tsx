@@ -19,18 +19,18 @@ export default function New() {
   );
 }
 
-export async function getStaticProps() {
-  const queryClient = new QueryClient();
+// export async function getStaticProps() {
+//   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["distributions"],
-    queryFn: () => fetchDistributions(),
-    staleTime: Infinity,
-  });
+//   await queryClient.prefetchQuery({
+//     queryKey: ["distributions"],
+//     queryFn: () => fetchDistributions(),
+//     staleTime: Infinity,
+//   });
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }

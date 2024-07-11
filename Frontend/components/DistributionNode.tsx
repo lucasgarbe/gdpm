@@ -1,14 +1,16 @@
-import { memo, useEffect, useState } from "react";
-import { Position, useEdges, useNodes } from "reactflow";
+import { memo, useContext, useEffect, useState } from "react";
+import { Position, useEdges, useNodes, useNodesState } from "reactflow";
+import { shallow } from "zustand/shallow";
+import { selector, useStore } from "../hooks/store";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import CustomHandle from "./customHandle";
-import Link from "next/link";
+import { ModalContext, ModalContextType } from "./Modal";
 
 const DistributionNode = memo(({ id, data, selected }: any) => {
-  const [showModal, setShowModal] = useState(false);
+  const { nodes } = useStore(selector, shallow);
   const [color, setColor] = useState("stone");
-  const nodes = useNodes();
+  const { openModal } = useContext(ModalContext) as ModalContextType;
   const edges = useEdges();
 
   useEffect(() => {
@@ -30,46 +32,14 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
           <button className="p-1">delete</button>
           <button
             onClick={() => {
-              setShowModal(true);
+              openModal(
+                "bottom",
+                <DistributionNodeModal id={id} name={data.name} />
+              );
             }}
           >
             info
           </button>
-          {showModal && (
-            <div
-              className="overflow-auto p-1 absolute top-24 w-64 h-96 border border-blue-600 bg-blue-200"
-              onClick={() => setShowModal(false)}
-            >
-              <div className="pb-2 overflow-auto">{data.dist.distType}</div>
-              <div className="overflow-auto p-1">
-                <Link href={data.dist.url} target="_blank">
-                  {data.dist.url}
-                </Link>
-              </div>
-              <ul>
-                {data.dist.input.map((input: any, index: number) => (
-                  <li key={index}>
-                    <div className="p-1">
-                      <p>id:</p> {input.id}
-                    </div>
-                    <div className="p-1">
-                      <p>name:</p> {input.name}
-                    </div>
-                    <div className="p-1">
-                      <p>type:</p> {input.type}
-                    </div>
-                    <div className="p-1">
-                      <p>upper:</p> {input.upper}
-                    </div>
-                    <div className="p-1">
-                      <p>lower:</p> {input.lower}
-                    </div>
-                    <hr className="border-b border-blue-600 my-4"></hr>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
 
@@ -92,7 +62,7 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
       <div
         className={`bg-${color}-200 border border-${color}-600 p-1 flex flex-col justify-center`}
       >
-        <p className="text-sm font-semibold mb-auto">{data.dist.displayName}</p>
+        <p className="text-sm font-semibold mb-auto">{data.name}</p>
         <p className="text-xxs mt-2">{data.dist.displayName}</p>
         <p className="text-xxs">{id}</p>
       </div>
@@ -117,6 +87,28 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
     </div>
   );
 });
+
+const DistributionNodeModal = ({ id, name }: { id: string; name: string }) => {
+  const { updateNodeName } = useStore();
+  return (
+    <>
+      <p className="text-xl font-semibold">Distribution</p>
+      <div className="mt-4">
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => {
+              updateNodeName(id, e.target.value);
+            }}
+            className="ml-2 px-1 py-0.5 bg-stone-200"
+          />
+        </label>
+      </div>
+    </>
+  );
+};
 
 DistributionNode.displayName = "DistributionNode";
 export default DistributionNode;
