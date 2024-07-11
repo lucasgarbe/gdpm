@@ -1,13 +1,14 @@
-from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification
-from rest_framework import viewsets
-from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer
 from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification, Job
+from rest_framework import viewsets 
+from rest_framework.views import APIView
 from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer, JobSerializer
 from rest_framework.response import Response
 from converter.pymc_converter import convert_model
 from converter import utils
 from django.http import FileResponse
 from io import BytesIO
+import os
+import yaml
 
 
 # In the Django Rest Framework, a ViewSet is a class that provides CRUD (Create, Retrieve, Update, Delete) operations
@@ -82,3 +83,14 @@ class IpynbViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+
+class ConfigView(APIView):
+  def get(self, request):
+    with open(os.path.join( os.getcwd(), '..', 'config.yml' ), 'r') as stream:
+        data_loaded = yaml.safe_load(stream)
+
+    # Your custom logic for handling GET requests
+    # data = {'message': 'This is a custom view'}
+
+    return Response(data_loaded)
+
