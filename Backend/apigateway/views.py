@@ -1,6 +1,8 @@
 from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification
 from rest_framework import viewsets
 from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer
+from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification, Job
+from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer, JobSerializer
 from rest_framework.response import Response
 from converter.pymc_converter import convert_model
 from converter import utils
@@ -76,3 +78,7 @@ class IpynbViewSet(viewsets.ModelViewSet):
         model_instance = self.get_object()
         pymc_code = utils.to_ipynb(convert_model(model_instance.body))
         return Response(pymc_code)
+
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer

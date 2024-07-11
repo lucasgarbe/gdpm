@@ -89,3 +89,8 @@ class GDPM_Model(models.Model):
 
 class Constant(models.Model):
     value = models.IntegerField()
+
+class Job(models.Model):
+    model = models.ForeignKey(GDPM_Model, on_delete=models.CASCADE)
+    status = models.CharField(max_length=30)
+

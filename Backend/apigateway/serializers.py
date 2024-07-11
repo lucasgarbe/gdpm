@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from storage.models import GDPM_Model, Continuous, Discrete, PortSpecification, Support
+from storage.models import GDPM_Model, Continuous, Discrete, PortSpecification, Support, Job
 
 
 # Serializers are used to convert complex data types, such as Django model instances or complex Python data
@@ -42,3 +42,8 @@ class ContinuousSerializer(serializers.ModelSerializer):
     class Meta:
         model = Continuous
         fields = ('distType', 'name', 'displayName', 'url', 'image_url', 'input', 'output')
+
+class JobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = '__all__'

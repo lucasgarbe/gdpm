@@ -9,6 +9,7 @@ router.register(r'discrete', views.DiscreteViewSet)
 router.register(r'continuous', views.ContinuousViewSet)
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')
+router.register(r'job', views.JobViewSet, basename='job')
 
 """gdpmdjango URL Configuration
 
