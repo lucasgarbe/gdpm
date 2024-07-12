@@ -63,8 +63,7 @@ ROOT_URLCONF = 'urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,7 +134,7 @@ DATABASES = {
         'NAME': 'gdpm',
         'USER': 'postgres',
         'PASSWORD': 'p4ssw0rd',
-        'HOST': 'db',
+        'HOST': os.getenv('DB_HOST') or 'localhost',
         'PORT': '5432',
         # "OPTIONS": {
         #     # "service": "local_pg",

@@ -9,6 +9,8 @@ services:
     #restart: always
     ports:
       - "8000:8000"
+    environment:
+      - DB_HOST=db
     volumes:
       - ./Backend:/code
       - ./config.yml:/code/config.yml
@@ -30,6 +32,8 @@ services:
     container_name: db
     image: postgres:16.3
     shm_size: 128mb
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: gdpm
       POSTGRES_USER: postgres
