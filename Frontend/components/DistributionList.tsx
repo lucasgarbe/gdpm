@@ -113,7 +113,7 @@ function DistributionListItem({ dist, color }: { dist: any; color: string }) {
       draggable
       onDragStart={(event) => handleDrag(event, "distribution", dist)}
     >
-      {dist.displayName}
+      {dist.name}
     </li>
   );
 }

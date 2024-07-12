@@ -141,7 +141,7 @@ DATABASES = {
         #     # "service": "local_pg",
         #     # "passfile": ".pgpass",
         # },
-    }
+    },
 
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql",
@@ -154,7 +154,7 @@ DATABASES = {
     #     #     # "service": "local_pg",
     #     #     # "passfile": ".pgpass",
     #     # },
-    # }
+    # },
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',

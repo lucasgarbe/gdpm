@@ -4,9 +4,6 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'models', views.GDPM_ModelViewSet)
-router.register(r'download', views.DownloadViewSet, basename='download')
-router.register(r'discrete', views.DiscreteViewSet)
-router.register(r'continuous', views.ContinuousViewSet)
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')
 router.register(r'job', views.JobViewSet, basename='job')
@@ -28,6 +25,7 @@ Including another URLconf
 """
 urlpatterns = [
     path('', include(router.urls)),
-    path('config', views.ConfigView.as_view()),
+    path('continuous/', views.ContinuousView.as_view()),
+    path('discrete/', views.DiscreteView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

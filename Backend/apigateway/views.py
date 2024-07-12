@@ -1,5 +1,5 @@
 from storage.models import GDPM_Model, Discrete, Continuous, PortSpecification, Job
-from rest_framework import viewsets 
+from rest_framework import viewsets
 from rest_framework.views import APIView
 from .serializers import GDPMModelSerializer, DiscreteSerializer, ContinuousSerializer, JobSerializer
 from rest_framework.response import Response
@@ -25,22 +25,24 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
     serializer_class = GDPMModelSerializer
 
 
-class DownloadViewSet(viewsets.ModelViewSet):
-    queryset = GDPM_Model.objects.all().order_by('title')
-    serializer_class = GDPMModelSerializer
-    http_method_names = ['get']
+class DiscreteView(APIView):
+    def get(self, request):
+        with open(os.path.join(os.getcwd(), '..', 'config.yml'), 'r') as stream:
+            data_loaded = yaml.safe_load(stream)
+            discrete = [d for d in data_loaded['distributions']
+                        if d['distType'] == 'discrete']
+
+        return Response(discrete)
 
 
-class DiscreteViewSet(viewsets.ModelViewSet):
-    queryset = Discrete.objects.all()
-    serializer_class = DiscreteSerializer
-    http_method_names = ['get']
+class ContinuousView(APIView):
+    def get(self, request):
+        with open(os.path.join(os.getcwd(), '..', 'config.yml'), 'r') as stream:
+            data_loaded = yaml.safe_load(stream)
+            continuous = [d for d in data_loaded['distributions'] if d['distType']
+                          == 'continuous']
 
-
-class ContinuousViewSet(viewsets.ModelViewSet):
-    queryset = Continuous.objects.all().order_by('name')
-    serializer_class = ContinuousSerializer
-    http_method_names = ['get']
+        return Response(continuous)
 
 
 class PymcViewSet(viewsets.ModelViewSet):
@@ -80,17 +82,7 @@ class IpynbViewSet(viewsets.ModelViewSet):
         pymc_code = utils.to_ipynb(convert_model(model_instance.body))
         return Response(pymc_code)
 
+
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-
-class ConfigView(APIView):
-  def get(self, request):
-    with open(os.path.join( os.getcwd(), '..', 'config.yml' ), 'r') as stream:
-        data_loaded = yaml.safe_load(stream)
-
-    # Your custom logic for handling GET requests
-    # data = {'message': 'This is a custom view'}
-
-    return Response(data_loaded)
-

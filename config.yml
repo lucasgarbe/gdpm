@@ -1,121 +1,287 @@
 distributions:
+  # Discrete distributions
   - distType: "discrete"
+    name: "Bernoulli"
+    displayName: "Bernoulli log-likelihood"
+    url: "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Bernoulli.html"
+    image_url: "https://docs.pymc.io/en/v5.0.1/_images/pymc-Bernoulli-1.png"
+    input:
+      - id: "logit_p"
+        name: "logit_p - Alternative log odds for the probability of success"
+        type: "float"
+        upper: "inf"
+        lower: "inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "p"
+        name: "p - Probability of success (0 < p < 1)"
+        type: "float"
+        upper: "1"
+        lower: "0"
+        upperInclusive: true
+        lowerInclusive: true
+        optional: false
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+
+  - distType: "discrete"
+    name: "Binomial"
+    displayName: "Binomial log-likelihood"
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Binomial.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Binomial-1.png"
+    input:
+      - id: "logit_p"
+        name: "logit_p - Alternative log odds for the probability of success"
+        type: "float"
+        upper: "inf"
+        lower: "inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "n"
+        name: "n - Number of Bernoulli trials (n >= 0)"
+        type: "int"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: false
+      - id: "p"
+        name: "p - Probability of success (0 < p < 1)"
+        type: "float"
+        upper: "1"
+        lower: "0"
+        upperInclusive: true
+        lowerInclusive: true
+        optional: false
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+
+  - distType: "discrete"
+    name: "DiscreteUniform"
+    displayName: "Discrete uniform distribution"
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.DiscreteUniform.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-DiscreteUniform-1.png"
+    input:
+      - id: "lower-int"
+        name: "lower"
+        type: "int"
+        upper: "inf"
+        lower: "-inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: false
+      - id: "upper-int"
+        name: "upper"
+        type: "int"
+        upper: "inf"
+        lower: "-inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: false
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+
+  - distType: "discrete"
+    name: "Poisson"
+    displayName: "Poisson log-likelihood"
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Poisson.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Poisson-1.png"
+    input:
+      - id: "mu"
+        name: "mu - Expected number of occurrences during the given interval (mu >= 0)"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
+        optional: false
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+
+  # Continuous distributions
+  - distType: "continuous"
     name: "Uniform"
+    displayName: "Continuous uniform log-likelihood."
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+    input:
+      - id: "lower-float"
+        name: "lower"
+        type: "float"
+        upper: "inf"
+        lower: "-inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: false
+      - id: "upper-float"
+        name: "upper"
+        type: "float"
+        upper: "inf"
+        lower: "-inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: false
     output:
-      name: "support"
+      id: "support"
       type: "float"
-      upper: "inputs[upper]"
-      lower: "inputs[lower]"
-      upperBound: "open"
-      lowerBound: "open"
-      default: 0
-      optional: false
-    inputs:
-      - name: "lower"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+  - distType: "continuous"
+    name: "Exponential"
+    displayName: "Exponential log-likelihood."
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Exponential.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Exponential-1.png"
+    input:
+      - id: "lam"
+        name: "lam - Rate or inverse scale (lam > 0)"
         type: "float"
         upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: 0
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
         optional: false
-      - name: "upper"
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+  - distType: "continuous"
+    name: "Gamma"
+    displayName: "Gamma log-likelihood."
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Gamma.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Gamma-1.png"
+    input:
+      - id: "alpha"
+        name: "alpha"
         type: "float"
         upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: 1
+        lower: "-inf"
+        upperInclusive: false
+        lowerInclusive: false
         optional: false
-    description: "lorem ipsum"
-    pymcdocsurl: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html"
-    image: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+      - id: "beta"
+        name: "beta"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
+        optional: false
+      - id: "mu"
+        name: "mu - Expected number of occurrences during the given interval (mu >= 0)"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
+        optional: false
+      - id: "sigma"
+        name: "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
+        optional: true
+    output:
+      id: "support"
+      type: "float"
+      upper: "inf"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
 
-  - distType: "discrete"
+  - distType: "continuous"
     name: "Normal"
-    output:
-      name: "support"
-      type: "float"
-      upper: "inputs[upper]"
-      lower: "inputs[lower]"
-      upperBound: "open"
-      lowerBound: "open"
-      default: 0
-      optional: false
-    inputs:
-      - name: "mu"
+    displayName: "Univariate normal log-likelihood"
+    url: "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.Normal.html"
+    image_url: "https://docs.pymc.io/en/v5.0.1/_images/pymc-Normal-1.png"
+    input:
+      - id: "mu"
+        name: "mu - Mean of the distribution"
         type: "float"
         upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: 0
-        optional: false
-      - name: "sigma"
-        type: "float"
-        upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: false
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
         optional: true
-      - name: "tau"
+      - id: "sigma"
+        name: "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)"
         type: "float"
         upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: false
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
         optional: true
-    description: "lorem ipsum"
-    pymcdocsurl: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Normal.html"
-    image: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Normal-1.png"
-
-  - distType: "discrete"
-    name: "TestInf Open"
+      - id: "tau"
+        name: "tau - Precision (tau > 0) (only required if sigma is not specified)"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: true
+        optional: true
     output:
-      name: "support"
+      id: "support"
       type: "float"
       upper: "inf"
-      lower: "inf"
-      upperBound: "open"
-      lowerBound: "open"
-      default: 0
-      optional: false
-    inputs:
-      - name: "lower"
+      lower: "-inf"
+      upperInclusive: false
+      lowerInclusive: false
+
+  - distType: "continuous"
+    name: "HalfNormal"
+    displayName: "Half-normal log-likelihood"
+    url: "https://docs.pymc.io/en/v5.0.1/api/distributions/generated/pymc.HalfNormal.html"
+    image_url: "https://docs.pymc.io/en/v5.0.1/_images/pymc-HalfNormal-1.png"
+    input:
+      - id: "sigma"
+        name: "sigma - Standard deviation (sigma > 0) (only required if tau is not specified)"
         type: "float"
         upper: "inf"
-        lower: "inf"
-        upperBound: "open"
-        lowerBound: "open"
-        default: 0
-        optional: false
-    description: "lorem ipsum"
-    pymcdocsurl: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html"
-    image: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
-
-  - distType: "discrete"
-    name: "TestInf Closed"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "tau"
+        name: "tau - Precision (tau > 0) (only required if sigma is not specified)"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
     output:
-      name: "support"
+      id: "support"
       type: "float"
       upper: "inf"
-      lower: "inf"
-      upperBound: "closed"
-      lowerBound: "closed"
-      default: 0
-      optional: false
-    inputs:
-      - name: "lower"
-        type: "float"
-        upper: "inf"
-        lower: "inf"
-        upperBound: "closed"
-        lowerBound: "closed"
-        default: 0
-        optional: false
-    description: "lorem ipsum"
-    pymcdocsurl: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Uniform.html"
-    image: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Uniform-1.png"
+      lower: "0"
+      upperInclusive: true
+      lowerInclusive: false
 
