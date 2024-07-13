@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PlayIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ButtonsAndLinks";
 import ky from "ky";
 import { useState } from "react";
@@ -20,17 +20,21 @@ export default function ListElement({ model }: any) {
   }
 
   return (
-    <div>
+    <div className={`p-3 border-2 border-black transition-all ease-in-out duration-75 ${showJobs ? 'shadow-hard': '' }`}>
       <div className="w-full flex justify-between gap-4">
         <Link
           href={`/model/${model?.id}`}
-          className="w-full flex justify-between p-3 border-2 border-black hover:shadow-hard hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all ease-in-out duration-75"
+          className="w-full"
         >
           <p className="text-2xl">{model?.title}</p>
         </Link>
 
         <Button onClick={handleRunModel}>
-          Run Model
+          <PlayIcon className="w-5" />
+        </Button>
+
+        <Button onClick={() => setShowJobs(!showJobs)}>
+          <EyeIcon className="w-5" />
         </Button>
 
         <Button
@@ -40,13 +44,7 @@ export default function ListElement({ model }: any) {
           size="small"
         >
           <TrashIcon className="w-5" />
-          Delete
         </Button>
-
-        <Button onClick={() => setShowJobs(!showJobs)}>
-          Show Jobs
-        </Button>
-
       </div>
 
       { showJobs ? ( <JobList model_id={model.id} />) : null }
@@ -59,7 +57,9 @@ function JobList({ model_id }: {model_id: string}) {
     queryKey: ["jobs", model_id],
     queryFn: async () => {
       const response = await ky.get(`${process.env.NEXT_PUBLIC_API_URL}/job/`);
-      return await response.json();
+      const jobs = await response.json() as any[];
+      jobs.reverse();
+      return jobs;
     }
   });
 
@@ -81,15 +81,9 @@ function JobList({ model_id }: {model_id: string}) {
     <div>
       {data && data.length > 0 ? (
         <div>
+          <p className="text-xl">Jobs:</p>
           {data.map((job: any) => (
-            <div key={job.id}>
-              <div className="grid grid-cols-3 gap-10">
-                <p>{job.id}</p>
-                <p>{job.status}</p>
-                <p className="text-right">{new Date(job.start_time).toLocaleString()}</p>
-              </div>
-              <img className="w-1/2" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/trace.png`} alt="" />
-            </div>
+            <JobElement key={job.id} job={job} model_id={model_id} />
           ))}
         </div>
       ) : (
@@ -98,3 +92,32 @@ function JobList({ model_id }: {model_id: string}) {
     </div>
   );
 }
+
+function JobElement({ job, model_id }: any) {
+  const [open, setOpen] = useState(false);
+  const {isPending, error, data, isFetching}  = useQuery({
+    queryKey: ["log", model_id, job.id],
+    queryFn: async () => {
+      const response = await ky.get(`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/model.log`);
+      const log = await response.text();
+      return log;
+    }
+  });
+
+  return (
+    <div onClick={() => {setOpen(!open)}} className="odd:bg-stone-200 even:bg-stone-300 p-2">
+      <div className="grid grid-cols-3 gap-10 cursor-pointer">
+        <p>{job.id}</p>
+        <p>{job.status}</p>
+        <p className="text-right">{new Date(job.start_time).toLocaleString()}</p>
+      </div>
+      {open ? (
+        <div className="py-4">
+          <img className="w-1/2" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/trace.png`} alt="" />
+          
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
