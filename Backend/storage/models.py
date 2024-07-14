@@ -8,6 +8,8 @@ class GDPM_Model(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(default="default_model", max_length=20)
     body = models.JSONField(default=dict)
+    owner = models.ForeignKey('auth.User', related_name='gdpm_models',
+                              on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title

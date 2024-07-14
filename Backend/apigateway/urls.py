@@ -28,4 +28,6 @@ urlpatterns = [
     path('continuous/', views.ContinuousView.as_view()),
     path('discrete/', views.DiscreteView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('users/', views.UserList.as_view()),
+    path('users/<int:pk>/', views.UserDetail.as_view()),
 ]

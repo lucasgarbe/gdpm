@@ -1,8 +1,9 @@
 from storage.models import GDPM_Model, Job
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.views import APIView
-from .serializers import GDPMModelSerializer, JobSerializer
+from .serializers import GDPMModelSerializer, JobSerializer, UserSerializer
 from rest_framework.response import Response
+from django.contrib.auth.models import User
 from converter.pymc_converter import convert_model
 from converter import utils
 from django.http import FileResponse
@@ -23,6 +24,9 @@ import yaml
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
     queryset = GDPM_Model.objects.all().order_by('id')
     serializer_class = GDPMModelSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 class DiscreteView(APIView):
@@ -86,3 +90,13 @@ class IpynbViewSet(viewsets.ModelViewSet):
 class JobViewSet(viewsets.ModelViewSet):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
