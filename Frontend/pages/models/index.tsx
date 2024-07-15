@@ -1,11 +1,11 @@
 import Head from "next/head";
 import ListElement from "../../components/listElement";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { fetchModels, useModels } from "../../hooks/useModels";
+import { fetchModels, useModels, useUserModels } from "../../hooks/useModels";
 import Header from "../../components/Header";
 
 export default function Models() {
-  const { data, isLoading } = useModels();
+  const { data, isLoading } = useUserModels(1);
   return (
     <>
       <Head>

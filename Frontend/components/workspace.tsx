@@ -196,7 +196,7 @@ function Flow() {
   }
 
   return (
-    <div className="h-full w-full" ref={flowWrapper}>
+    <div className="h-screen w-full" ref={flowWrapper}>
       <ReactFlow
         nodes={nodes}
         edges={edges}

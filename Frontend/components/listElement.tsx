@@ -6,13 +6,9 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ListElement({ model }: any) {
-  console.log(model);
-  console.log(process.env.NEXT_PUBLIC_API_URL);
-  console.log(process.env.NEXT_PUBLIC_IMAGE_URL);
   const [showJobs, setShowJobs] = useState(false);
 
   function handleRunModel() {
-    console.log("should run model");
     const formData = new FormData();
     formData.append("status", "frontend");
     formData.append("model", model.id);
