@@ -3,6 +3,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
+# router.register(r'users', views.UserViewSet)
 router.register(r'models', views.GDPM_ModelViewSet)
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')

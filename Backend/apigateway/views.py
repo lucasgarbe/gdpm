@@ -1,7 +1,8 @@
 from storage.models import GDPM_Model, Job
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, permissions
 from rest_framework.views import APIView
 from .serializers import GDPMModelSerializer, JobSerializer, UserSerializer
+from .permissions import IsOwnerOrReadOnly
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from converter.pymc_converter import convert_model
@@ -22,6 +23,8 @@ import yaml
 
 
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
     queryset = GDPM_Model.objects.all().order_by('id')
     serializer_class = GDPMModelSerializer
 
