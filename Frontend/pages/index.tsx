@@ -3,8 +3,11 @@ import Link from "next/link";
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 import Header from "../components/Header";
+import useAuth from "../hooks/useAuth";
+import { Button } from "../components/ButtonsAndLinks";
 
 export default function Home() {
+  const { user, isLoading, error, login, logout } = useAuth();
   return (
     <>
       <Head>
@@ -19,6 +22,22 @@ export default function Home() {
       <Header />
 
       <main className="flex-grow pt-34">
+        <div>
+          {user ?
+            <Button onClick={logout} size="small">
+              Logout {user.username}
+            </Button>
+            :
+            <Button onClick={() => {
+              console.log('login click');
+              login({username: 'admin', password: 'admin'});
+            }}
+            size="small">
+              Login Admin
+            </Button>
+          }
+        </div>
+
         <div className="container mx-auto pt-40">
           <div className="group">
             <p className="text-6xl font-bold text-left text-amber-500 group-hover:text-black">
@@ -70,6 +89,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
+
       </main>
 
       <footer className="text-center font-light">GPDM - Projektstudium</footer>
