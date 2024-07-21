@@ -52,6 +52,23 @@ class ContinuousView(APIView):
         return Response(continuous)
 
 
+class ConfigView(APIView):
+    def get(self, request):
+        with open(os.path.join(os.getcwd(), '..', 'config.yml'), 'r') as stream:
+            byte_io = BytesIO()
+            byte_io.write(stream.read().encode('utf-8'))
+            byte_io.seek(0)
+            return FileResponse(byte_io, as_attachment=True,
+                                filename='config.yml')
+
+        return Response({'error': 'Could not read config file'})
+
+    def post(self, request):
+        with open(os.path.join(os.getcwd(), '..', 'config.yml'), 'w') as stream:
+            stream.write(request.data['config'])
+        return Response({'success': 'Config file updated'})
+
+
 class PymcViewSet(viewsets.ModelViewSet):
     queryset = GDPM_Model.objects.all()
     serializer_class = GDPMModelSerializer
@@ -103,3 +120,4 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+

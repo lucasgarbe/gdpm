@@ -13,6 +13,7 @@ export default function Header() {
       <nav className="flex gap-6 bg-gradient-1">
         <HighlightLink href="/models/new">New Model</HighlightLink>
         <HighlightLink href="/models">List all Models</HighlightLink>
+        <HighlightLink href="/config">Edit config</HighlightLink>
       </nav>
     </header>
   );
