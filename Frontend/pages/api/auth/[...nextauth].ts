@@ -18,11 +18,10 @@ export const authOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        username: { label: "Username", type: "text", placeholder: "username" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        // return { id: 1, name: 'J Smith', email: 'testmail@mail.com'}
         // You need to provide your own logic here that takes the credentials
         // submitted and returns either a object representing a user or value
         // that is false/null if the credentials are invalid.
