@@ -5,6 +5,8 @@ import Header from '../../components/Header';
 import Head from 'next/head';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ky from 'ky';
+import { Button } from '../../components/ButtonsAndLinks';
+import { CloudArrowDownIcon } from '@heroicons/react/24/outline';
 
 export default function ConfigEditor() {
   const [value, setValue] = useState("console.log('hello world!');");
@@ -44,13 +46,18 @@ export default function ConfigEditor() {
       <Header />
 
       <main className="container mx-auto flex-grow">
-        <h1>Config Editor</h1>
-
-        <button onClick={() => mutate()}>Save</button>
+        <div className="flex justify-between items-center mt-12">
+          <h1 className="text-5xl font-semibold">Config</h1>
+          <Button onClick={() => mutate()}>
+            <CloudArrowDownIcon className="w-5" />
+            Save
+          </Button>
+        </div>
         <CodeMirror
           value={data}
           extensions={[javascript({ jsx: true })]}
           onChange={onChange}
+          className="mt-6"
         />
 
       </main>
