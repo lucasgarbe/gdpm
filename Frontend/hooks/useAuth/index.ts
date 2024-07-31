@@ -1,11 +1,13 @@
 import ky from 'ky';
 import { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { useRouter } from 'next/router';
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const login = async (credentials) => {
     setIsLoading(true);
@@ -17,17 +19,22 @@ const useAuth = () => {
         {json: credentials}
       ).json();
 
-      console.log("response", response);
-
       const decoded = jwtDecode(response.access);
-      console.log("user", decoded);
-
       setUser(decoded);
+
       localStorage.setItem('access', response.access);
       localStorage.setItem('refresh', response.refresh);
       localStorage.setItem('access_expires', decoded.exp.toString());
+
+      router.push("/");
     } catch (error) {
-      setError(error);
+      const errorResponse = await error.response.json();
+
+      if (errorResponse.detail) {
+        setError(errorResponse.detail);
+      } else {
+        setError(error);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -35,12 +42,12 @@ const useAuth = () => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
   };
 
   const refresh = async () => {
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = localStorage.getItem('refresh');
 
     if (refreshToken) {
       try {
@@ -50,7 +57,7 @@ const useAuth = () => {
         ).json();
 
         setUser(response);
-        localStorage.setItem('access_token', response.access);
+        localStorage.setItem('access', response.access);
       } catch (error) {
         console.error('Failed to refresh token:', error);
         logout(); // Handle potential refresh token expiration
@@ -59,7 +66,7 @@ const useAuth = () => {
   }
 
   const verify = async () => {
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('access');
 
     if (accessToken) {
       try {
@@ -78,10 +85,10 @@ const useAuth = () => {
 
   // Check for existing tokens and refresh if necessary (optional)
   useEffect(() => {
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = localStorage.getItem('refresh_token');
+    const accessToken = localStorage.getItem('access');
+    const refreshToken = localStorage.getItem('refresh');
     const accessExpires = localStorage.getItem('access_expires');
-    let decoded = jwtDecode(accessToken);
+    let decoded = accessToken != null ? jwtDecode(accessToken) : null;
 
     if (accessToken && refreshToken && accessExpires && Date.now() >= parseInt(accessExpires) * 1000) {
       const handleRefresh = async () => {
@@ -92,7 +99,7 @@ const useAuth = () => {
           ).json();
 
           decoded = jwtDecode(response.access);
-          localStorage.setItem('access_token', response.access);
+          localStorage.setItem('access', response.access);
         } catch (error) {
           console.error('Failed to refresh token:', error);
           logout(); // Handle potential refresh token expiration

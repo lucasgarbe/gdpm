@@ -9,27 +9,16 @@ type JWTToken = {
 }
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, error } = useAuth();
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log("submit")
+    console.log("submit", event)
 
-    login({username: "admin", password: "admin"})
+    // get inputs from form
+    const username = event.target[0].value
+    const password = event.target[1].value
 
-    // const tokens = await ky.post("http://localhost:8000/api/token/", {
-    //   json: {
-    //     username: "admin",
-    //     password: "admin"
-    //   }
-    // }).json() as JWTToken
-
-
-    // if (tokens) {
-    //   console.log("tokens", tokens)
-
-    //   localStorage.setItem("access", tokens.access)
-    //   localStorage.setItem("refresh", tokens.refresh)
-    // }
+    login({username, password})
   }
 
   const verifyToken = async () => {
@@ -58,6 +47,8 @@ export default function Login() {
       <Header />
 
       <main className="container mx-auto flex-grow">
+
+        {error && <div>{error.toString()}</div>}
         <form className="flex flex-col gap-4 mt-6" onSubmit={handleSubmit}>
           <input type="text" placeholder="Username" />
           <input type="password" placeholder="Password" />
