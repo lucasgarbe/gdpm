@@ -1,9 +1,10 @@
 import { ArrowPathIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { CloudIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import ky from "ky-universal";
 import router, { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import useAuth from "../hooks/useAuth";
 import { Button } from "./ButtonsAndLinks";
 
 export default function SaveButton({
@@ -13,6 +14,7 @@ export default function SaveButton({
 }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const router = useRouter();
+  const { user } = useAuth();
 
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -20,6 +22,10 @@ export default function SaveButton({
         return ky
           .post(`${process.env.NEXT_PUBLIC_API_URL}/models/`, {
             json: payload,
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("access")}`,
+            }
           })
           .json();
       }

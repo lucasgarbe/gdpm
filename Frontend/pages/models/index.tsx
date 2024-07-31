@@ -3,11 +3,11 @@ import ListElement from "../../components/listElement";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { fetchModels, useModels, useUserModels } from "../../hooks/useModels";
 import Header from "../../components/Header";
-import { useSession } from "next-auth/react"
+import useAuth from "../../hooks/useAuth";
 
 export default function Models() {
-  const { data: session } = useSession();
-  const { data, isLoading } = useUserModels(session?.user?.user_id);
+  const { user } = useAuth();
+  const { data, isLoading } = useUserModels(user?.user_id);
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Models() {
       <Header />
 
       <main className="container mx-auto flex-grow">
-        <h1 className="text-5xl font-semibold mt-12">Saved Models from {session?.user?.username}</h1>
+        <h1 className="text-5xl font-semibold mt-12">Saved Models from {user?.username}</h1>
 
         <div className="flex flex-col gap-4 mt-6">
           {data?.map((model, index) => (

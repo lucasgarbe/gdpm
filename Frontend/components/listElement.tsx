@@ -4,6 +4,7 @@ import { Button } from "./ButtonsAndLinks";
 import ky from "ky";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import DeleteButton from "./DeleteButton";
 
 export default function ListElement({ model }: any) {
   const [showJobs, setShowJobs] = useState(false);
@@ -33,14 +34,7 @@ export default function ListElement({ model }: any) {
           <EyeIcon className="w-5" />
         </Button>
 
-        <Button
-          onClick={() => {
-            console.log("should delete");
-          }}
-          size="small"
-        >
-          <TrashIcon className="w-5" />
-        </Button>
+        <DeleteButton id={model.id} />
       </div>
 
       { showJobs ? ( <JobList model_id={model.id} />) : null }

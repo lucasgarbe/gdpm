@@ -8,7 +8,6 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { SessionProvider } from "next-auth/react";
 
 const font = LocalFont({
   src: "../public/ClashGrotesk-Variable.ttf",
@@ -27,9 +26,7 @@ export default function App({
           <main
             className={`${font.variable} min-h-full font-sans flex flex-col justify-between bg-stone-100`}
           >
-            <SessionProvider session={session}>
-              <Component {...pageProps} />
-            </SessionProvider>
+            <Component {...pageProps} />
           </main>
         </Hydrate>
         <ReactQueryDevtools />
