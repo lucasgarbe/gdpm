@@ -112,12 +112,22 @@ class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
 
 
-class UserList(generics.ListAPIView):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = UserSerializer
 
 
-class UserDetail(generics.RetrieveAPIView):
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-

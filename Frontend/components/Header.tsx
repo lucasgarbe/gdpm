@@ -15,10 +15,12 @@ export default function Header() {
 
       <nav className="flex gap-6 bg-gradient-1">
         <HighlightLink href="/models/new">New Model</HighlightLink>
-        <HighlightLink href="/models">List all Models</HighlightLink>
 
         {user && (
-          <HighlightLink href="/config">Edit config</HighlightLink>
+          <>
+            <HighlightLink href="/models">List my Models</HighlightLink>
+            <HighlightLink href="/config">Edit config</HighlightLink>
+          </>
         )}
         <LoginButton />
       </nav>

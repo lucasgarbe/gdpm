@@ -8,6 +8,7 @@ router.register(r'models', views.GDPM_ModelViewSet)
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')
 router.register(r'job', views.JobViewSet, basename='job')
+router.register(r'users', views.UserViewSet, basename='user')
 
 """gdpmdjango URL Configuration
 
@@ -30,6 +31,7 @@ urlpatterns = [
     path('discrete/', views.DiscreteView.as_view()),
     path('config/', views.ConfigView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('users/', views.UserList.as_view()),
-    path('users/<int:pk>/', views.UserDetail.as_view()),
+    # path('users/', views.UserList.as_view()),
+    # path('users/<int:pk>/', views.UserDetail.as_view()),
+    path('register/', views.RegisterUser.as_view()),
 ]

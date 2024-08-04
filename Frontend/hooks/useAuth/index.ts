@@ -83,6 +83,30 @@ const useAuth = () => {
     }
   }
 
+  const register = async (credentials) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await ky.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/register/`,
+        {json: credentials}
+      ).json();
+
+      router.push("/login");
+    } catch (error) {
+      const errorResponse = await error.response.json();
+
+      if (errorResponse.detail) {
+        setError(errorResponse.detail);
+      } else {
+        setError(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Check for existing tokens and refresh if necessary (optional)
   useEffect(() => {
     const accessToken = localStorage.getItem('access');
@@ -115,7 +139,7 @@ const useAuth = () => {
     setUser(decoded);
   }, []);
 
-  return { user, isLoading, error, login, logout, refresh, verify};
+  return { user, isLoading, error, login, logout, refresh, verify, register};
 };
 
 export default useAuth;

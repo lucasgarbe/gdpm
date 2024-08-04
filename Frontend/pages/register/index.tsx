@@ -4,13 +4,8 @@ import Link from "next/link";
 import Header from "../../components/Header";
 import useAuth from "../../hooks/useAuth";
 
-type JWTToken = {
-  access: string
-  refresh: string
-}
-
-export default function Login() {
-  const { login, error } = useAuth();
+export default function Register() {
+  const { register, error } = useAuth();
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log("submit", event)
@@ -19,19 +14,7 @@ export default function Login() {
     const username = event.target[0].value
     const password = event.target[1].value
 
-    login({ username, password })
-  }
-
-  const verifyToken = async () => {
-    const token = localStorage.getItem("access")
-
-    if (token) {
-      const response = await ky.post("http://localhost:8000/api/token/verify/", {
-        json: {
-          token: token
-        }
-      }).json()
-    }
+    register({username, password})
   }
 
   return (
@@ -57,12 +40,14 @@ export default function Login() {
           <label className="flex flex-col">Password:
             <input type="password" placeholder="Password" />
           </label>
-          <button type="submit">Login</button>
+          <label className="flex flex-col">Reenter Password:
+            <input type="repassword" placeholder="Password" />
+          </label>
+          <button type="submit">Register</button>
         </form>
 
         <div className="flex gap-4 mt-6 items-center justify-center">
-          <Link href="/register">Register</Link>
-          <button onClick={verifyToken}>Verify Token</button>
+          <Link href="/login">Login</Link>
         </div>
       </main>
     </>

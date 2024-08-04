@@ -12,7 +12,7 @@ export const Button = ({
 }) => {
   return (
     <button
-      className={`flex gap-1 items-center bg-stone-100 border-2 border-black hover:shadow-hard hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all ease-in-out duration-75  ${
+      className={`flex gap-1 items-center bg-stone-100 border-2 border-black hover:shadow-hard transition-all ease-in-out duration-75  ${
         size == "small" ? "p-1" : "px-4 py-2"
       }`}
       onClick={onClick}
@@ -50,7 +50,7 @@ export const HighlightLink = ({
 }) => (
   <Link
     href={href}
-    className={`flex items-center border-2 border-black font-semibold bg-stone-100 hover:shadow-hard hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all ease-in-out duration-75 ${
+    className={`flex items-center border-2 border-black font-semibold bg-stone-100 hover:shadow-hard transition-all ease-in-out duration-75 ${
       size == "small" ? "p-1" : "px-4 py-2"
     }`}
   >
