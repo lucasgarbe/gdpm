@@ -28,9 +28,7 @@ export type RFState = {
 };
 
 export const useStore = create<RFState>((set, get) => ({
-  nodes: [
-    { id: "node_0", type: "constant", data: {}, position: { x: 250, y: 25 } },
-  ],
+  nodes: [],
   edges: [],
   onNodesChange: (changes: NodeChange[]) => {
     set({

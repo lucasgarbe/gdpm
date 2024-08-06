@@ -87,12 +87,12 @@ function Flow() {
     const model: modelResponse = await ky
       .get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
       .json();
-    if (model) {
-      setNodes(model.body.nodes);
-      setEdges(model.body.edges);
-      setViewport(model.body.viewport);
-      setLastIndex(model.body.lastIndex);
-    }
+    // if (model) {
+    //   setNodes(model.body.nodes);
+    //   setEdges(model.body.edges);
+    //   setViewport(model.body.viewport);
+    //   setLastIndex(model.body.lastIndex);
+    // }
     return model;
   };
 
@@ -201,7 +201,6 @@ function Flow() {
 
   return (
     <div className="h-screen w-full" ref={flowWrapper}>
-      <SimpleInput value={modelname} onChange={handleModelnameChange} />
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -218,7 +217,7 @@ function Flow() {
       >
         <Controls />
         <MiniMap />
-        <Panel position="top-left" className="flex items-start gap-2">
+        <Panel position="top-left" className="w-1/6 h-full flex flex-col items-start gap-2 !m-0 p-[15px] bg-stone-100 border-r-2 border-black">
           <div className="flex gap-2">
             <HighlightLink href="/" size="small">
               <ArrowLeftIcon className="w-5" />
