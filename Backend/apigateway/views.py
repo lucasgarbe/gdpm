@@ -1,9 +1,10 @@
 from storage.models import GDPM_Model, Job
 from rest_framework import viewsets, generics, permissions
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from .serializers import GDPMModelSerializer, JobSerializer, UserSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.response import Response
 from django.contrib.auth.models import User
 from converter.pymc_converter import convert_model
 from converter import utils
@@ -30,6 +31,15 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    @action(detail=True, methods=['post'],
+            permission_classes=[permissions.IsAuthenticated])
+    def duplicate(self, request, pk=None):
+        model_instance = self.get_object()
+        model_instance.owner = request.user
+        model_instance.id = None
+        model_instance.save()
+        return Response({'id': model_instance.id})
 
 
 class DiscreteView(APIView):

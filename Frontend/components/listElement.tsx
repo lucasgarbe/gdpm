@@ -1,19 +1,25 @@
 import Link from "next/link";
-import { EyeIcon, PlayIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { DocumentDuplicateIcon, EyeIcon, PlayIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Button } from "./ButtonsAndLinks";
 import ky from "ky";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DeleteButton from "./DeleteButton";
+import useAPI from "../hooks/useAPI";
 
 export default function ListElement({ model }: any) {
   const [showJobs, setShowJobs] = useState(false);
+  const api = useAPI();
 
   function handleRunModel() {
     const formData = new FormData();
     formData.append("status", "frontend");
     formData.append("model", model.id);
-    ky.post(`${process.env.NEXT_PUBLIC_API_URL}/job/`, {body: formData});
+    api.post(`job/`, {body: formData});
+  }
+
+  function handleDuplicateModel() {
+    api.post(`models/${model.id}/duplicate/`);
   }
 
   return (
@@ -32,6 +38,10 @@ export default function ListElement({ model }: any) {
 
         <Button onClick={() => setShowJobs(!showJobs)}>
           <EyeIcon className="w-5" />
+        </Button>
+
+        <Button onClick={handleDuplicateModel}>
+          <DocumentDuplicateIcon className="w-5" />
         </Button>
 
         <DeleteButton id={model.id} />
