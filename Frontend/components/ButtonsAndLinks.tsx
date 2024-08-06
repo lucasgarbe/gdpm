@@ -53,13 +53,16 @@ export const HighlightLink = ({
   href,
   children,
   size,
+  onClick,
 }: {
   href: string;
   children: ReactNode;
   size?: "small" | undefined;
+  onClick?: MouseEventHandler;
 }) => (
   <Link
     href={href}
+    onClick={onClick}
     className={`flex items-center border-2 border-black font-semibold bg-stone-100 hover:shadow-hard transition-all ease-in-out duration-75 ${
       size == "small" ? "p-1" : "px-4 py-2"
     }`}

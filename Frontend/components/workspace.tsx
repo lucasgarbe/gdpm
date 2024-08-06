@@ -219,7 +219,7 @@ function Flow() {
         <MiniMap />
         <Panel position="top-left" className="w-1/6 h-full flex flex-col items-start gap-2 !m-0 p-[15px] bg-stone-100 border-r-2 border-black">
           <div className="flex gap-2">
-            <HighlightLink href="/" size="small">
+            <HighlightLink href="/" onClick={(e) => {console.log("click", e);e.preventDefault(); router.back()}} size="small">
               <ArrowLeftIcon className="w-5" />
             </HighlightLink>
             <Button
