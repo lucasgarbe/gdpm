@@ -1,7 +1,10 @@
 import Head from "next/head";
+import useAuth from "../hooks/useAuth";
 import Header from "./Header";
 
-export default function Layout({ children }) {
+
+export default function Layout({ children }): JSX.Element {
+    const auth = useAuth();
     return (
         <>
             <Head>

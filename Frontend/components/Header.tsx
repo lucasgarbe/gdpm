@@ -1,10 +1,23 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { useUser } from "../hooks/useTokens";
+import authStore from "../stores/auth";
 import { HighlightLink } from "./ButtonsAndLinks";
 import LoginButton from "./loginButton";
 
 export default function Header() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
+  // const { user } = authStore();
+  // const { user } = useUser();
+
+  const [user, setUser] = useState(null);
+  const store = authStore();
+
+  useEffect(() => {
+    setUser(store.user);
+  }, [store]);
+
   return (
     <header className="container mx-auto py-1 border-b-2 border-black flex justify-between items-center">
       <Link href="/">

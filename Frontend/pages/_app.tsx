@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import LocalFont from "next/font/local";
@@ -18,7 +18,7 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps}
 }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
       <QueryClientProvider client={queryClient}>

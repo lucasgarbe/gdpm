@@ -1,7 +1,8 @@
 import ky from 'ky';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/router';
+
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -28,6 +29,7 @@ const useAuth = () => {
 
       router.push("/");
     } catch (error) {
+      console.error('Failed to login:', error);
       const errorResponse = await error.response.json();
 
       if (errorResponse.detail) {

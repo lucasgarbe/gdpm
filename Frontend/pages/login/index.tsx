@@ -1,8 +1,7 @@
-import ky from "ky";
-import Head from "next/head";
 import Link from "next/link";
-import Header from "../../components/Header";
-import useAuth from "../../hooks/useAuth";
+import Layout from "../../components/Layout";
+import { useStore } from "../../hooks/useStore";
+import authStore  from "../../stores/auth";
 
 type JWTToken = {
   access: string
@@ -10,7 +9,13 @@ type JWTToken = {
 }
 
 export default function Login() {
-  const { login, error } = useAuth();
+  // const [ user, setUser ] = useState(null);
+  // const { login, error, verify } = useAuth();
+  // const store = authStore();
+  // const login = useLogin();
+
+  const store = useStore(authStore, (state) => state);
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     console.log("submit", event)
@@ -19,37 +24,13 @@ export default function Login() {
     const username = event.target[0].value
     const password = event.target[1].value
 
-    login({ username, password })
-  }
-
-  const verifyToken = async () => {
-    const token = localStorage.getItem("access")
-
-    if (token) {
-      const response = await ky.post("http://localhost:8000/api/token/verify/", {
-        json: {
-          token: token
-        }
-      }).json()
-    }
+    store.login({ username, password })
   }
 
   return (
-    <>
-      <Head>
-        <title>GDPM</title>
-        <meta
-          name="description"
-          content="Grafische Entwicklungsumgebung zur Modellierung und zum Management probabilistischer Modelle"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Header />
-
+    <Layout>
       <main className="container mx-auto flex-grow">
 
-        {error && <div>{error.toString()}</div>}
         <form className="max-w-md mx-auto flex flex-col gap-4 mt-6" onSubmit={handleSubmit}>
           <label className="flex flex-col">Username:
             <input type="text" placeholder="Username" />
@@ -62,9 +43,8 @@ export default function Login() {
 
         <div className="flex gap-4 mt-6 items-center justify-center">
           <Link href="/register">Register</Link>
-          <button onClick={verifyToken}>Verify Token</button>
         </div>
       </main>
-    </>
+    </Layout>
   );
 }

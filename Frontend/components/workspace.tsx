@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   Controls,
@@ -191,12 +191,17 @@ function Flow() {
     [nodes, reactFlowInstance, lastIndex, setLastIndex, setNodes]
   );
 
+  const handleModelnameChange = (e: any) => {
+    setModelname(e.target.value);
+  }
+
   if (id && isLoading) {
     return <h1 className="h-screen w-screen">loading</h1>;
   }
 
   return (
     <div className="h-screen w-full" ref={flowWrapper}>
+      <SimpleInput value={modelname} onChange={handleModelnameChange} />
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -224,7 +229,7 @@ function Flow() {
                   "top",
                   <SettingsModal
                     modelname={modelname}
-                    updateModelname={setModelname}
+                    updateModelname={handleModelnameChange}
                   />
                 )
               }
@@ -257,8 +262,7 @@ function Flow() {
   );
 }
 
-const SettingsModal = ({ modelname, updateModelname }: any) => {
-  const [innerName, setInnerName] = useState(modelname);
+const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
   return (
     <>
       <p className="text-xl font-semibold">Settings</p>
@@ -267,11 +271,8 @@ const SettingsModal = ({ modelname, updateModelname }: any) => {
           Modelname:
           <input
             type="text"
-            value={innerName}
-            onChange={(e) => {
-              updateModelname(e.target.value);
-              setInnerName(e.target.value);
-            }}
+            value={modelname}
+            onChange={handleModelnameChange}
             className="ml-2 px-1 py-0.5 bg-stone-200"
           />
         </label>
@@ -279,6 +280,17 @@ const SettingsModal = ({ modelname, updateModelname }: any) => {
     </>
   );
 };
+
+const SimpleInput = ({ value, onChange }: any) => {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={onChange}
+      className="ml-2 px-1 py-0.5 bg-stone-200"
+    />
+  );
+}
 
 const Workspace = () => (
   <ReactFlowProvider>
