@@ -4,6 +4,7 @@ import { shallow } from "zustand/shallow";
 import { selector, useStore } from "../hooks/store";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
+import { Button } from "./ButtonsAndLinks";
 import CustomHandle from "./customHandle";
 import { ModalContext, ModalContextType } from "./Modal";
 
@@ -89,22 +90,31 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
 });
 
 const DistributionNodeModal = ({ id, name }: { id: string; name: string }) => {
+  const [value, setValue] = useState("");
   const { updateNodeName } = useStore();
+  const { closeModal } = useContext(ModalContext) as ModalContextType;
+
+  const handleClick = () => {
+    updateNodeName(id, value);
+    closeModal();
+  }
+
   return (
     <>
       <p className="text-xl font-semibold">Distribution</p>
-      <div className="mt-4">
+      <div className="w-full flex flex-col items-start mt-4">
         <label>
           Name:
           <input
             type="text"
-            value={name}
+            value={value}
             onChange={(e) => {
-              updateNodeName(id, e.target.value);
+              setValue(e.target.value);
             }}
             className="ml-2 px-1 py-0.5 bg-stone-200"
           />
         </label>
+        <Button className="self-end" onClick={handleClick}>update</Button>
       </div>
     </>
   );

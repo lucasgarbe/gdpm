@@ -5,16 +5,26 @@ export const Button = ({
   children,
   onClick,
   size,
+  className,
 }: {
   children: ReactNode;
   onClick?: MouseEventHandler;
   size?: "small";
+  className?: string;
 }) => {
   return (
     <button
-      className={`flex gap-1 items-center bg-stone-100 border-2 border-black hover:shadow-hard transition-all ease-in-out duration-75  ${
-        size == "small" ? "p-1" : "px-4 py-2"
-      }`}
+      className={`flex
+        gap-1
+        bg-stone-100
+        border-2 border-black
+        hover:shadow-hard
+        transition-all
+        ease-in-out
+        duration-75
+        ${ size == "small" ? "p-1" : "px-4 py-2"}
+        ${className}
+      `}
       onClick={onClick}
     >
       {children}
