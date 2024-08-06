@@ -1,14 +1,7 @@
 import Head from "next/head";
-import Link from "next/link";
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
-import { DocumentPlusIcon } from "@heroicons/react/24/outline";
 import Header from "../components/Header";
-import useAuth from "../hooks/useAuth";
-import { Button } from "../components/ButtonsAndLinks";
-import LoginButton from "../components/loginButton";
 
 export default function Home() {
-  const { user, isLoading, error, login, logout } = useAuth();
   return (
     <>
       <Head>

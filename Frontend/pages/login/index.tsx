@@ -9,11 +9,6 @@ type JWTToken = {
 }
 
 export default function Login() {
-  // const [ user, setUser ] = useState(null);
-  // const { login, error, verify } = useAuth();
-  // const store = authStore();
-  // const login = useLogin();
-
   const store = useStore(authStore, (state) => state);
 
   const handleSubmit = async (event) => {

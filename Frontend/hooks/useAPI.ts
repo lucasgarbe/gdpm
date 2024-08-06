@@ -1,24 +1,23 @@
 import ky from "ky";
-import useAuth from "./useAuth";
+import { useStore } from "../hooks/useStore";
+import authStore from "../stores/auth";
 
 export default function useAPI() {
-  const { refresh } = useAuth();
+  const store = useStore(authStore, (state) => state);
 
   const api = ky.extend({
     prefixUrl: process.env.NEXT_PUBLIC_API_URL,
     hooks: {
       beforeRequest: [
         async (request) => {
-          let token = localStorage.getItem("access");
-          const accessExpires = localStorage.getItem("access_expires");
+          console.log('ky beforeRequest', request, {store: store});
+          if (store) {
+            await store.fetchRefresh();
 
-          if (token && accessExpires && Date.now() >= parseInt(accessExpires) * 1000) {
-            refresh();
-            token = localStorage.getItem("access");
-          }
-
-          if (token) {
-            request.headers.set("Authorization", `Bearer ${token}`);
+            console.log("new store in ky hook", store, store.access);
+            if (store.access) {
+              request.headers.set("Authorization", `Bearer ${store.access}`);
+            }
           }
         },
       ],

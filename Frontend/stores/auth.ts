@@ -3,6 +3,7 @@ import { devtools, persist } from 'zustand/middleware';
 import { jwtDecode } from 'jwt-decode';
 import ky from 'ky';
 import router from 'next/router';
+import useAPI from '../hooks/useAPI';
 
 type JWTTokens = {
 	access: string;
@@ -17,16 +18,24 @@ const authStore = create(
 			isLoggedIn: false,
 			loading: false,
 			error: null,
+			access: null,
+			refresh: null,
+			expires: null,
 
 			login: async (credentials) => {
 				set({ loading: true, error: null });
 
 				try {
 					const response = await ky.post(`${process.env.NEXT_PUBLIC_API_URL}/api/token/`, { json: credentials }).json() as JWTTokens;
-					const token = response.access;
-					const decodedToken = jwtDecode(token);
-					set({ user: decodedToken, isLoggedIn: true, loading: false });
-					// localStorage.setItem('token', token);
+					const decodedToken = jwtDecode(response.access);
+					set({
+						user: decodedToken,
+						isLoggedIn: true,
+						loading: false,
+						access: response.access,
+						refresh: response.refresh,
+						expires: decodedToken.exp * 1000,
+					});
 					router.push('/');
 				} catch (error) {
 					set({ error: error.message, loading: false });
@@ -34,20 +43,46 @@ const authStore = create(
 			},
 
 			logout: () => {
-				// localStorage.removeItem('token');
-				set({ user: null, isLoggedIn: false });
+				set({
+					user: null,
+					isLoggedIn: false,
+					access: null,
+					refresh: null,
+					expires: null,
+				});
+				router.push('/');
 			},
 
-			refresh: async () => {
-				// Implement token refresh logic here
-				// ...
-			},
+			fetchRefresh: async () => {
+				const now = Date.now();
+				const expires = get().expires;
+				console.log('check refresh in store', {currentDate: now, expires: expires, compare: now >= expires});
 
-			// ... other auth related functions
+				const refreshToken = get().refresh as string;
+
+				if (refreshToken && now >= expires) {
+					console.log('found expired acces token and refresh token');
+					try {
+						const response = await ky.post(`${process.env.NEXT_PUBLIC_API_URL}/api/token/refresh/`, { json: { refresh: refreshToken } }).json() as { access: string };
+						console.log('got new access token', response);
+
+						const decodedToken = jwtDecode(response.access);
+						set({
+							user: decodedToken,
+							isLoggedIn: true,
+							loading: false,
+							access: response.access,
+							expires: decodedToken.exp,
+						});
+					} catch (error) {
+						console.error('Failed to refresh token:', error);
+					}
+				}
+			},
 		}),
 		{
 			name: 'auth',
-			skipHydration: true,
+			// skipHydration: true,
 		}
 	)
 	)
