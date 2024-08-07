@@ -3,19 +3,21 @@ import { CloudIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import shallow from "zustand/shallow";
+import { selector, useModelStore } from "../hooks/store";
 import useAPI from "../hooks/useAPI";
 import useAuth from "../hooks/useAuth";
 import { Button } from "./ButtonsAndLinks";
 
 export default function SaveButton({
   reactFlowInstance,
-  modelname,
   lastIndex,
 }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const router = useRouter();
   const api = useAPI();
   const queryClient = useQueryClient();
+  const { modelname, visibility } = useModelStore(selector, shallow);
 
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -53,6 +55,7 @@ export default function SaveButton({
       console.log("saving", flow);
       updateModelMutation.mutate({
         title: modelname,
+        visibility:  visibility,
         body: { ...flow, lastIndex },
       });
     }

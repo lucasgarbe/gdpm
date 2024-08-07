@@ -26,8 +26,40 @@ import yaml
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly,
     #                       IsOwnerOrReadOnly]
-    queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
+    # queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
     serializer_class = GDPMModelSerializer
+
+    def get_queryset(self):
+        print('get_queryset', self.request.user.is_authenticated)
+        if self.request.user.is_authenticated:
+            models = GDPM_Model.objects.filter(owner=self.request.user).order_by('id')
+            print(models)
+            return models
+        else:
+            models =  GDPM_Model.objects.filter(visibility='public').order_by('id')
+            print(models)
+            return models
+
+    # def get_serializer_class(self):
+    #     if self.action == 'list':
+    #         return GDPMModelSerializer
+    #     return GDPMModelSerializer
+
+    def list(self, request):
+        if request.user.is_authenticated:
+            queryset = GDPM_Model.objects.filter(
+                owner=request.user).order_by('id')
+            serializer = GDPMModelSerializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
+            serializer = GDPMModelSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        model_instance = self.get_object()
+        serializer = GDPMModelSerializer(model_instance)
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

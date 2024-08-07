@@ -4,7 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
-router.register(r'models', views.GDPM_ModelViewSet)
+router.register(r'models', views.GDPM_ModelViewSet, basename='model')
 router.register(r'pymc', views.PymcViewSet, basename='pymc')
 router.register(r'ipynb', views.IpynbViewSet, basename='ipynb')
 router.register(r'job', views.JobViewSet, basename='job')
@@ -34,5 +34,6 @@ urlpatterns = [
     # path('users/', views.UserList.as_view()),
     # path('users/<int:pk>/', views.UserDetail.as_view()),
     path('register/', views.RegisterUser.as_view()),
+        path('models/<uuid:pk>/', views.GDPM_ModelViewSet.as_view({'get': 'retrieve'})),
     path('models/<uuid:pk>/', views.GDPM_ModelViewSet.as_view({'delete': 'destroy'})),
 ]

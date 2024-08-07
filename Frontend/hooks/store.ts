@@ -28,12 +28,15 @@ export type RFState = {
   updateNodeName: (nodeId: string, name: string) => void;
   modelname: string;
   setModelname: (name: string) => void;
+  visibility: string;
+  setVisibility: (visibility: string) => void;
 };
 
 export const useModelStore = create<RFState>((set, get) => ({
   modelName: "New Model",
   nodes: [],
   edges: [],
+  visibility: 'private',
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -84,6 +87,12 @@ export const useModelStore = create<RFState>((set, get) => ({
       modelname: name,
     });
   },
+  setVisibility: (visibility) => {
+    console.log('setting visibility', visibility);
+    set({
+      visibility: visibility,
+    });
+  },
 }));
 
 export const selector = (state: any) => ({
@@ -99,4 +108,6 @@ export const selector = (state: any) => ({
   updateNodeName: state.updateNodeName,
   modelname: state.modelname,
   setModelname: state.setModelname,
+  visibility: state.visibility,
+  setVisibility: state.setVisibility,
 });

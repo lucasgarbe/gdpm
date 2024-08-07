@@ -37,6 +37,7 @@ import { shallow } from "zustand/shallow";
 import { useModelStore, selector } from "../hooks/store";
 import { useStore } from "../hooks/useStore";
 import authStore from "../stores/auth";
+import useAPI from "../hooks/useAPI";
 
 type modelResponse = {
   id: string;
@@ -66,6 +67,7 @@ function Flow() {
   const flowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   // const [modelname, setModelname] = useState("");
+  const api = useAPI();
 
 
   const {
@@ -79,6 +81,8 @@ function Flow() {
     setNodes,
     setEdges,
     setModelname,
+    visibility,
+    setVisibility,
   } = useModelStore(selector, shallow);
 
   const { setViewport } = useReactFlow();
@@ -89,8 +93,8 @@ function Flow() {
 
   const { id } = router.query;
   const fetchModel = async () => {
-    const model: modelResponse = await ky
-      .get(`${process.env.NEXT_PUBLIC_API_URL}/models/${id}`)
+    const model: modelResponse = await api
+      .get(`models/${id}`)
       .json();
     // if (model) {
     //   setNodes(model.body.nodes);
@@ -266,14 +270,16 @@ function Flow() {
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
           />
 
-          {isOwner && id && <DeleteButton id={id} />}
-          {isOwner || !id && (
-            <SaveButton
-              reactFlowInstance={reactFlowInstance}
-              modelname={modelname}
-              lastIndex={lastIndex}
-            />
-          )}
+          {isOwner &&
+            <>
+              {id && <DeleteButton id={id} />}
+              <SaveButton
+                reactFlowInstance={reactFlowInstance}
+                modelname={modelname}
+                lastIndex={lastIndex}
+              />
+            </>
+          }
         </Panel>
         {showPyMCModal && (
           <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
@@ -284,13 +290,15 @@ function Flow() {
   );
 }
 
-const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
+const SettingsModal = ({ modelname }: any) => {
   const [ value, setValue ] = useState(modelname);
-  const { setModelname } = useModelStore();
+  const { setModelname, visibility, setVisibility } = useModelStore();
   const { closeModal } = useContext(ModalContext) as ModalContextType;
+  const [ visibilityValue, setVisibilityValue ] = useState(visibility);
 
   const handleClick = () => {
     setModelname(value);
+    setVisibility(visibilityValue);
     closeModal();
   }
 
@@ -306,6 +314,12 @@ const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
             onChange={(e) => setValue(e.target.value)}
             className="ml-2 px-1 py-0.5 bg-stone-200"
           />
+        </label>
+        <label>Visibility:
+          <select id="visibility" name="visibility" value={visibilityValue} onChange={(e) => setVisibilityValue(e.target.value)}>
+            <option value="private">private</option>
+            <option value="public">public</option>
+          </select>
         </label>
         <Button className="self-end" onClick={handleClick}>update</Button>
       </div>
