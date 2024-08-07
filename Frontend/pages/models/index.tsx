@@ -37,17 +37,18 @@ export default function Models() {
     </>
   );
 }
-export async function getStaticProps() {
-  const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ["models"],
-    queryFn: () => fetchModels(),
-  });
+// export async function getStaticProps() {
+//   const queryClient = new QueryClient();
 
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
+//   await queryClient.prefetchQuery({
+//     queryKey: ["models"],
+//     queryFn: () => fetchModels(),
+//   });
+
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//   };
+// }

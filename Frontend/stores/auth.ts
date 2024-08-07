@@ -79,6 +79,16 @@ const authStore = create(
 					}
 				}
 			},
+			setAccessToken: (access: string) => {
+				const decodedToken = jwtDecode(access);
+				set({
+					user: decodedToken,
+					isLoggedIn: true,
+					loading: false,
+					access: access,
+					expires: decodedToken.exp,
+				});
+			},
 		}),
 		{
 			name: 'auth',

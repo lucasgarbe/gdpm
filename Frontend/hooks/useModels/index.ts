@@ -44,7 +44,7 @@ const useUserModels = (user_id: Number) => {
   }
 
   return useQuery({
-    queryKey: ["models", user_id],
+    queryKey: ["user-models", user_id],
     queryFn: () => fetchUserModels(),
     staleTime: 1000 * 60 * 5,
     enabled: !!user_id,
