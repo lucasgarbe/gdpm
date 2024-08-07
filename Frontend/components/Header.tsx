@@ -31,7 +31,7 @@ export default function Header() {
 
         {user && (
           <>
-            <HighlightLink href="/models">List my Models</HighlightLink>
+            <HighlightLink href="/models">All public Models</HighlightLink>
             <HighlightLink href="/config">Edit config</HighlightLink>
           </>
         )}

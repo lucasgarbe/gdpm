@@ -4,9 +4,10 @@ import useAPI from "../useAPI";
 
 const fetchModels = async () => {
   console.log("fetch d", process.env.NEXT_PUBLIC_API_URL);
-  const models = await ky(`${process.env.NEXT_PUBLIC_API_URL}/models/`).json();
+  const models = await api(`${process.env.NEXT_PUBLIC_API_URL}/models/`).json();
   return models;
 };
+
 
 // const usefetchUserModels = async (user_id: Number) => {
 //   const api = useAPI();
@@ -51,4 +52,19 @@ const useUserModels = (user_id: Number) => {
   });
 };
 
-export { fetchModels, useModels, useUserModels };
+const usePublicModels = () => {
+  const api = useAPI();
+
+  const fetchPublicModels = async () => {
+    const models = await api.get("models/").json();
+    return models;
+  }
+
+  return useQuery({
+    queryKey: ["public-models"],
+    queryFn: () => fetchPublicModels(),
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+export { fetchModels, useModels, useUserModels, usePublicModels };

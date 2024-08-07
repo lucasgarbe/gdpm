@@ -23,11 +23,15 @@ export type RFState = {
   onConnect: OnConnect;
   addNode: (node: any) => void;
   setNodes: (nodes: any) => void;
+  removeNode: (nodeId: string) => void;
   setEdges: (edges: any) => void;
   updateNodeName: (nodeId: string, name: string) => void;
+  modelname: string;
+  setModelname: (name: string) => void;
 };
 
-export const useStore = create<RFState>((set, get) => ({
+export const useModelStore = create<RFState>((set, get) => ({
+  modelName: "New Model",
   nodes: [],
   edges: [],
   onNodesChange: (changes: NodeChange[]) => {
@@ -55,6 +59,11 @@ export const useStore = create<RFState>((set, get) => ({
       nodes: nodes,
     });
   },
+  removeNode: (nodeId: string) => {
+    set({
+      nodes: get().nodes.filter((node) => node.id !== nodeId),
+    });
+  },
   setEdges: (edges: Edge[]) => {
     set({
       edges: edges,
@@ -70,6 +79,11 @@ export const useStore = create<RFState>((set, get) => ({
       }),
     });
   },
+  setModelname: (name) => {
+    set({
+      modelname: name,
+    });
+  },
 }));
 
 export const selector = (state: any) => ({
@@ -80,6 +94,9 @@ export const selector = (state: any) => ({
   onConnect: state.onConnect,
   addNode: state.addNode,
   setNodes: state.setNodes,
+  removeNode: state.removeNode,
   setEdges: state.setEdges,
   updateNodeName: state.updateNodeName,
+  modelname: state.modelname,
+  setModelname: state.setModelname,
 });

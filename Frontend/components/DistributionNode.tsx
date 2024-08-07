@@ -1,7 +1,7 @@
 import { memo, useContext, useEffect, useState } from "react";
 import { Position, useEdges, useNodes, useNodesState } from "reactflow";
 import { shallow } from "zustand/shallow";
-import { selector, useStore } from "../hooks/store";
+import { selector, useModelStore } from "../hooks/store";
 import { validate } from "../internal/validate";
 import { portSpec } from "../types/portSpec";
 import { Button } from "./ButtonsAndLinks";
@@ -9,7 +9,7 @@ import CustomHandle from "./customHandle";
 import { ModalContext, ModalContextType } from "./Modal";
 
 const DistributionNode = memo(({ id, data, selected }: any) => {
-  const { nodes } = useStore(selector, shallow);
+  const { nodes, removeNode } = useModelStore(selector, shallow);
   const [color, setColor] = useState("stone");
   const { openModal } = useContext(ModalContext) as ModalContextType;
   const edges = useEdges();
@@ -29,9 +29,10 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
   return (
     <div className="flex">
       {selected && (
-        <div className="absolute -top-10 flex gap-2 rounded bg-gray-50 border border-gray-100">
-          <button className="p-1">delete</button>
+        <div className="w-full absolute -top-6 flex items-center justify-center gap-1">
+          <button className="text-xs px-1 border border-stone-900 bg-stone-200" onClick={() => removeNode(id)}>Delete</button>
           <button
+            className="text-xs px-1 border border-stone-900 bg-stone-200"
             onClick={() => {
               openModal(
                 "bottom",
@@ -39,7 +40,7 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
               );
             }}
           >
-            info
+            Info
           </button>
         </div>
       )}
@@ -91,7 +92,7 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
 
 const DistributionNodeModal = ({ id, name }: { id: string; name: string }) => {
   const [value, setValue] = useState("");
-  const { updateNodeName } = useStore();
+  const { updateNodeName } = useModelStore();
   const { closeModal } = useContext(ModalContext) as ModalContextType;
 
   const handleClick = () => {

@@ -1,14 +1,16 @@
 import Head from "next/head";
 import ListElement from "../../components/listElement";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { fetchModels, useModels, useUserModels } from "../../hooks/useModels";
+import { fetchModels, useModels, usePublicModels, useUserModels } from "../../hooks/useModels";
 import Header from "../../components/Header";
 import { useStore } from "../../hooks/useStore";
 import authStore from "../../stores/auth";
 
 export default function Models() {
   const store = useStore(authStore, (state) => state);
-  const { data, isLoading } = useUserModels(store?.user?.user_id);
+  // const { data, isLoading } = useUserModels(store?.user?.user_id);
+  
+  const { data, isLoading } = usePublicModels();
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function Models() {
       <Header />
 
       <main className="container mx-auto flex-grow">
-        <h1 className="text-5xl font-semibold mt-12">Saved Models from {store?.user?.username}</h1>
+        <h1 className="text-5xl font-medium mt-12">All public Models</h1>
 
         <div className="flex flex-col gap-4 mt-6">
           {data?.map((model, index) => (

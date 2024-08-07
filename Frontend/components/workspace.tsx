@@ -34,7 +34,9 @@ import {
 } from "./Modal";
 
 import { shallow } from "zustand/shallow";
-import { useStore, selector } from "../hooks/store";
+import { useModelStore, selector } from "../hooks/store";
+import { useStore } from "../hooks/useStore";
+import authStore from "../stores/auth";
 
 type modelResponse = {
   id: string;
@@ -63,18 +65,21 @@ function Flow() {
   const router = useRouter();
   const flowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
-  const [modelname, setModelname] = useState("Modelname");
+  // const [modelname, setModelname] = useState("");
+
 
   const {
     nodes,
     edges,
+    modelname,
     onNodesChange,
     onEdgesChange,
     onConnect,
     addNode,
     setNodes,
     setEdges,
-  } = useStore(selector, shallow);
+    setModelname,
+  } = useModelStore(selector, shallow);
 
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
@@ -107,15 +112,27 @@ function Flow() {
     enabled: !!id,
     staleTime: Infinity,
     onSuccess: (data) => {
+      console.log('RQ onSuccess data:', data);
       if (data) {
         setModelname(data.title);
         setNodes(data.body.nodes);
         setEdges(data.body.edges);
         setViewport(data.body.viewport);
         setLastIndex(data.body.lastIndex);
+        console.log('data is set', modelname, nodes, edges);
       }
     },
   });
+
+  const store = useStore(authStore, (state) => state);
+  const isOwner = useMemo(() => {
+    if (store?.user && data?.owner && store.user.username == data.owner) {
+      console.log('isOwner', true, {storeUser: store.user.username, dataUser: data.owner});
+      return store.user.username == data.owner;
+    }
+    console.log('isOwner', false);
+    return false;
+  }, [data, store]);
 
   const onDragOver = useCallback((event: any) => {
     console.log("drag over");
@@ -218,10 +235,13 @@ function Flow() {
         <Controls />
         <MiniMap />
         <Panel position="top-left" className="w-1/6 h-full flex flex-col items-start gap-2 !m-0 p-[15px] bg-stone-100 border-r-2 border-black">
-          <div className="flex gap-2">
+          <div className="w-full flex gap-2 items-center justify-between">
             <HighlightLink href="/" onClick={(e) => {console.log("click", e);e.preventDefault(); router.back()}} size="small">
               <ArrowLeftIcon className="w-5" />
             </HighlightLink>
+
+            <h1 className="font-medium text-lg grow">{modelname}</h1>
+
             <Button
               onClick={() =>
                 openModal(
@@ -245,12 +265,17 @@ function Flow() {
             id={id}
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
           />
-          {id && <DeleteButton id={id} />}
-          <SaveButton
-            reactFlowInstance={reactFlowInstance}
-            modelname={modelname}
-            lastIndex={lastIndex}
-          />
+
+          {isOwner &&
+            <>
+              {id && <DeleteButton id={id} />}
+              <SaveButton
+                reactFlowInstance={reactFlowInstance}
+                modelname={modelname}
+                lastIndex={lastIndex}
+              />
+            </>
+          }
         </Panel>
         {showPyMCModal && (
           <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
@@ -262,6 +287,15 @@ function Flow() {
 }
 
 const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
+  const [ value, setValue ] = useState(modelname);
+  const { setModelname } = useModelStore();
+  const { closeModal } = useContext(ModalContext) as ModalContextType;
+
+  const handleClick = () => {
+    setModelname(value);
+    closeModal();
+  }
+
   return (
     <>
       <p className="text-xl font-semibold">Settings</p>
@@ -270,11 +304,12 @@ const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
           Modelname:
           <input
             type="text"
-            value={modelname}
-            onChange={handleModelnameChange}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             className="ml-2 px-1 py-0.5 bg-stone-200"
           />
         </label>
+        <Button className="self-end" onClick={handleClick}>update</Button>
       </div>
     </>
   );

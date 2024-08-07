@@ -10,6 +10,17 @@ class GDPM_Model(models.Model):
     body = models.JSONField(default=dict)
     owner = models.ForeignKey('auth.User', related_name='gdpm_models',
                               on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Visibility(models.TextChoices):
+        PUBLIC = 'public'
+        PRIVATE = 'private'
+
+    visibility = models.CharField(
+        max_length=10,
+        choices=Visibility.choices,
+        default=Visibility.PRIVATE,
+    )
 
     def __str__(self):
         return self.title

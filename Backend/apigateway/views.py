@@ -24,9 +24,7 @@ import yaml
 
 
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly]
-    queryset = GDPM_Model.objects.all().order_by('id')
+    queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
     serializer_class = GDPMModelSerializer
 
     def perform_create(self, serializer):

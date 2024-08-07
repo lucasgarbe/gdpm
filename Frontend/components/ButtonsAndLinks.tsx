@@ -63,7 +63,7 @@ export const HighlightLink = ({
   <Link
     href={href}
     onClick={onClick}
-    className={`flex items-center border-2 border-black font-semibold bg-stone-100 hover:shadow-hard transition-all ease-in-out duration-75 ${
+    className={`flex items-center border-2 border-black font-medium bg-stone-100 hover:shadow-hard transition-all ease-in-out duration-75 ${
       size == "small" ? "p-1" : "px-4 py-2"
     }`}
   >

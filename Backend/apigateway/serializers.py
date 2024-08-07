@@ -17,7 +17,8 @@ class GDPMModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GDPM_Model
-        fields = ['id', 'title', 'jobs', 'owner', 'body']
+        fields = ['id', 'title', 'jobs', 'owner', 'body', 'visibility',
+                  'created']
 
 
 class JobSerializer(serializers.ModelSerializer):

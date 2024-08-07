@@ -33,6 +33,7 @@ export default function SaveButton({
         })
         .json();
     },
+    retry: 1,
     onMutate: () => {
       setDefaultButton(false);
     },
