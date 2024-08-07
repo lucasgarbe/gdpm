@@ -28,10 +28,11 @@ export default function Header() {
 
       <nav className="flex gap-6 bg-gradient-1">
         <HighlightLink href="/models/new">New Model</HighlightLink>
+        <HighlightLink href="/models">All public Models</HighlightLink>
 
         {user && (
           <>
-            <HighlightLink href="/models">All public Models</HighlightLink>
+            <HighlightLink href="/user/models">My Models</HighlightLink>
             <HighlightLink href="/config">Edit config</HighlightLink>
           </>
         )}

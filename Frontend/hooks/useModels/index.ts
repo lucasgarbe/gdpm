@@ -1,4 +1,3 @@
-import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import useAPI from "../useAPI";
 
@@ -36,16 +35,13 @@ const useUserModels = (user_id: Number) => {
   const api = useAPI();
 
   const fetchUserModels = async () => {
-    const user = await api.get(`users/${user_id}/`).json();
-    const model_ids = user.gdpm_models;
-    const models = await Promise.all(model_ids.map(async (model_id: Number) => {
-      return await api.get(`models/${model_id}/`).json();
-    }));
+    console.trace("fetch user models", user_id);
+    const models = await api.get(`users/${user_id}/models/`).json();
     return models;
   }
 
   return useQuery({
-    queryKey: ["user-models", user_id],
+    queryKey: ["models", "user-models", user_id],
     queryFn: () => fetchUserModels(),
     staleTime: 1000 * 60 * 5,
     enabled: !!user_id,
@@ -61,7 +57,7 @@ const usePublicModels = () => {
   }
 
   return useQuery({
-    queryKey: ["public-models"],
+    queryKey: ["models", "public-models"],
     queryFn: () => fetchPublicModels(),
     staleTime: 1000 * 60 * 5,
   });

@@ -1,6 +1,6 @@
 import { ArrowPathIcon, CloudArrowDownIcon } from "@heroicons/react/24/outline";
 import { CloudIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import useAPI from "../hooks/useAPI";
@@ -14,8 +14,8 @@ export default function SaveButton({
 }: any) {
   const [defaultButton, setDefaultButton] = useState(true);
   const router = useRouter();
-  const { user } = useAuth();
   const api = useAPI();
+  const queryClient = useQueryClient();
 
   const updateModelMutation = useMutation({
     mutationFn: (payload: any) => {
@@ -38,6 +38,7 @@ export default function SaveButton({
       setDefaultButton(false);
     },
     onSuccess: (response: any) => {
+      queryClient.invalidateQueries({ queryKey: ["models"], refetchType: "all" });
       setTimeout(() => {
         setDefaultButton(true);
       }, 1000);

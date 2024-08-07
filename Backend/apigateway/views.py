@@ -24,11 +24,24 @@ import yaml
 
 
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+    #                       IsOwnerOrReadOnly]
     queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
     serializer_class = GDPMModelSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = GDPM_Model.objects.get(id=kwargs['pk'])
+        if instance.owner == request.user:
+            self.perform_destroy(instance)
+            return Response("success", status=204)
+        else:
+            return Response(status=403)
 
     @action(detail=True, methods=['post'],
             permission_classes=[permissions.IsAuthenticated])
@@ -124,6 +137,13 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = UserSerializer
+
+    @action(detail=True)
+    def models(self, request, pk):
+        user = request.user
+        models = GDPM_Model.objects.filter(owner=user)
+        serializer = GDPMModelSerializer(models, many=True)
+        return Response(serializer.data)
 
 
 # class UserList(generics.ListAPIView):

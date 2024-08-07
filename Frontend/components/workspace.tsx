@@ -266,16 +266,14 @@ function Flow() {
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
           />
 
-          {isOwner &&
-            <>
-              {id && <DeleteButton id={id} />}
-              <SaveButton
-                reactFlowInstance={reactFlowInstance}
-                modelname={modelname}
-                lastIndex={lastIndex}
-              />
-            </>
-          }
+          {isOwner && id && <DeleteButton id={id} />}
+          {isOwner || !id && (
+            <SaveButton
+              reactFlowInstance={reactFlowInstance}
+              modelname={modelname}
+              lastIndex={lastIndex}
+            />
+          )}
         </Panel>
         {showPyMCModal && (
           <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
@@ -299,7 +297,7 @@ const SettingsModal = ({ modelname, handleModelnameChange }: any) => {
   return (
     <>
       <p className="text-xl font-semibold">Settings</p>
-      <div className="mt-4">
+      <div className="w-full flex flex-col items-start mt-4">
         <label>
           Modelname:
           <input
