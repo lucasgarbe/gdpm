@@ -36,14 +36,6 @@ distributions:
     url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Binomial.html"
     image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Binomial-1.png"
     input:
-      - id: "logit_p"
-        name: "logit_p - Alternative log odds for the probability of success"
-        type: "float"
-        upper: "inf"
-        lower: "inf"
-        upperInclusive: false
-        lowerInclusive: false
-        optional: true
       - id: "n"
         name: "n - Number of Bernoulli trials (n >= 0)"
         type: "int"
@@ -60,6 +52,22 @@ distributions:
         upperInclusive: true
         lowerInclusive: true
         optional: false
+      - id: "logit_p"
+        name: "logit_p - Alternative log odds for the probability of success"
+        type: "float"
+        upper: "inf"
+        lower: "inf"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "observed"
+        name: "observed - Observed data"
+        type: "int"
+        upper: "inf"
+        lower: "-inf"
+        upperInclusive: true
+        lowerInclusive: true
+        optional: true
     output:
       id: "support"
       type: "float"
@@ -284,4 +292,58 @@ distributions:
       lower: "0"
       upperInclusive: true
       lowerInclusive: false
+
+  - distType: "continuous"
+    name: "Beta"
+    displayName: "Beta log-likelihood"
+    url: "https://www.pymc.io/projects/docs/en/stable/api/distributions/generated/pymc.Beta.html"
+    image_url: "https://www.pymc.io/projects/docs/en/stable/_images/pymc-Beta-1.png"
+    input:
+      - id: "alpha"
+        name: "alpha"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "beta"
+        name: "beta"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "mu"
+        name: "mu"
+        type: "float"
+        upper: "1"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "sigma"
+        name: "sigma"
+        type: "float"
+        upper: "1"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+      - id: "nu"
+        name: "nu"
+        type: "float"
+        upper: "inf"
+        lower: "0"
+        upperInclusive: false
+        lowerInclusive: false
+        optional: true
+    output:
+      id: "support"
+      type: "float"
+      upper: "1"
+      lower: "0"
+      upperInclusive: true
+      lowerInclusive: true
 

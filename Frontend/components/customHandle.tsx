@@ -14,7 +14,7 @@ const CustomHandle = ({
   className?: string;
   optional: boolean;
 }) => {
-  const optionalClass = optional ? " border-b-2 border-b-red-500" : "";
+  const optionalClass = optional ? "" : " border-b-2 border-b-red-500";
   return (
     <div>
       <Handle

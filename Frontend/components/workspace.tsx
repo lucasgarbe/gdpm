@@ -270,7 +270,7 @@ function Flow() {
             toggleModal={() => setShowPyMCModal(!showPyMCModal)}
           />
 
-          {isOwner &&
+          {(isOwner || !id) &&
             <>
               {id && <DeleteButton id={id} />}
               <SaveButton

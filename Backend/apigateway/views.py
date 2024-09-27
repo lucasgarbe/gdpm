@@ -3,7 +3,11 @@ from rest_framework import viewsets, generics, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from .serializers import GDPMModelSerializer, JobSerializer, UserSerializer
+from .serializers import (
+        GDPMModelSerializer,
+        JobSerializer,
+        UserSerializer,
+        RegisterUserSerializer)
 from .permissions import IsOwnerOrReadOnly
 from django.contrib.auth.models import User
 from converter.pymc_converter import convert_model
@@ -107,7 +111,9 @@ class ContinuousView(APIView):
 
 class ConfigView(APIView):
     def get(self, request):
-        with open(os.path.join(os.getcwd(), '..', 'config.yml'), 'r') as stream:
+        with open(os.path.join(os.getcwd(),
+                               '..',
+                               'config.yml'), 'r') as stream:
             byte_io = BytesIO()
             byte_io.write(stream.read().encode('utf-8'))
             byte_io.seek(0)
@@ -167,7 +173,7 @@ class JobViewSet(viewsets.ModelViewSet):
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
     serializer_class = UserSerializer
 
     @action(detail=True)
@@ -190,4 +196,4 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = RegisterUserSerializer
