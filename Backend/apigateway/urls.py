@@ -34,6 +34,6 @@ urlpatterns = [
     # path('users/', views.UserList.as_view()),
     # path('users/<int:pk>/', views.UserDetail.as_view()),
     path('register/', views.RegisterUser.as_view()),
-        path('models/<uuid:pk>/', views.GDPM_ModelViewSet.as_view({'get': 'retrieve'})),
+    path('models/<uuid:pk>/', views.GDPM_ModelViewSet.as_view({'get': 'retrieve'})),
     path('models/<uuid:pk>/', views.GDPM_ModelViewSet.as_view({'delete': 'destroy'})),
 ]

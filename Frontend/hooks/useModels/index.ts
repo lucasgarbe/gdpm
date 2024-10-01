@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import ky from "ky";
 import useAPI from "../useAPI";
 
 const fetchModels = async () => {
@@ -35,8 +36,8 @@ const useUserModels = (user_id: Number) => {
   const api = useAPI();
 
   const fetchUserModels = async () => {
-    console.trace("fetch user models", user_id);
-    const models = await api.get(`users/${user_id}/models/`).json();
+    console.log("fetch user models", user_id);
+    const models = await api.get(`models/`).json();
     return models;
   }
 
@@ -49,10 +50,8 @@ const useUserModels = (user_id: Number) => {
 };
 
 const usePublicModels = () => {
-  const api = useAPI();
-
   const fetchPublicModels = async () => {
-    const models = await api.get("models/").json();
+    const models = await ky.get(`${process.env.NEXT_PUBLIC_API_URL}/models/`).json();
     return models;
   }
 

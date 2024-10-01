@@ -8,6 +8,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import AuthLog from "../components/authLog";
 
 const font = LocalFont({
   src: "../public/ClashGrotesk-Variable.ttf",
@@ -23,6 +24,7 @@ export default function App({
   return (
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
+          <AuthLog />
           <main
             className={`${font.variable} min-h-full font-sans flex flex-col justify-between bg-stone-100`}
           >

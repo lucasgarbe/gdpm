@@ -50,6 +50,7 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
     #     return GDPMModelSerializer
 
     def list(self, request):
+        print("list", request.user.is_authenticated)
         if request.user.is_authenticated:
             queryset = GDPM_Model.objects.filter(
                 owner=request.user).order_by('id')
@@ -58,6 +59,7 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
         else:
             queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
             serializer = GDPMModelSerializer(queryset, many=True)
+            print(serializer.data)
             return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):

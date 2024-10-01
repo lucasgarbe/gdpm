@@ -72,7 +72,7 @@ const authStore = create(
 							isLoggedIn: true,
 							loading: false,
 							access: response.access,
-							expires: decodedToken.exp,
+							expires: decodedToken.exp * 1000,
 						});
 					} catch (error) {
 						console.error('Failed to refresh token:', error);
@@ -86,7 +86,7 @@ const authStore = create(
 					isLoggedIn: true,
 					loading: false,
 					access: access,
-					expires: decodedToken.exp,
+					expires: decodedToken.exp * 1000,
 				});
 			},
 		}),

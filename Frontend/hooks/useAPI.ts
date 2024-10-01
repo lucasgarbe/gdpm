@@ -11,32 +11,37 @@ export default function useAPI() {
     hooks: {
       beforeRequest: [
         async (request) => {
-          console.log('ky beforeRequest', request, store);
-          if (store) {
-            // const expires = store.expires;
-            // const now = Date.now();
-            // const refreshToken = store.refresh;
+          let localStore = JSON.parse(localStorage.getItem('auth'));
+          localStore = localStore?.state;
+          console.log('ky beforeRequest', request, localStore);
+          console.log(localStorage.getItem('auth'));
+          if (localStore) {
+            const expires = localStore.expires;
+            const now = Date.now();
+            const refreshToken = localStore.refresh;
+            let accessToken = localStore.access;
 
-            // // check if token is expired
-            // if (refreshToken && now >= expires) {
-            //   console.log("found expired acces token and refresh token", now, expires, now >= expires);
-            //   // fetch new token
-            //   try {
-            //     const response = await ky.post(`${process.env.NEXT_PUBLIC_API_URL}/api/token/refresh/`, { json: { refresh: refreshToken } }).json() as { access: string };
-            //     console.log("got new access token", response);
+            // check if token is expired
+            if (refreshToken && now >= expires) {
+              console.log("found expired acces token and refresh token", {now: new Date(now).toLocaleString(), expires: new Date(expires).toLocaleString()}, now >= expires);
+              // fetch new token
+              try {
+                const response = await ky.post(`${process.env.NEXT_PUBLIC_API_URL}/api/token/refresh/`, { json: { refresh: refreshToken } }).json() as { access: string };
+                console.log("got new access token", response);
 
-            //     store.setAccessToken(response.access);
-            //   } catch (error) {
-            //     console.error("Failed to refresh token:", error);
-            //   }
-            // }
+                accessToken = response.access;
+                store.setAccessToken(response.access);
+              } catch (error) {
+                console.error("Failed to refresh token:", error);
+              }
+            }
 
-            await store.fetchRefresh();
+            // await store.fetchRefresh();
 
             // return acces from fetchRefresh and set/use manually
             // console.log("new store in ky hook", store, store.access, store.expires);
-            if (store.access) {
-              request.headers.set("Authorization", `Bearer ${store.access}`);
+            if (localStore.access) {
+              request.headers.set("Authorization", `Bearer ${accessToken}`);
             }
           }
         },
