@@ -4,7 +4,7 @@ import useAPI from "../useAPI";
 
 const fetchModels = async () => {
   console.log("fetch d", process.env.NEXT_PUBLIC_API_URL);
-  const models = await api(`${process.env.NEXT_PUBLIC_API_URL}/models/`).json();
+  const models = await ky(`${process.env.NEXT_PUBLIC_API_URL}/models/`).json();
   return models;
 };
 
@@ -33,6 +33,7 @@ const useModels = () => {
 
 
 const useUserModels = (user_id: Number) => {
+  console.log('useUserModels', user_id);
   const api = useAPI();
 
   const fetchUserModels = async () => {

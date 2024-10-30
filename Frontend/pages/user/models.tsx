@@ -5,11 +5,24 @@ import { fetchModels, useModels, usePublicModels, useUserModels } from "../../ho
 import Header from "../../components/Header";
 import { useStore } from "../../hooks/useStore";
 import authStore from "../../stores/auth";
+import { useEffect, useState } from "react";
 
 export default function Models() {
+  console.log('Models');
   const store = useStore(authStore, (state) => state);
+  // const [user, setUser] = useState();
+
+  // useEffect(() => {
+  //   console.log('useEffect');
+  //   let localStore = JSON.parse(localStorage.getItem('auth'));
+  //   localStore = localStore?.state;
+  //   console.log(localStore?.user?.user_id);
+  //   setUser(localStore?.state.user);
+  // }, []);
+
   const { data, isLoading } = useUserModels(store?.user?.user_id);
-  
+    
+
   return (
     <>
       <Head>

@@ -42,6 +42,7 @@ import useAPI from "../hooks/useAPI";
 type modelResponse = {
   id: string;
   title: string;
+  visibility: string;
   body: {
     id: string;
     title: string;
@@ -119,6 +120,7 @@ function Flow() {
       console.log('RQ onSuccess data:', data);
       if (data) {
         setModelname(data.title);
+        setVisibility(data.visibility);
         setNodes(data.body.nodes);
         setEdges(data.body.edges);
         setViewport(data.body.viewport);
@@ -244,7 +246,7 @@ function Flow() {
               <ArrowLeftIcon className="w-5" />
             </HighlightLink>
 
-            <h1 className="font-medium text-lg grow">{modelname}</h1>
+            <h1 className="font-medium text-lg grow line-clamp-1" title={modelname}>{modelname}</h1>
 
             <Button
               onClick={() =>

@@ -3,13 +3,14 @@ import { DocumentDuplicateIcon, EyeIcon, PlayIcon, TrashIcon } from "@heroicons/
 import { Button } from "./ButtonsAndLinks";
 import ky from "ky";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import DeleteButton from "./DeleteButton";
 import useAPI from "../hooks/useAPI";
 
 export default function ListElement({ model }: any) {
   const [showJobs, setShowJobs] = useState(false);
   const api = useAPI();
+  const queryClient = useQueryClient();
 
   function handleRunModel() {
     const formData = new FormData();
@@ -19,7 +20,8 @@ export default function ListElement({ model }: any) {
   }
 
   function handleDuplicateModel() {
-    api.post(`models/${model.id}/duplicate/`);
+    api.get(`models/${model.id}/duplicate/`);
+    queryClient.invalidateQueries({ queryKey: ["models", "user-models"], refetchType: "all" });
   }
 
   return (

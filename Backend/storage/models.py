@@ -6,11 +6,12 @@ Model to save the reactflow-graph in body as JSON
 """
 class GDPM_Model(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(default="default_model", max_length=20)
+    title = models.CharField(default="default_model")
     body = models.JSONField(default=dict)
     owner = models.ForeignKey('auth.User', related_name='gdpm_models',
                               on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now=True)
 
     class Visibility(models.TextChoices):
         PUBLIC = 'public'

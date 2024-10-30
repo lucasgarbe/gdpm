@@ -33,6 +33,8 @@ export default function useAPI() {
                 store.setAccessToken(response.access);
               } catch (error) {
                 console.error("Failed to refresh token:", error);
+                console.warn("logging out");
+                store.logout();
               }
             }
 
@@ -41,6 +43,7 @@ export default function useAPI() {
             // return acces from fetchRefresh and set/use manually
             // console.log("new store in ky hook", store, store.access, store.expires);
             if (localStore.access) {
+              //TODO: was ist accessToken? ist es schon aaktualisiert? !!!
               request.headers.set("Authorization", `Bearer ${accessToken}`);
             }
           }

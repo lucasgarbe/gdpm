@@ -8,7 +8,7 @@ from .serializers import (
         JobSerializer,
         UserSerializer,
         RegisterUserSerializer)
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsOwner, ObjIsPublic
 from django.contrib.auth.models import User
 from converter.pymc_converter import convert_model
 from converter import utils
@@ -16,7 +16,8 @@ from django.http import FileResponse
 from io import BytesIO
 import os
 import yaml
-
+import logging
+from django.http import HttpResponse, JsonResponse
 
 # In the Django Rest Framework, a ViewSet is a class that provides CRUD (Create, Retrieve, Update, Delete) operations
 # for a specific resource or model. It also provides a default routing mechanism for mapping URLs to actions.
@@ -26,66 +27,73 @@ import yaml
 # functionality for handling common operations as well as a shorthand way of creating viewsets for Django model
 # instances.
 
+logger = logging.getLogger(__name__)
 
 class GDPM_ModelViewSet(viewsets.ModelViewSet):
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-    #                       IsOwnerOrReadOnly]
-    # queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
+    permission_classes = [permissions.IsAdminUser | IsOwner | ObjIsPublic]
+    # queryset = GDPM_Model.objects.all()
     serializer_class = GDPMModelSerializer
 
     def get_queryset(self):
-        print('get_queryset', self.request.user.is_authenticated)
+        logger.debug(f"get_queryset {self.action} {self.request.user.is_authenticated}")
         if self.request.user.is_authenticated:
-            models = GDPM_Model.objects.filter(owner=self.request.user).order_by('id')
-            print(models)
-            return models
+            if self.request.user.is_staff:
+                queryset = GDPM_Model.objects.all().order_by('changed_at').reverse()
+                return queryset
+            queryset = GDPM_Model.objects.filter(owner=self.request.user).order_by('changed_at').reverse()
+            return queryset
         else:
-            models =  GDPM_Model.objects.filter(visibility='public').order_by('id')
-            print(models)
-            return models
+            queryset = GDPM_Model.objects.filter(visibility='public').order_by('changed_at').reverse()
+            return queryset
+
 
     # def get_serializer_class(self):
     #     if self.action == 'list':
     #         return GDPMModelSerializer
     #     return GDPMModelSerializer
 
-    def list(self, request):
-        print("list", request.user.is_authenticated)
-        if request.user.is_authenticated:
-            queryset = GDPM_Model.objects.filter(
-                owner=request.user).order_by('id')
-            serializer = GDPMModelSerializer(queryset, many=True)
-            return Response(serializer.data)
-        else:
-            queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
-            serializer = GDPMModelSerializer(queryset, many=True)
-            print(serializer.data)
-            return Response(serializer.data)
+    # def list(self, request):
+    #     logger.debug(f"list {request.user.is_authenticated}")
+    #     if request.user.is_authenticated:
+    #         queryset = GDPM_Model.objects.filter(
+    #             owner=request.user).order_by('id')
+    #         serializer = GDPMModelSerializer(queryset, many=True)
+    #         return Response(serializer.data)
+    #     else:
+    #         queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
+    #         serializer = GDPMModelSerializer(queryset, many=True)
+    #         return Response(serializer.data)
 
-    def retrieve(self, request, *args, **kwargs):
-        model_instance = self.get_object()
-        serializer = GDPMModelSerializer(model_instance)
-        return Response(serializer.data)
+    # def retrieve(self, request, *args, **kwargs):
+    #     logger.debug(f"retrieve {request.user.is_authenticated}")
+    #     model_instance = self.get_object()
+    #     serializer = GDPMModelSerializer(model_instance)
+    #     return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    # def update(self, request, *args, **kwargs):
+    #     instance = GDPM_Model.objects.get(id=kwargs['pk'])
+    #     serializer = GDPMModelSerializer(instance, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data)
+    #     return Response(serializer.errors, status=400)
 
-    def perform_destroy(self, instance):
-        instance.delete()
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
 
-    def destroy(self, request, *args, **kwargs):
-        instance = GDPM_Model.objects.get(id=kwargs['pk'])
-        if instance.owner == request.user:
-            self.perform_destroy(instance)
-            return Response("success", status=204)
-        else:
-            return Response(status=403)
+    # def destroy(self, request, *args, **kwargs):
+    #     instance = GDPM_Model.objects.get(id=kwargs['pk'])
+    #     instance.delete()
+    #     return Response({'success': 'Model deleted'}, status=200)
 
-    @action(detail=True, methods=['post'],
+    @action(detail=True, methods=['get'],
             permission_classes=[permissions.IsAuthenticated])
     def duplicate(self, request, pk=None):
+        logger.debug(f"duplicate {request.user.is_authenticated}")
         model_instance = self.get_object()
+        logger.debug(f"model_instance {model_instance}")
         model_instance.owner = request.user
+        model_instance.title = model_instance.title + ' (copy)'
         model_instance.id = None
         model_instance.save()
         return Response({'id': model_instance.id})
@@ -199,3 +207,10 @@ class UserViewSet(viewsets.ModelViewSet):
 class RegisterUser(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterUserSerializer
+
+
+def headers(request):
+    headers = {key: value for key, value in request.headers.items()}
+    for i in headers:
+        print(i)
+    return JsonResponse(headers)
