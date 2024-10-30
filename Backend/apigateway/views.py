@@ -18,6 +18,7 @@ import os
 import yaml
 import logging
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 
 # In the Django Rest Framework, a ViewSet is a class that provides CRUD (Create, Retrieve, Update, Delete) operations
 # for a specific resource or model. It also provides a default routing mechanism for mapping URLs to actions.
@@ -40,7 +41,8 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
             if self.request.user.is_staff:
                 queryset = GDPM_Model.objects.all().order_by('changed_at').reverse()
                 return queryset
-            queryset = GDPM_Model.objects.filter(owner=self.request.user).order_by('changed_at').reverse()
+            queryset = GDPM_Model.objects.filter(Q(owner=self.request.user) |
+                Q(visibility='public')).order_by('changed_at').reverse()
             return queryset
         else:
             queryset = GDPM_Model.objects.filter(visibility='public').order_by('changed_at').reverse()

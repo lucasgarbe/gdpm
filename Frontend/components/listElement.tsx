@@ -19,9 +19,9 @@ export default function ListElement({ model }: any) {
     api.post(`job/`, {body: formData});
   }
 
-  function handleDuplicateModel() {
-    api.get(`models/${model.id}/duplicate/`);
-    queryClient.invalidateQueries({ queryKey: ["models", "user-models"], refetchType: "all" });
+  async function handleDuplicateModel() {
+    await api.get(`models/${model.id}/duplicate/`);
+    queryClient.invalidateQueries({ queryKey: ["models"] });
   }
 
   return (
