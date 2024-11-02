@@ -29,8 +29,8 @@ export default function Models() {
         <h1 className="text-5xl font-medium mt-12">All public Models</h1>
 
         <div className="flex flex-col gap-4 mt-6">
-          {data?.map((model, index) => (
-            <ListElement key={index} className="" model={model} />
+          {data?.map((model) => (
+            <ListElement key={model.id} className="" model={model} />
           ))}
         </div>
       </main>

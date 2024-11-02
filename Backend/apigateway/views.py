@@ -36,15 +36,25 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
     serializer_class = GDPMModelSerializer
 
     def get_queryset(self):
-        logger.debug(f"get_queryset {self.action} {self.request.user.is_authenticated}")
+        visibility = self.request.query_params.get('visibility', 'public')
+        logger.debug(f"get_queryset action[{self.action}] visibility[{visibility}]")
+
         if self.request.user.is_authenticated:
+            logger.debug(f"request is authenticated")
             if self.request.user.is_staff:
+                logger.debug(f"request is staff")
                 queryset = GDPM_Model.objects.all().order_by('changed_at').reverse()
+                return queryset
+            logger.debug(f"request is not staff")
+
+            if visibility == 'private':
+                queryset = GDPM_Model.objects.filter(owner=self.request.user).order_by('changed_at').reverse()
                 return queryset
             queryset = GDPM_Model.objects.filter(Q(owner=self.request.user) |
                 Q(visibility='public')).order_by('changed_at').reverse()
             return queryset
         else:
+            logger.debug(f"request is not authenticated")
             queryset = GDPM_Model.objects.filter(visibility='public').order_by('changed_at').reverse()
             return queryset
 

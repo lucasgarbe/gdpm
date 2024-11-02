@@ -33,7 +33,9 @@ export default function Header() {
         {user && (
           <>
             <HighlightLink href="/user/models">My Models</HighlightLink>
-            <HighlightLink href="/config">Edit config</HighlightLink>
+            {user?.is_admin && (
+              <HighlightLink href="/config">Edit config</HighlightLink>
+            )}
           </>
         )}
         <LoginButton />

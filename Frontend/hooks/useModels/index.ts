@@ -38,7 +38,7 @@ const useUserModels = (user_id: Number) => {
 
   const fetchUserModels = async () => {
     console.log("fetch user models", user_id);
-    const models = await api.get(`models/`).json();
+    const models = await api.get(`models/`, {searchParams: {visibility: 'private'}}).json();
     return models;
   }
 
