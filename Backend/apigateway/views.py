@@ -90,8 +90,8 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
     #         return Response(serializer.data)
     #     return Response(serializer.errors, status=400)
 
-    # def perform_create(self, serializer):
-    #     serializer.save(owner=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     # def destroy(self, request, *args, **kwargs):
     #     instance = GDPM_Model.objects.get(id=kwargs['pk'])
