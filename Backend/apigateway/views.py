@@ -110,6 +110,15 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
         model_instance.save()
         return Response({'id': model_instance.id})
 
+    @action(detail=True, methods=['get'],
+            permission_classes=[permissions.IsAuthenticated])
+    def jobs(self, request, pk=None):
+        logger.debug(f"jobs {request.user.is_authenticated}")
+        model_instance = self.get_object()
+        jobs = Job.objects.filter(model=model_instance)
+        serializer = JobSerializer(jobs, many=True)
+        return Response(serializer.data)
+
 
 class DiscreteView(APIView):
     def get(self, request):

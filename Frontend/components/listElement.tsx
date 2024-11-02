@@ -53,16 +53,17 @@ export default function ListElement({ model }: any) {
         </div>
       </div>
 
-      { showJobs ? ( <JobList model_id={model.id} />) : null }
+      { showJobs ? ( <JobList model={model} />) : null }
     </div>
   );
 }
 
-function JobList({ model_id }: {model_id: string}) {
+function JobList({ model }) {
+  const api = useAPI();
   const {isPending, error, data, isFetching}  = useQuery({
-    queryKey: ["jobs", model_id],
+    queryKey: ["jobs", model.id],
     queryFn: async () => {
-      const response = await ky.get(`${process.env.NEXT_PUBLIC_API_URL}/job/`);
+      const response = await api.get(`models/${model.id}/jobs`);
       const jobs = await response.json() as any[];
       jobs.reverse();
       return jobs;
@@ -89,7 +90,7 @@ function JobList({ model_id }: {model_id: string}) {
         <div>
           <p className="text-xl">Jobs:</p>
           {data.map((job: any) => (
-            <JobElement key={job.id} job={job} model_id={model_id} />
+            <JobElement key={job.id} job={job} model_id={model.id} />
           ))}
         </div>
       ) : (
@@ -104,10 +105,11 @@ function JobElement({ job, model_id }: any) {
   const {isPending, error, data, isFetching}  = useQuery({
     queryKey: ["log", model_id, job.id],
     queryFn: async () => {
-      const response = await ky.get(`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/model.log`);
+      const response = await ky.get(`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/output.log`);
       const log = await response.text();
       return log;
-    }
+    },
+    retry: 1,
   });
 
   return (
@@ -118,9 +120,17 @@ function JobElement({ job, model_id }: any) {
         <p className="text-right">{new Date(job.start_time).toLocaleString()}</p>
       </div>
       {open ? (
-        <div className="py-4">
-          <img className="w-1/2" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/trace.png`} alt="" />
-          
+        <div className="grid grid-cols-2 gap-4 py-4">
+          <img className="w-full font-mono" src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${model_id}/${job.id}/trace.png`} alt="" />
+
+          {data ? (
+            <pre class="w-full overflow-x-scroll bg-white">{data}</pre>
+          ) : error ? (
+            <p>Error loading output.log</p>
+          ) : (
+            <p>Loading output.log ...</p>
+          )}
+
         </div>
       ) : null}
     </div>

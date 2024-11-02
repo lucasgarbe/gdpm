@@ -8,7 +8,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import AuthLog from "../components/authLog";
+// import AuthLog from "../components/authLog";
 import authStore from "../stores/auth";
 import { log } from "console";
 
@@ -33,7 +33,6 @@ export default function App({
   return (
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
-          <AuthLog />
           <main
             className={`${font.variable} min-h-full font-sans flex flex-col justify-between bg-stone-100`}
           >
