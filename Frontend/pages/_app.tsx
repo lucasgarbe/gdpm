@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import LocalFont from "next/font/local";
@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AuthLog from "../components/authLog";
+import authStore from "../stores/auth";
+import { log } from "console";
 
 const font = LocalFont({
   src: "../public/ClashGrotesk-Variable.ttf",
@@ -20,6 +22,13 @@ export default function App({
   pageProps: { session, ...pageProps}
 }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  const { isRefreshTokenExpired, logout } = authStore();
+
+  useEffect(() => {
+    if (isRefreshTokenExpired()) {
+      logout();
+    }
+  }, []);
 
   return (
       <QueryClientProvider client={queryClient}>
