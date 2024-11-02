@@ -23,7 +23,7 @@ export default function DeleteButton({ id }: any) {
     },
     onError: () => {},
     onSuccess: () => {
-      queryClient.refetchQueries({queryKey: ["models"]});
+      queryClient.invalidateQueries({queryKey: ["models"]});
     },
   });
 
@@ -37,7 +37,6 @@ export default function DeleteButton({ id }: any) {
       {defaultButton ? (
         <>
           <TrashIcon className="w-5" />
-          Delete
         </>
       ) : (
         <>

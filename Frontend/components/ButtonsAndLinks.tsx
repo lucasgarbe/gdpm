@@ -16,6 +16,7 @@ export const Button = ({
     <button
       className={`flex
         gap-1
+        items-center
         bg-stone-100
         border-2 border-black
         hover:shadow-hard

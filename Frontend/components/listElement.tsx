@@ -31,22 +31,26 @@ export default function ListElement({ model }: any) {
           href={`/model/${model?.id}`}
           className="w-full"
         >
-          <p className="text-2xl">{model?.title}</p>
+          <p className="text-2xl font-medium">{model?.title}</p>
+          <p className="text-sm">{model?.owner}</p>
+          <p className="text-sm">last changed at: {new Date(model?.changed_at).toLocaleString()} and created {new Date(model?.created).toLocaleDateString()}</p>
         </Link>
 
-        <Button onClick={handleRunModel}>
-          <PlayIcon className="w-5" />
-        </Button>
+        <div className="flex gap-4 items-start">
+          <Button onClick={handleRunModel} size="small">
+            <PlayIcon className="w-5" />
+          </Button>
 
-        <Button onClick={() => setShowJobs(!showJobs)}>
-          <EyeIcon className="w-5" />
-        </Button>
+          <Button onClick={() => setShowJobs(!showJobs)} size="small">
+            <EyeIcon className="w-5" />
+          </Button>
 
-        <Button onClick={handleDuplicateModel}>
-          <DocumentDuplicateIcon className="w-5" />
-        </Button>
+          <Button onClick={handleDuplicateModel} size="small">
+            <DocumentDuplicateIcon className="w-5" />
+          </Button>
 
-        <DeleteButton id={model.id} />
+          <DeleteButton id={model.id} />
+        </div>
       </div>
 
       { showJobs ? ( <JobList model_id={model.id} />) : null }
