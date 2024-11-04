@@ -1,7 +1,7 @@
 import json
 from django.test import TestCase
 
-from Backend.converter.pymc_converter import convert_model
+from converter.pymc_converter import convert_model
 
 
 class SupportTestCase(TestCase):
