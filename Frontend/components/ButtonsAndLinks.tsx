@@ -19,6 +19,7 @@ export const Button = ({
         items-center
         bg-stone-100
         border-2 border-black
+        font-medium
         hover:shadow-hard
         transition-all
         ease-in-out
@@ -36,14 +37,17 @@ export const Button = ({
 export const SimpleButton = ({
   children,
   onClick,
+  type,
 }: {
   children: ReactNode;
   onClick?: MouseEventHandler;
+  type?: "button" | "submit" | "reset";
 }) => {
   return (
     <button
       className={`flex gap-1 items-center p-1 bg-stone-100 border-2 border-black hover:bg-black hover:text-stone-100 transition-all ease-in-out duration-75`}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>

@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { HighlightLink, Button } from "../../components/ButtonsAndLinks";
 import Layout from "../../components/Layout";
+import SimpleInput from "../../components/SimpleInput";
 import { useStore } from "../../hooks/useStore";
 import authStore  from "../../stores/auth";
 
@@ -26,18 +28,18 @@ export default function Login() {
     <Layout>
       <main className="container mx-auto flex-grow">
 
-        <form className="max-w-md mx-auto flex flex-col gap-4 mt-6" onSubmit={handleSubmit}>
+        <form className="max-w-md mx-auto flex flex-col items-center gap-4 mt-6" onSubmit={handleSubmit}>
           <label className="flex flex-col">Username:
-            <input type="text" placeholder="Username" />
+            <SimpleInput type="text" placeholder="Username" />
           </label>
           <label className="flex flex-col">Password:
-            <input type="password" placeholder="Password" />
+            <SimpleInput type="password" placeholder="Password" />
           </label>
-          <button type="submit">Login</button>
+          <Button type="submit">Login</Button>
         </form>
 
         <div className="flex gap-4 mt-6 items-center justify-center">
-          <Link href="/register">Register</Link>
+          <HighlightLink href="/register">Register</HighlightLink>
         </div>
       </main>
     </Layout>

@@ -1,7 +1,9 @@
 import ky from "ky";
 import Head from "next/head";
 import Link from "next/link";
+import { Button, HighlightLink } from "../../components/ButtonsAndLinks";
 import Header from "../../components/Header";
+import SimpleInput from "../../components/SimpleInput";
 import useAuth from "../../hooks/useAuth";
 
 export default function Register() {
@@ -33,21 +35,21 @@ export default function Register() {
       <main className="container mx-auto flex-grow">
 
         {error && <div>{error.toString()}</div>}
-        <form className="max-w-md mx-auto flex flex-col gap-4 mt-6" onSubmit={handleSubmit}>
+        <form className="max-w-md mx-auto flex flex-col items-center gap-4 mt-6" onSubmit={handleSubmit}>
           <label className="flex flex-col">Username:
-            <input type="text" placeholder="Username" />
+            <SimpleInput type="text" placeholder="Username" />
           </label>
           <label className="flex flex-col">Password:
-            <input type="password" placeholder="Password" />
+            <SimpleInput type="password" placeholder="Password" />
           </label>
           <label className="flex flex-col">Reenter Password:
-            <input type="repassword" placeholder="Password" />
+            <SimpleInput type="repassword" placeholder="Password" />
           </label>
-          <button type="submit">Register</button>
+          <Button type="submit">Register</Button>
         </form>
 
         <div className="flex gap-4 mt-6 items-center justify-center">
-          <Link href="/login">Login</Link>
+          <HighlightLink href="/login">Login</HighlightLink>
         </div>
       </main>
     </>

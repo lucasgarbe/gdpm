@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 // import AuthLog from "../components/authLog";
 import authStore from "../stores/auth";
 import { log } from "console";
+import router from "next/router";
 
 const font = LocalFont({
   src: "../public/ClashGrotesk-Variable.ttf",
@@ -25,8 +26,14 @@ export default function App({
   const { isRefreshTokenExpired, logout } = authStore();
 
   useEffect(() => {
-    if (isRefreshTokenExpired()) {
-      logout();
+    // check if routes are not login or register
+    if (router.pathname !== "/login" &&
+      router.pathname !== "/register" &&
+      router.pathname !== "/models" &&
+      router.pathname !== "/models/new" &&
+      isRefreshTokenExpired()) {
+    // if (isRefreshTokenExpired()) {
+        logout();
     }
   }, []);
 
