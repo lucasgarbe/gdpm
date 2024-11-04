@@ -17,13 +17,11 @@ import "reactflow/dist/base.css";
 import SaveButton from "./SaveButton";
 import DeleteButton from "./DeleteButton";
 import DistributionList from "./DistributionList";
-import { ArrowLeftIcon, Cog8ToothIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, CodeBracketIcon, Cog8ToothIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
 import { useQuery } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
-import PyMCButton from "./PyMCButton";
-import PyMCModal from "./PyMCModal";
 import OperationNode from "./OperationNode";
 import { Button, HighlightLink } from "./ButtonsAndLinks";
 import {
@@ -88,7 +86,6 @@ function Flow() {
 
   const { setViewport } = useReactFlow();
   const [lastIndex, setLastIndex] = useState(0);
-  const [showPyMCModal, setShowPyMCModal] = useState(false);
 
   const { openModal } = useContext(ModalContext) as ModalContextType;
 
@@ -267,10 +264,20 @@ function Flow() {
           <DistributionList />
         </Panel>
         <Panel position="top-right" className="flex gap-2">
-          <PyMCButton
-            id={id}
-            toggleModal={() => setShowPyMCModal(!showPyMCModal)}
-          />
+          <Button
+            onClick={() =>
+              openModal(
+                "top",
+                <DownloadModal
+                  modelId={id}
+                />
+              )
+            }
+            size="small"
+          >
+            <CodeBracketIcon className="w-5" />
+            Download
+          </Button>
 
           {(isOwner || !id) &&
             <>
@@ -283,9 +290,6 @@ function Flow() {
             </>
           }
         </Panel>
-        {showPyMCModal && (
-          <PyMCModal id={id} closeModal={() => setShowPyMCModal(false)} />
-        )}
         <Background />
       </ReactFlow>
     </div>
@@ -324,6 +328,51 @@ const SettingsModal = ({ modelname }: any) => {
           </select>
         </label>
         <Button className="self-end" onClick={handleClick}>update</Button>
+      </div>
+    </>
+  );
+};
+
+
+const DownloadModal = ({ modelId }: any) => {
+  const { closeModal } = useContext(ModalContext) as ModalContextType;
+  const api = useAPI();
+
+  const {error: pymcerror, data: pymcdata }  = useQuery({
+    queryKey: ["pymc", modelId],
+    queryFn: async () => {
+      const response = await api.get(`pymc/${modelId}`);
+      const pymc = await response.text();
+      return pymc;
+    },
+    retry: 1,
+  });
+
+  return (
+    <>
+      <p className="text-xl font-semibold">Download</p>
+      <div className="w-full flex flex-col items-start mt-4">
+            <div className="flex gap-2 mb-4">
+              <HighlightLink
+                href={`${process.env.NEXT_PUBLIC_API_URL}/pymc/${modelId}`}
+                size="small">
+                Download PyMC Code
+              </HighlightLink>
+
+              <HighlightLink
+                href={`${process.env.NEXT_PUBLIC_API_URL}/ipynb/${modelId}`}
+                size="small">
+                Download Jupyter Notebook
+              </HighlightLink>
+            </div>
+
+            {pymcdata ? (
+              <pre className="w-full max-h-[50vh] bg-white p-2 overflow-auto">{pymcdata}</pre>
+            ) : pymcerror ? (
+              <p>Error loading PyMC code</p>
+            ) : (
+              <p>Loading PyMC code ...</p>
+            )}
       </div>
     </>
   );

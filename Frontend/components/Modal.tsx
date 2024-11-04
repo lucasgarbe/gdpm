@@ -65,7 +65,7 @@ const Modal: FC = () => {
   return (
     <div className={`fixed top-0 right-0 bottom-0 left-0 z-20 backdrop-blur`}>
       <div
-        className={`fixed z-50 ${modalPosition}-20 left-1/2 -translate-x-1/2 w-1/2 bg-stone-100 p-4 border-2 border-black shadow-harder`}
+        className={`fixed z-50 ${modalPosition}-20 left-1/2 -translate-x-1/2 w-1/2 max-h-[80vh] bg-stone-100 p-4 border-2 border-black shadow-harder`}
       >
         <div className="absolute -top-[2px] -right-[2px]">
           <SimpleButton onClick={closeModal}>

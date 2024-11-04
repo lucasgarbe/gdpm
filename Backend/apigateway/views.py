@@ -16,6 +16,7 @@ from django.http import FileResponse
 from io import BytesIO
 import os
 import yaml
+import json
 import logging
 from django.http import HttpResponse, JsonResponse
 from django.db.models import Q
@@ -169,8 +170,20 @@ class IpynbViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         model_instance = self.get_object()
-        pymc_code = utils.to_ipynb(convert_model(model_instance.body))
-        return Response(pymc_code)
+        ipynb_code = json.dumps(utils.to_ipynb(convert_model(model_instance.body)))
+
+        byte_io = BytesIO()
+        byte_io.write(ipynb_code.encode('utf-8'))
+        byte_io.seek(0)
+        filename = str(model_instance.id) + '.ipynb'
+
+        response = FileResponse(
+            byte_io,
+            as_attachment=True,
+            filename=filename)
+        response['Content-Type'] = 'application/force-download'
+
+        return response
 
 
 class JobViewSet(viewsets.ModelViewSet):
