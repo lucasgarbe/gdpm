@@ -1,5 +1,5 @@
 from storage.models import GDPM_Model, Job
-from rest_framework import viewsets, generics, permissions
+from rest_framework import viewsets, generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -48,8 +48,10 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
             logger.debug(f"request is not staff")
 
             if visibility == 'private':
+                logger.debug(f"request is for private")
                 queryset = GDPM_Model.objects.filter(owner=self.request.user).order_by('changed_at').reverse()
                 return queryset
+            logger.debug(f"request is for public")
             queryset = GDPM_Model.objects.filter(Q(owner=self.request.user) |
                 Q(visibility='public')).order_by('changed_at').reverse()
             return queryset
@@ -58,45 +60,17 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
             queryset = GDPM_Model.objects.filter(visibility='public').order_by('changed_at').reverse()
             return queryset
 
-
-    # def get_serializer_class(self):
-    #     if self.action == 'list':
-    #         return GDPMModelSerializer
-    #     return GDPMModelSerializer
-
-    # def list(self, request):
-    #     logger.debug(f"list {request.user.is_authenticated}")
-    #     if request.user.is_authenticated:
-    #         queryset = GDPM_Model.objects.filter(
-    #             owner=request.user).order_by('id')
-    #         serializer = GDPMModelSerializer(queryset, many=True)
-    #         return Response(serializer.data)
-    #     else:
-    #         queryset = GDPM_Model.objects.filter(visibility='public').order_by('id')
-    #         serializer = GDPMModelSerializer(queryset, many=True)
-    #         return Response(serializer.data)
-
-    # def retrieve(self, request, *args, **kwargs):
-    #     logger.debug(f"retrieve {request.user.is_authenticated}")
-    #     model_instance = self.get_object()
-    #     serializer = GDPMModelSerializer(model_instance)
-    #     return Response(serializer.data)
-
-    # def update(self, request, *args, **kwargs):
-    #     instance = GDPM_Model.objects.get(id=kwargs['pk'])
-    #     serializer = GDPMModelSerializer(instance, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=400)
-
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    # def destroy(self, request, *args, **kwargs):
-    #     instance = GDPM_Model.objects.get(id=kwargs['pk'])
-    #     instance.delete()
-    #     return Response({'success': 'Model deleted'}, status=200)
+    def create(self, request):
+        logger.debug(f"create {request.user.is_authenticated}")
+
+        if not request.user.is_authenticated:
+            return Response({'error': 'User is not authenticated'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+
+        return super().create(request)
 
     @action(detail=True, methods=['get'],
             permission_classes=[permissions.IsAuthenticated])
@@ -181,6 +155,8 @@ class PymcViewSet(viewsets.ModelViewSet):
             byte_io,
             as_attachment=True,
             filename=filename)
+
+        response['Content-Type'] = 'application/force-download'
 
         return response
 

@@ -1,4 +1,5 @@
 import json
+from rest_framework.exceptions import ParseError
 
 from .model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
 from .models import Node, Edge
@@ -17,6 +18,21 @@ functions:
 
 """
 
+def parse_json_string(json_obj):
+    """
+    Parses a JSON object and returns it as a string
+    @param json_obj: JSON object
+    @return: string
+    """
+    if isinstance(json_obj, str):
+        try:
+            return json.loads(json_obj)
+        except json.JSONDecodeError as e:
+            raise ParseError(f"Invalid JSON: {e}")
+
+    return json_obj
+
+
 
 def convert_model(json_obj):
     """
@@ -26,8 +42,11 @@ def convert_model(json_obj):
     @param json_obj: JSON body of reactflow
     @return: PyMC code string
     """
-    nodes = decode_JSON_to_Nodes(json_obj)
-    edges = decode_JSON_to_edges(json_obj, nodes_dict=nodes)
+    print(f"convert model:: json_obj type: {type(json_obj)}")
+    parsed_json = parse_json_string(json_obj)
+    print(f"convert model:: parsed_json type: {type(parsed_json)}")
+    nodes = decode_JSON_to_Nodes(parsed_json)
+    edges = decode_JSON_to_edges(parsed_json, nodes_dict=nodes)
 
     graph = create_reversed_graph(nodes, edges)
     endnodes = get_end_of_graph(nodes, edges)

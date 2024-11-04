@@ -1,4 +1,5 @@
 from .models import Edge, Node
+import logging
 
 """Reactflow Nodes and Edge decoder
 
@@ -8,6 +9,7 @@ functions:
     * decode_JSON_to_edges - decodes the graph into Edges ( already decoded Nodes are necessary )
 """
 
+logger = logging.getLogger(__name__)
 
 def decode_JSON_to_Nodes(data: dict) -> dict[str, Node]:
     """
@@ -16,6 +18,7 @@ def decode_JSON_to_Nodes(data: dict) -> dict[str, Node]:
     @param data: unprocessed JSON body of the reactflow graph
     @return: all Nodes as dict[Node]
     """
+    logger.debug(f"decode_JSON_to_Nodes {type(data)}")
     nodes_dict = {
         node["id"]:
             Node(
