@@ -1,5 +1,7 @@
 from collections import defaultdict
 from typing import Any, Dict, List
+import re
+import keyword
 
 from . import pymc_converter
 from .models import Edge, Node
@@ -111,6 +113,41 @@ def get_end_of_graph(nodes: dict[str, Node], edges: list[Edge]) -> set[Node]:
            for node in nodes
            if nodes.get(node) not in source}
     return endnodes
+
+
+def sanitize_variable_name(name: str) -> str:
+    # Step 1: Replace invalid characters with underscores
+    sanitized = re.sub(r'\W|^(?=\d)', '_', name)
+    
+    # Step 2: Ensure the variable doesn't start with a number
+    if re.match(r'^\d', sanitized):
+        sanitized = '_' + sanitized
+
+    # Step 3: Avoid Python keywords
+    if keyword.iskeyword(sanitized):
+        sanitized += '_var'
+
+    return sanitized
+
+
+def write_unique_names (nodes: dict[str, Node]) -> dict[str, Node]:
+    """
+    Writes unique names for each node in the graph
+
+    @param nodes: all nodes of the graph
+    @return: all nodes with unique names
+    """
+    print("--- write_unique_names ---")
+    names = dict()
+    for node in nodes:
+        print(node, nodes[node].name)
+        nodes[node].name = sanitize_variable_name(nodes[node].name)
+        if nodes[node].name in names:
+            names[nodes[node].name] += 1
+            nodes[node].name += f'_{names[nodes[node].name]}'
+        else:
+            names[nodes[node].name] = 1
+    return nodes
 
 
 def to_ipynb(data: str):

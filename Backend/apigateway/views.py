@@ -73,6 +73,10 @@ class GDPM_ModelViewSet(viewsets.ModelViewSet):
 
         return super().create(request)
 
+    def update(self, request, *args, **kwargs):
+        logger.debug(f"update {request.body}")
+        return super().update(request, *args, **kwargs)
+
     @action(detail=True, methods=['get'],
             permission_classes=[permissions.IsAuthenticated])
     def duplicate(self, request, pk=None):
@@ -157,7 +161,7 @@ class PymcViewSet(viewsets.ModelViewSet):
             as_attachment=True,
             filename=filename)
 
-        response['Content-Type'] = 'application/force-download'
+        # response['Content-Type'] = 'application/force-download'
 
         return response
 

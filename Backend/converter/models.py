@@ -3,6 +3,7 @@ class Node(object):
         self.type = type
         self.id = id
         self.data = data
+        self.name = data.get('name', id)
 
     def __str__(self):
         return f'Node({self.id},{self.type},{self.data})'

@@ -1,9 +1,11 @@
 import json
+import keyword
+import re
 from rest_framework.exceptions import ParseError
 
 from .model_decoder import decode_JSON_to_Nodes, decode_JSON_to_edges
 from .models import Node, Edge
-from .utils import create_reversed_graph, get_end_of_graph, traverse_graph_recursive
+from .utils import create_reversed_graph, get_end_of_graph, traverse_graph_recursive, write_unique_names, sanitize_variable_name
 
 """ PyMC Converter
 
@@ -46,6 +48,7 @@ def convert_model(json_obj):
     parsed_json = parse_json_string(json_obj)
     print(f"convert model:: parsed_json type: {type(parsed_json)}")
     nodes = decode_JSON_to_Nodes(parsed_json)
+    nodes = write_unique_names(nodes)
     edges = decode_JSON_to_edges(parsed_json, nodes_dict=nodes)
 
     graph = create_reversed_graph(nodes, edges)
@@ -69,7 +72,7 @@ def convert(node: Node, edges: list[Edge]):
     @return: PyMc code for a single node
     """
 
-    var_name = f'{node.id}_out'
+    var_name = node.name
     pymc_string = ''
     args = []
 
@@ -80,6 +83,7 @@ def convert(node: Node, edges: list[Edge]):
         args = __write_arguments(node, edges)
 
     if node.type == 'distribution':
+        var_name = node.name
         dist_name = node.data['dist']['name']
         pymc_string = f'{var_name} = pm.{dist_name}("{var_name}"{args})'
 
@@ -96,7 +100,7 @@ def __write_constant(node):
     @return: attribute string
     """
     cons_value = node.data['value']
-    pymc_string = f'{node.id}_out = {cons_value}'
+    pymc_string = f'{node.name} = {cons_value}'
     return pymc_string
 
 
@@ -107,19 +111,22 @@ def __write_arguments(node, edges):
     @param edges: all edges of the graph
     @return: joined string of all arguments
     """
+
+    print(f"__write_arguments:: node.data['dist']['distType']: {node.data['dist']['distType']}")
+
     if node.data['dist']['distType'] == "operation":
-        input_edges = [
-            f'{edge.source.id}_out'
-            for edge in edges
-            if edge.target == node]
+        print("is operation")
+        input_edges = []
+        for edge in edges:
+            if edge.target == node:
+                input_edges.append(f'{edge.source.name}')
         if input_edges:
             return node.data['dist']['name'].join(input_edges)
 
-    input_edges = [
-        f'{edge.targetHandle}={edge.source.id}_out'
-        for edge in edges
-        if edge.target == node]
-
+    input_edges = []
+    for edge in edges:
+        if edge.target == node:
+            input_edges.append(f'{edge.targetHandle}={edge.source.name}')
     if input_edges:
         return ', ' + ', '.join(input_edges)
 

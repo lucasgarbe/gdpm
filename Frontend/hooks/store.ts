@@ -80,6 +80,15 @@ export const useModelStore = create<RFState>((set, get) => ({
         }
         return node;
       }),
+      edges: get().edges.map((edge) => {
+        if (edge.source === nodeId) {
+          edge.data = { ...edge.data, sourceLabel: name };
+        }
+        if (edge.target === nodeId) {
+          edge.data = { ...edge.data, targetLabel: name };
+        }
+        return edge;
+      }),
     });
   },
   setModelname: (name) => {

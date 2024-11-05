@@ -335,7 +335,6 @@ const SettingsModal = ({ modelname }: any) => {
 
 
 const DownloadModal = ({ modelId }: any) => {
-  const { closeModal } = useContext(ModalContext) as ModalContextType;
   const api = useAPI();
 
   const {error: pymcerror, data: pymcdata }  = useQuery({

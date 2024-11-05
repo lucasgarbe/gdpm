@@ -36,9 +36,12 @@ def decode_JSON_to_edges(data: dict, nodes_dict: dict) -> list[Edge]:
     @param nodes_dict: all Nodes as dict[Node] ( by invoking @decode_JSON_to_Nodes() )
     @return: a list of all Edges as list[Edge]
     """
-    edges = [
-        Edge(
-            nodes_dict[edge["source"]],
-            nodes_dict[edge["target"]],
-            edge["targetHandle"]) for edge in data["edges"]]
+    edges = []
+    for edge in data["edges"]:
+        source_node = nodes_dict[edge["source"]]
+        target_node = nodes_dict[edge["target"]]
+        target_handle = edge["targetHandle"]
+
+        new_edge = Edge(source_node, target_node, target_handle)
+        edges.append(new_edge)
     return edges

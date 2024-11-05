@@ -91,7 +91,7 @@ const DistributionNode = memo(({ id, data, selected }: any) => {
 });
 
 const DistributionNodeModal = ({ id, name }: { id: string; name: string }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(name);
   const { updateNodeName } = useModelStore();
   const { closeModal } = useContext(ModalContext) as ModalContextType;
 
