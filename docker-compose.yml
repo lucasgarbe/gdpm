@@ -11,7 +11,7 @@ services:
       - DB_HOST=db
     volumes:
       - ./Backend:/code
-      - ./config.yml:/code/config.yml
+      - ./config.yml:/config.yml
     networks:
       - gdpm
 
