@@ -20,7 +20,7 @@ import DistributionList from "./DistributionList";
 import { ArrowLeftIcon, CodeBracketIcon, Cog8ToothIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import ky from "ky-universal";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ConstantNode from "./ConstantNode";
 import OperationNode from "./OperationNode";
 import { Button, HighlightLink } from "./ButtonsAndLinks";
@@ -67,6 +67,7 @@ function Flow() {
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   // const [modelname, setModelname] = useState("");
   const api = useAPI();
+  const queryClient = useQueryClient();
 
 
   const {
@@ -108,9 +109,37 @@ function Flow() {
   //   [setEdges]
   // );
 
+  useEffect(() => {
+    queryClient.invalidateQueries({queryKey: ["model", id]});
+
+    if (router.route == "/models/new") {
+      setModelname("new model");
+      setVisibility("private");
+      setNodes([]);
+      setEdges([]);
+      setViewport({ x: 0, y: 0, zoom: 1 });
+      setLastIndex(0);
+    }
+  }, [])
+
+
   const { data, isLoading } = useQuery({
     queryKey: ["model", id || "new"],
     queryFn: () => fetchModel(),
+    initialData: () => {
+      if (!id) {
+        return {
+          title: "new model",
+          visibility: "private",
+          body: {
+            nodes: [],
+            edges: [],
+            viewport: { x: 0, y: 0, zoom: 1 },
+            lastIndex: 0,
+          },
+        };
+      }
+    },
     enabled: !!id,
     staleTime: Infinity,
     onSuccess: (data) => {
