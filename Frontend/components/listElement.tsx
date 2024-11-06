@@ -14,7 +14,7 @@ export default function ListElement({ model }: any) {
 
   function handleRunModel() {
     const formData = new FormData();
-    formData.append("status", "frontend");
+    formData.append("status", "created");
     formData.append("model", model.id);
     api.post(`job/`, {body: formData});
   }
@@ -67,7 +67,8 @@ function JobList({ model }) {
       const jobs = await response.json() as any[];
       jobs.reverse();
       return jobs;
-    }
+    },
+    refetchInterval: 2000,
   });
 
   if (isPending) {
