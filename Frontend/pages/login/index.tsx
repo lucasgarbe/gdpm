@@ -30,10 +30,10 @@ export default function Login() {
 
         <form className="max-w-md mx-auto flex flex-col items-center gap-4 mt-6" onSubmit={handleSubmit}>
           <label className="flex flex-col">Username:
-            <SimpleInput type="text" placeholder="Username" />
+            <SimpleInput name="username" type="text" placeholder="Username" />
           </label>
           <label className="flex flex-col">Password:
-            <SimpleInput type="password" placeholder="Password" />
+            <SimpleInput name="password" type="password" placeholder="Password" />
           </label>
           <Button type="submit">Login</Button>
         </form>

@@ -6,11 +6,13 @@ export const Button = ({
   onClick,
   size,
   className,
+  type,
 }: {
   children: ReactNode;
   onClick?: MouseEventHandler;
   size?: "small";
   className?: string;
+  type?: "button" | "submit" | "reset";
 }) => {
   return (
     <button
@@ -28,6 +30,7 @@ export const Button = ({
         ${className}
       `}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>
